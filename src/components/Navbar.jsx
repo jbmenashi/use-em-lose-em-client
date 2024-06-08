@@ -20,30 +20,51 @@ const Navbar = () => {
   }
 
   return (
-    <div className="navbar bg-neutral text-neutral-content">
-      <Link to="/" className="ml-6 link link-hover">
-        <BiHome />
-      </Link>
-      <Link to="/howitworks" className="ml-10 link link-hover">
-        How It Works
-      </Link>
-      {user ? (
-        <div>
-          <p>Hello {userName}</p>
-          <button className="btn btn-accent" onClick={handleLogout}>
-            Logout
-          </button>
-        </div>
-      ) : (
-        <>
-          <Link to="/register" className="ml-10 link link-hover">
-            Register
-          </Link>
-          <Link to="/login" className="ml-10 link link-hover">
-            Login
-          </Link>
-        </>
-      )}
+    <div className="navbar bg-primary text-white">
+      <div className="navbar-start">
+        <Link className="btn btn-ghost text-xl">Use 'Em, Lose 'Em Fantasy Sports</Link>
+      </div>
+      <div className="navbar-center">
+        {user && (
+          <div>
+            <Link to="/howitworks" className="btn btn-ghost">
+              <span className="font-extrabold">How It Works</span>
+            </Link>
+            <Link to="/myleagues" className="btn btn-ghost ">
+              <span className="font-extrabold">My Leagues</span>
+            </Link>
+            <Link to="/createleague" className="btn btn-ghost">
+              <span className="font-extrabold">Create League</span>
+            </Link>
+            <Link to="/joinleague" className="btn btn-ghost">
+              <span className="font-extrabold">Join League</span>
+            </Link>
+          </div>
+        )}
+      </div>
+      <div className="navbar-end">
+        {user ? (
+          <>
+            <div className=" font-bold mr-2">
+              <h4>Hello {userName}!</h4>
+            </div>
+            <div>
+              <button className="btn btn-accent text-xl" onClick={handleLogout}>
+                Logout
+              </button>
+            </div>
+          </>
+        ) : (
+          <>
+            <Link to="/register" className="btn btn-ghost text-xl">
+              Register
+            </Link>
+            <Link to="/login" className="btn btn-ghost text-xl">
+              Login
+            </Link>
+          </>
+        )}
+      </div>
     </div>
   )
 }

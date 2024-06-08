@@ -6,9 +6,9 @@ const HomeLoggedOut = () => {
   }
 
   return (
-    <>
-      <div className="border-b border-base-300 pb-5">
-        <h2>Welcome</h2>
+    <div className="mx-auto max-w-6xl px-8">
+      <div className="border-b border-base-300 pb-5 text-center">
+        <h1 className="text-4xl font-bold mt-10">Welcome To Use 'Em, Lose 'Em Fantasy Sports!</h1>
       </div>
       <div>
         <div>
@@ -27,7 +27,7 @@ const HomeLoggedOut = () => {
           </Link>
         </div>
       </div>
-    </>
+    </div>
   )
 }
 export default HomeLoggedOut

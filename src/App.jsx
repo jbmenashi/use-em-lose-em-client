@@ -12,6 +12,9 @@ import { store } from "./store"
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { getUser } from "./features/user/userSlice"
+import MyLeagues from "./pages/MyLeagues"
+import CreateLeague from "./pages/CreateLeague"
+import JoinLeague from "./pages/JoinLeague"
 
 const router = createBrowserRouter([
   {
@@ -25,6 +28,18 @@ const router = createBrowserRouter([
       {
         path: "/howitworks",
         element: <HowItWorks />,
+      },
+      {
+        path: "/myleagues",
+        element: <MyLeagues />,
+      },
+      {
+        path: "/createleague",
+        element: <CreateLeague />,
+      },
+      {
+        path: "/joinleague",
+        element: <JoinLeague />,
       },
     ],
   },

@@ -9,7 +9,6 @@ export const action = async ({ request }) => {
   const data = Object.fromEntries(formData)
   try {
     const res = await axios.post("http://localhost:8000/auth/register", data)
-    console.log(res)
     if (res.status === 201) {
       toast.success("Account created successfully; please log in")
       return redirect("/login")
