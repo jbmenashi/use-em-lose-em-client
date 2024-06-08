@@ -1,9 +1,24 @@
 import { BiHome } from "react-icons/bi"
-import { useSelector } from "react-redux"
-import { Link } from "react-router-dom"
+import { useSelector, useDispatch } from "react-redux"
+import { Link, redirect } from "react-router-dom"
+import axios from "axios"
+import { logoutUser } from "../features/user/userSlice"
 
 const Navbar = () => {
   const { user, userName } = useSelector((state) => state.user)
+  const dispatch = useDispatch()
+  const handleLogout = async () => {
+    try {
+      const res = await axios.post("http://localhost:8000/auth/logout", null, {
+        withCredentials: true,
+      })
+      dispatch(logoutUser())
+      redirect("/")
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <div className="navbar bg-neutral text-neutral-content">
       <Link to="/" className="ml-6 link link-hover">
@@ -15,7 +30,9 @@ const Navbar = () => {
       {user ? (
         <div>
           <p>Hello {userName}</p>
-          <button className="btn btn-accent">Logout</button>
+          <button className="btn btn-accent" onClick={handleLogout}>
+            Logout
+          </button>
         </div>
       ) : (
         <>

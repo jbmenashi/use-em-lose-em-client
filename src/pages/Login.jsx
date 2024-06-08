@@ -3,15 +3,13 @@ import FormInput from "../components/FormInput"
 import { Form, Link, redirect, useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
 import axios from "axios"
-// import { loginUser } from "../features/user/userSlice"
-// import { useDispatch } from "react-redux"
+import { loginUser } from "../features/user/userSlice"
 
 export const action =
   (store) =>
   async ({ request }) => {
     const formData = await request.formData()
     const data = Object.fromEntries(formData)
-    console.log(data)
     try {
       const res = await axios.post("http://localhost:8000/auth/login", data, {
         headers: {
@@ -19,7 +17,12 @@ export const action =
         },
         withCredentials: true,
       })
-      console.log(res)
+      if (res.status === 204) {
+        const res2 = await axios.get("http://localhost:8000/users/me", {
+          withCredentials: true,
+        })
+        store.dispatch(loginUser(res2.data))
+      }
       // store.dispatch(loginUser(response.data))
       toast.success("logged in successfully")
       return redirect("/")
@@ -37,8 +40,8 @@ const Login = () => {
     <section className="h-screen grid place-items-center bg-accent">
       <Form method="post" className="card w-96 p-8 bg-base-100 shadow-lg flex flex-col gap-y-4">
         <h4 className="text-center text-3xl font-bold">Login</h4>
-        <FormInput type="email" label="username" name="username" defaultValue="jake@jake.com" />
-        <FormInput type="password" label="password" name="password" defaultValue="jake" />
+        <FormInput type="email" label="username" name="username" />
+        <FormInput type="password" label="password" name="password" />
         <div className="mt-4">
           <SubmitBtn text="login" />
         </div>
