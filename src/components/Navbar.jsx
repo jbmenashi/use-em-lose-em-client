@@ -30,9 +30,6 @@ const Navbar = () => {
             <Link to="/howitworks" className="btn btn-ghost">
               <span className="font-extrabold">How It Works</span>
             </Link>
-            <Link to="/myleagues" className="btn btn-ghost ">
-              <span className="font-extrabold">My Leagues</span>
-            </Link>
             <Link to="/createleague" className="btn btn-ghost">
               <span className="font-extrabold">Create League</span>
             </Link>

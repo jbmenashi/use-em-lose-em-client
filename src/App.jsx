@@ -7,6 +7,7 @@ import Login from "./pages/Login"
 
 import { action as registerAction } from "./pages/Register"
 import { action as loginAction } from "./pages/Login"
+import { action as createLeagueAction } from "./pages/CreateLeague"
 
 import { loader as homeLoader } from "./pages/Home"
 
@@ -14,7 +15,6 @@ import { store } from "./store"
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { getUser } from "./features/user/userSlice"
-import MyLeagues from "./pages/MyLeagues"
 import CreateLeague from "./pages/CreateLeague"
 import JoinLeague from "./pages/JoinLeague"
 
@@ -33,12 +33,9 @@ const router = createBrowserRouter([
         element: <HowItWorks />,
       },
       {
-        path: "/myleagues",
-        element: <MyLeagues />,
-      },
-      {
         path: "/createleague",
         element: <CreateLeague />,
+        action: createLeagueAction,
       },
       {
         path: "/joinleague",
