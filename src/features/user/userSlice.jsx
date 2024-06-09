@@ -17,6 +17,7 @@ const initialState = {
   userName: "",
   userId: "",
   isLoading: false,
+  leagues: [],
 }
 
 const userSlice = createSlice({
@@ -30,8 +31,10 @@ const userSlice = createSlice({
       state.userId = id
     },
     logoutUser: (state, action) => {
-      console.log(action.payload)
       state.user = false
+    },
+    loadLeagues: (state, action) => {
+      state.leagues = action.payload
     },
   },
   extraReducers: (builder) => {
@@ -52,6 +55,6 @@ const userSlice = createSlice({
   },
 })
 
-export const { loginUser, logoutUser } = userSlice.actions
+export const { loginUser, logoutUser, loadLeagues } = userSlice.actions
 
 export const userReducer = userSlice.reducer
