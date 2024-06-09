@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import axios from "axios"
 
-export const getUser = createAsyncThunk("user/getUser", async (name, thunkAPI) => {
+export const getUser = createAsyncThunk("user/getUser", async (thunkAPI) => {
   try {
     const res = await axios.get("http://localhost:8000/users/me", {
       withCredentials: true,
@@ -11,6 +11,17 @@ export const getUser = createAsyncThunk("user/getUser", async (name, thunkAPI) =
     return thunkAPI.rejectWithValue("something went wrong")
   }
 })
+
+// export const getLeagues = createAsyncThunk("user/getLeagues", async (userId, thunkAPI) => {
+//   try {
+//     const res = await axios.get(`http://localhost:8000/contestant/user/${userId}`, {
+//       withCredentials: true,
+//     })
+//     return res.data
+//   } catch (error) {
+//     return thunkAPI.rejectWithValue("something went wrong")
+//   }
+// })
 
 const initialState = {
   user: false,

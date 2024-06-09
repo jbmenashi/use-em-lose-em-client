@@ -12,33 +12,63 @@ import { useState } from "react"
 export const action =
   (store) =>
   async ({ request }) => {
-    console.log(request)
     const formData = await request.formData()
-    console.log(formData)
     const data = Object.fromEntries(formData)
-    console.log(data)
+    const transformedData = {
+      league_name: data.league_name,
+      sport: data.sport,
+      season: 2024,
+      style: data.style,
+      size: data.num_teams,
+      playoff_teams: data.num_playoff_teams,
+      regular_season_weeks: 13,
+      playoff_weeks: 3,
+      team_count: data.num_players_franchise,
+      roster: {
+        roster_size: 8,
+        positions: {
+          qb: data.qb,
+          rb: data.rb,
+          wr: data.wr,
+          te: data.te,
+          flex: data.flex,
+          def: data.def,
+        },
+      },
+      scoring: {
+        statistics: {
+          pass_yds: 0.04,
+          pass_tds: 4,
+          int: -1,
+          rush_yds: 0.1,
+          rec: 0.5,
+          rec_yds: 0.1,
+          tds: 6,
+          fumbles: -2,
+          two_point: 2,
+        },
+      },
+      locked: false,
+      active: false,
+    }
+    console.log(transformedData)
     try {
-      // const res = await axios.post("http://localhost:8000/league", data, {
-      //   headers: {
-      //     "Content-Type": "application/x-www-form-urlencoded",
-      //   },
-      //   withCredentials: true,
-      // })
-      // console.log(res)
-      // if (res.status === 204) {
-      //   const res2 = await axios.get(`http://localhost:8000/league/${store.getState.league}`, {
-      //     withCredentials: true,
-      //   })
-      //   store.dispatch(loginUser(res2.data))
-      // }
-      // store.dispatch(loginUser(response.data))
-      // toast.success("logged in successfully")
-      return data
+      const res = await axios.post("http://localhost:8000/league", transformedData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      })
+      if (res.status === 201) {
+        toast.success("New League Created")
+        // const res2 = await axios.get(`http://localhost:8000/league/${store.getState.league}`, {
+        //   withCredentials: true,
+        // })
+      }
+      return redirect("/")
     } catch (error) {
       console.log(error)
-      // const errorMessage = error?.response?.data?.error?.message || "please double check your credentials"
-
-      // toast.error(errorMessage)
+      toast.error("You must be logged in to create a league")
       return null
     }
   }
@@ -121,7 +151,7 @@ const CreateLeague = () => {
           )}
         </div>
         {/* SCORING */}
-        <div className="grid grid-cols-9 gap-4">
+        <div className="grid grid-cols-10 gap-4">
           {sport === "NFL" ? (
             <>
               <h4 className="items-center">Scoring</h4>
@@ -129,6 +159,7 @@ const CreateLeague = () => {
               <FormSelectDisabled label="Pass TDs" name="pass_tds" size="select-sm" defaultValue={4} />
               <FormSelectDisabled label="Ints" name="ints" size="select-sm" defaultValue={-1} />
               <FormSelectDisabled label="Rush Yds" name="rush_yds" size="select-sm" defaultValue={0.1} />
+              <FormSelectDisabled label="Rec" name="rec" size="select-sm" defaultValue={0.5} />
               <FormSelectDisabled label="Rec Yds" name="rec_yds" size="select-sm" defaultValue={0.1} />
               <FormSelectDisabled label="TDs" name="tds" size="select-sm" defaultValue={6} />
               <FormSelectDisabled label="Fumbles" name="fumbles" size="select-sm" defaultValue={-2} />

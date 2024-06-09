@@ -35,7 +35,7 @@ const router = createBrowserRouter([
       {
         path: "/createleague",
         element: <CreateLeague />,
-        action: createLeagueAction,
+        action: createLeagueAction(store),
       },
       {
         path: "/joinleague",
