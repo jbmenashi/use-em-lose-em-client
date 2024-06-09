@@ -6,22 +6,18 @@ export const getUser = createAsyncThunk("user/getUser", async (thunkAPI) => {
     const res = await axios.get("http://localhost:8000/users/me", {
       withCredentials: true,
     })
-    return res.data
+    if (res.status === 200) {
+      const res2 = await axios.get(`http://localhost:8000/contestant/user/${res.data.id}`, {
+        withCredentials: true,
+      })
+      return { user: res.data, leagues: res2.data }
+    } else {
+      return { user: res.data }
+    }
   } catch (error) {
     return thunkAPI.rejectWithValue("something went wrong")
   }
 })
-
-// export const getLeagues = createAsyncThunk("user/getLeagues", async (userId, thunkAPI) => {
-//   try {
-//     const res = await axios.get(`http://localhost:8000/contestant/user/${userId}`, {
-//       withCredentials: true,
-//     })
-//     return res.data
-//   } catch (error) {
-//     return thunkAPI.rejectWithValue("something went wrong")
-//   }
-// })
 
 const initialState = {
   user: false,
@@ -54,11 +50,12 @@ const userSlice = createSlice({
         state.isLoading = true
       })
       .addCase(getUser.fulfilled, (state, action) => {
-        const { id, email } = action.payload
+        const { user, leagues } = action.payload
         state.user = true
-        state.userName = email
-        state.userId = id
+        state.userName = user.email
+        state.userId = user.id
         state.isLoading = false
+        state.leagues = leagues
       })
       .addCase(getUser.rejected, (state, action) => {
         state.isLoading = false

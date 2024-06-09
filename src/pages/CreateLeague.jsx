@@ -51,7 +51,6 @@ export const action =
       locked: false,
       active: false,
     }
-    console.log(transformedData)
     try {
       const res = await axios.post("http://localhost:8000/league", transformedData, {
         headers: {

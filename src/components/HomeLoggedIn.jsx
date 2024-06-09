@@ -1,14 +1,11 @@
 import { useSelector } from "react-redux"
-import { useLoaderData } from "react-router-dom"
 
 const HomeLoggedIn = () => {
-  const data = useLoaderData()
-  console.log(data)
-  // const { leagues } = useSelector((state) => state.user)
+  const { leagues } = useSelector((state) => state.user)
 
-  // if (leagues.length === 0) {
-  //   return <h1>You currently aren't in any leagues</h1>
-  // }
+  if (leagues.length === 0) {
+    return <h1>You currently aren't in any leagues</h1>
+  }
 
   return (
     <div className="mx-auto px-14">
