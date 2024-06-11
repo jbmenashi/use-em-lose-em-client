@@ -4,6 +4,18 @@ import Home from "./pages/Home"
 import HowItWorks from "./pages/HowItWorks"
 import Register from "./pages/Register"
 import Login from "./pages/Login"
+import League from "./pages/League"
+import LeagueHome from "./pages/LeagueHome"
+import LeagueRules from "./pages/LeagueRules"
+import LeagueScoreboard from "./pages/LeagueScoreboard"
+import LeagueMatchup from "./pages/LeagueMatchup"
+import LeagueUsed from "./pages/LeagueUsed"
+import CreateLeague from "./pages/CreateLeague"
+import JoinLeague from "./pages/JoinLeague"
+import Team from "./pages/Team"
+import TeamHome from "./pages/TeamHome"
+import TeamUsed from "./pages/TeamUsed"
+import TeamPlayerSearch from "./pages/TeamPlayerSearch"
 
 import { action as registerAction } from "./pages/Register"
 import { action as loginAction } from "./pages/Login"
@@ -15,8 +27,6 @@ import { store } from "./store"
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { getUser } from "./features/user/userSlice"
-import CreateLeague from "./pages/CreateLeague"
-import JoinLeague from "./pages/JoinLeague"
 
 const router = createBrowserRouter([
   {
@@ -40,6 +50,50 @@ const router = createBrowserRouter([
       {
         path: "/joinleague",
         element: <JoinLeague />,
+      },
+    ],
+  },
+  {
+    path: "/leagues/:league_id",
+    element: <League />,
+    children: [
+      {
+        path: "/leagues/:league_id",
+        element: <LeagueHome />,
+      },
+      {
+        path: "/leagues/:league_id/rules",
+        element: <LeagueRules />,
+      },
+      {
+        path: "/leagues/:league_id/scoreboard",
+        element: <LeagueScoreboard />,
+      },
+      {
+        path: "/leagues/:league_id/matchup",
+        element: <LeagueMatchup />,
+      },
+      {
+        path: "/leagues/:league_id/used",
+        element: <LeagueUsed />,
+      },
+    ],
+  },
+  {
+    path: "/teams/:team_id",
+    element: <Team />,
+    children: [
+      {
+        path: "/teams/:team_id",
+        element: <TeamHome />,
+      },
+      {
+        path: "/teams/:team_id/rules",
+        element: <TeamUsed />,
+      },
+      {
+        path: "/teams/:team_id/scoreboard",
+        element: <TeamPlayerSearch />,
       },
     ],
   },

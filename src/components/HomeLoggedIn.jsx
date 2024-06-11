@@ -15,7 +15,7 @@ const HomeLoggedIn = () => {
       </div>
       <div className="grid grid-cols-3">
         {leagues.map((league) => {
-          return <LeagueCard key={league.league_id.$oid} league={league} />
+          return <LeagueCard key={league.league_id} league={league} />
         })}
       </div>
     </div>

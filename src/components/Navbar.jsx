@@ -42,7 +42,7 @@ const Navbar = () => {
       <div className="navbar-end">
         {user ? (
           <>
-            <div className=" font-bold mr-2">
+            <div className=" font-bold mr-5">
               <h4>Hello {userName}!</h4>
             </div>
             <div>
