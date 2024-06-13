@@ -23,7 +23,9 @@ const Navbar = () => {
   return (
     <div className="navbar bg-primary text-white">
       <div className="navbar-start">
-        <Link className="btn btn-ghost text-xl">Use 'Em, Lose 'Em Fantasy Sports</Link>
+        <Link to="/" className="btn btn-ghost text-xl">
+          Use 'Em, Lose 'Em Fantasy Sports
+        </Link>
       </div>
       <div className="navbar-center">
         {user && (

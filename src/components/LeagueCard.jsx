@@ -1,13 +1,19 @@
 import { Link, Navigate } from "react-router-dom"
+import { getLeagueTeamInfo } from "../features/league/leagueSlice"
+import { useDispatch } from "react-redux"
 
 const LeagueCard = ({ league }) => {
-  const { league_id, league_name, sport, style, team_name } = league
+  const dispatch = useDispatch()
+  const { league_id, league_name, sport, style, team_name, contestant_id } = league
   //   console.log(league_id.$oid)
 
-  const handleClick = () => {}
+  const handleLeagueClick = () => {
+    console.log("clicked")
+    dispatch(getLeagueTeamInfo({ league_id, league_name, contestant_id }))
+  }
 
   return (
-    <Link to={`/leagues/${league_id}`}>
+    <Link to={`/leagues/${league_id}`} onClick={handleLeagueClick}>
       <div className="card w-96 bg-accent shadow-xl m-5">
         <div className="card-body">
           <h2 className="card-title">{league_name}</h2>

@@ -1,21 +1,25 @@
 import axios from "axios"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { Link, Navigate, redirect, useLoaderData, useNavigate } from "react-router-dom"
+import { getLeagueTeamInfo } from "../features/league/leagueSlice"
 
 const JoinLeagueCard = ({ league }) => {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   const { userId } = useSelector((state) => state.user)
 
   const { league_name, sport, style } = league
-  const leagueId = league["_id"]["$oid"]
+  const league_id = league["_id"]["$oid"]
 
   const handleClick = async () => {
     try {
-      const res = await axios.post(`http://localhost:8000/contestant/${leagueId}`, null, {
+      const res = await axios.post(`http://localhost:8000/contestant/${league_id}`, null, {
         withCredentials: true,
       })
       if (res.status === 201) {
-        navigate(`/leagues/${leagueId}`)
+        const contestant_id = res.data.contestant["_id"]["$oid"]
+        dispatch(getLeagueTeamInfo({ league_id, league_name, contestant_id }))
+        navigate(`/leagues/${league_id}`)
       }
     } catch (error) {
       console.log(error)
