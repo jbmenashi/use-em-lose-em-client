@@ -6,9 +6,7 @@ import Register from "./pages/Register"
 import Login from "./pages/Login"
 import League from "./pages/League"
 import LeagueHome from "./pages/LeagueHome"
-import LeagueRules from "./pages/LeagueRules"
 import LeagueScoreboard from "./pages/LeagueScoreboard"
-import LeagueMatchup from "./pages/LeagueMatchup"
 import LeagueUsed from "./pages/LeagueUsed"
 import CreateLeague from "./pages/CreateLeague"
 import JoinLeague from "./pages/JoinLeague"
@@ -21,7 +19,6 @@ import { action as registerAction } from "./pages/Register"
 import { action as loginAction } from "./pages/Login"
 import { action as createLeagueAction } from "./pages/CreateLeague"
 
-import { loader as homeLoader } from "./pages/Home"
 import { loader as joinLeagueLoader } from "./pages/JoinLeague"
 
 import { store } from "./store"
@@ -37,7 +34,6 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
-        loader: homeLoader(store),
       },
       {
         path: "/howitworks",
@@ -64,16 +60,8 @@ const router = createBrowserRouter([
         element: <LeagueHome />,
       },
       {
-        path: "/leagues/:league_id/rules",
-        element: <LeagueRules />,
-      },
-      {
         path: "/leagues/:league_id/scoreboard",
         element: <LeagueScoreboard />,
-      },
-      {
-        path: "/leagues/:league_id/matchup",
-        element: <LeagueMatchup />,
       },
       {
         path: "/leagues/:league_id/used",

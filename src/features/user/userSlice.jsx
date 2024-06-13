@@ -48,9 +48,6 @@ const userSlice = createSlice({
       state.userId = ""
       localStorage.setItem("userId", JSON.stringify(""))
     },
-    loadLeagues: (state, action) => {
-      state.leagues = action.payload
-    },
   },
   extraReducers: (builder) => {
     builder
@@ -72,6 +69,6 @@ const userSlice = createSlice({
   },
 })
 
-export const { loginUser, logoutUser, loadLeagues } = userSlice.actions
+export const { loginUser, logoutUser } = userSlice.actions
 
 export const userReducer = userSlice.reducer
