@@ -19,10 +19,14 @@ export const getUser = createAsyncThunk("user/getUser", async (thunkAPI) => {
   }
 })
 
+const getUserIdFromLocalStorage = () => {
+  return JSON.parse(localStorage.getItem("userId")) || ""
+}
+
 const initialState = {
   user: false,
   userName: "",
-  userId: "",
+  userId: getUserIdFromLocalStorage(),
   isLoading: false,
   leagues: [],
 }
@@ -36,9 +40,13 @@ const userSlice = createSlice({
       state.user = true
       state.userName = email
       state.userId = id
+      localStorage.setItem("userId", JSON.stringify(id))
     },
     logoutUser: (state, action) => {
       state.user = false
+      state.userName = ""
+      state.userId = ""
+      localStorage.setItem("userId", JSON.stringify(""))
     },
     loadLeagues: (state, action) => {
       state.leagues = action.payload
@@ -53,12 +61,13 @@ const userSlice = createSlice({
         const { user, leagues } = action.payload
         state.user = true
         state.userName = user.email
-        state.userId = user.id
         state.isLoading = false
         state.leagues = leagues
+        localStorage.setItem("userId", JSON.stringify(user.id))
       })
       .addCase(getUser.rejected, (state, action) => {
         state.isLoading = false
+        localStorage.setItem("userId", JSON.stringify(""))
       })
   },
 })

@@ -22,6 +22,7 @@ import { action as loginAction } from "./pages/Login"
 import { action as createLeagueAction } from "./pages/CreateLeague"
 
 import { loader as homeLoader } from "./pages/Home"
+import { loader as joinLeagueLoader } from "./pages/JoinLeague"
 
 import { store } from "./store"
 import { useEffect } from "react"
@@ -50,6 +51,7 @@ const router = createBrowserRouter([
       {
         path: "/joinleague",
         element: <JoinLeague />,
+        loader: joinLeagueLoader(store),
       },
     ],
   },

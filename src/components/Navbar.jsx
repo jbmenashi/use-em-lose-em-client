@@ -1,19 +1,20 @@
 import { BiHome } from "react-icons/bi"
 import { useSelector, useDispatch } from "react-redux"
-import { Link, redirect } from "react-router-dom"
+import { Link, redirect, useNavigate } from "react-router-dom"
 import axios from "axios"
 import { logoutUser } from "../features/user/userSlice"
 
 const Navbar = () => {
   const { user, userName } = useSelector((state) => state.user)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const handleLogout = async () => {
     try {
       const res = await axios.post("http://localhost:8000/auth/logout", null, {
         withCredentials: true,
       })
       dispatch(logoutUser())
-      redirect("/")
+      navigate("/")
     } catch (error) {
       console.log(error)
     }
