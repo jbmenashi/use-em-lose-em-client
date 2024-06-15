@@ -16,6 +16,7 @@ export const action =
     const data = Object.fromEntries(formData)
     const transformedData = {
       league_name: data.league_name,
+      team_name: data.team_name,
       sport: data.sport,
       season: 2024,
       style: data.style,
@@ -173,6 +174,7 @@ const CreateLeague = () => {
             </>
           )}
         </div>
+        <FormInput type="text" label="team name" name="team_name" />
         <div className="mt-4">
           <SubmitBtn text="create!" />
         </div>
