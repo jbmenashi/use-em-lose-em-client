@@ -46,8 +46,8 @@ const userSlice = createSlice({
       state.user = false
       state.userName = ""
       state.userId = ""
-      localStorage.setItem("userId", JSON.stringify(""))
       state.leagues = []
+      localStorage.clear()
     },
     loadLeagues: (state, action) => {
       state.leagues = action.payload

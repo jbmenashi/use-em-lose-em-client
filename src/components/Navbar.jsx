@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { Link, redirect, useNavigate } from "react-router-dom"
 import axios from "axios"
 import { logoutUser } from "../features/user/userSlice"
+import { clearLeagueTeamInfo } from "../features/league/leagueSlice"
 
 const Navbar = () => {
   const { user, userName } = useSelector((state) => state.user)
@@ -14,6 +15,7 @@ const Navbar = () => {
         withCredentials: true,
       })
       dispatch(logoutUser())
+      dispatch(clearLeagueTeamInfo())
       navigate("/")
     } catch (error) {
       console.log(error)
