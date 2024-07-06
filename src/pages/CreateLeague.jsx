@@ -49,8 +49,9 @@ export const action =
           two_point: 2,
         },
       },
-      locked: false,
+      scheduled: false,
       active: false,
+      full: false,
     }
     try {
       const res = await axios.post("http://localhost:8000/league", transformedData, {

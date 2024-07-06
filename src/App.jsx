@@ -12,7 +12,6 @@ import CreateLeague from "./pages/CreateLeague"
 import JoinLeague from "./pages/JoinLeague"
 import Team from "./pages/Team"
 import TeamHome from "./pages/TeamHome"
-import TeamUsed from "./pages/TeamUsed"
 import TeamPlayerSearch from "./pages/TeamPlayerSearch"
 
 import { action as registerAction } from "./pages/Register"
@@ -82,11 +81,7 @@ const router = createBrowserRouter([
         element: <TeamHome />,
       },
       {
-        path: "/teams/:team_id/rules",
-        element: <TeamUsed />,
-      },
-      {
-        path: "/teams/:team_id/scoreboard",
+        path: "/teams/:team_id/playersearch",
         element: <TeamPlayerSearch />,
       },
     ],

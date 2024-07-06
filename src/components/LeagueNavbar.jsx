@@ -2,10 +2,12 @@ import { useSelector, useDispatch } from "react-redux"
 import { Link, useNavigate } from "react-router-dom"
 import axios from "axios"
 import { logoutUser } from "../features/user/userSlice"
+import { clearLeagueTeamInfo } from "../features/league/leagueSlice"
+import { BiHome } from "react-icons/bi"
 
 const LeagueNavbar = () => {
   const { userName } = useSelector((state) => state.user)
-  const { leagueId, leagueName, teamId } = useSelector((state) => state.league)
+  const { leagueId, leagueName, teamId, teamName } = useSelector((state) => state.league)
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -15,6 +17,7 @@ const LeagueNavbar = () => {
         withCredentials: true,
       })
       dispatch(logoutUser())
+      dispatch(clearLeagueTeamInfo())
       navigate("/")
     } catch (error) {
       console.log(error)
@@ -25,19 +28,22 @@ const LeagueNavbar = () => {
     <div className="navbar bg-primary text-white">
       <div className="navbar-start">
         <Link to="/" className="btn btn-ghost text-xl">
-          Use 'Em, Lose 'Em Fantasy Sports
+          <BiHome />
+        </Link>
+        <Link to={`/leagues/${leagueId}`} className="btn btn-ghost text-xl">
+          {leagueName} Home
         </Link>
       </div>
       <div className="navbar-center">
         <div>
-          <Link to="/howitworks" className="btn btn-ghost">
+          <Link to={`/teams/${teamId}`} className="btn btn-ghost">
             <span className="font-extrabold">My Team</span>
           </Link>
-          <Link to="/createleague" className="btn btn-ghost">
-            <span className="font-extrabold">Create League</span>
+          <Link to={`/leagues/${leagueId}/scoreboard`} className="btn btn-ghost">
+            <span className="font-extrabold">Scoreboard</span>
           </Link>
-          <Link to="/joinleague" className="btn btn-ghost">
-            <span className="font-extrabold">Join League</span>
+          <Link to={`/leagues/${leagueId}/used`} className="btn btn-ghost">
+            <span className="font-extrabold">Used Players/Teams</span>
           </Link>
         </div>
       </div>

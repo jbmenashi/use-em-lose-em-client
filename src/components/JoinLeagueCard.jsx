@@ -25,7 +25,8 @@ export const action =
         const contestant_id = res.data.contestant["_id"]["$oid"]
         const league_id = data.league_id
         const league_name = data.league_name
-        store.dispatch(getLeagueTeamInfo({ league_id, league_name, contestant_id }))
+        const team_name = data.team_name
+        store.dispatch(getLeagueTeamInfo({ league_id, league_name, contestant_id, team_name }))
         return redirect(`/leagues/${data.league_id}`)
       }
     } catch (error) {
