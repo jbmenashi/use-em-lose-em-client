@@ -2,6 +2,8 @@ import Schedule from "../components/Schedule"
 import { useLoaderData } from "react-router-dom"
 import axios from "axios"
 import Standings from "../components/Standings"
+import LeagueRules from "../components/LeagueRules"
+import { useSelector } from "react-redux"
 
 export const loader = (store) => async () => {
   const { leagueId } = store.getState().league
@@ -25,13 +27,24 @@ export const loader = (store) => async () => {
 }
 
 const LeagueHome = () => {
+  const league = useSelector((state) => state.league)
   return (
-    <>
-      <div>
-        <Schedule />
-        <Standings />
+    <div className="container mx-auto p-4">
+      <h1 className="text-center text-2xl font-bold mb-3">{league.leagueName}</h1>
+      <div className="grid grid-cols-2 gap-4 h-screen">
+        <div className="flex flex-col">
+          <div className="h-2/3 mb-4">
+            <Standings />
+          </div>
+          <div className="h-1/3">
+            <LeagueRules />
+          </div>
+        </div>
+        <div>
+          <Schedule />
+        </div>
       </div>
-    </>
+    </div>
   )
 }
 export default LeagueHome

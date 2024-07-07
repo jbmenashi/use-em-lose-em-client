@@ -28,19 +28,16 @@ const LeagueNavbar = () => {
     <div className="navbar bg-primary text-white">
       <div className="navbar-start">
         <Link to="/" className="btn btn-ghost text-xl">
-          <BiHome />
-        </Link>
-        <Link to={`/leagues/${leagueId}`} className="btn btn-ghost text-xl">
-          {leagueName} Home
+          Use 'Em, Lose 'Em Fantasy Sports
         </Link>
       </div>
       <div className="navbar-center">
         <div>
+          <Link to={`/leagues/${leagueId}`} className="btn btn-ghost">
+            <span className="font-extrabold">League Home</span>
+          </Link>
           <Link to={`/teams/${teamId}`} className="btn btn-ghost">
             <span className="font-extrabold">My Team</span>
-          </Link>
-          <Link to={`/leagues/${leagueId}/scoreboard`} className="btn btn-ghost">
-            <span className="font-extrabold">Scoreboard</span>
           </Link>
           <Link to={`/leagues/${leagueId}/used`} className="btn btn-ghost">
             <span className="font-extrabold">Used Players/Teams</span>

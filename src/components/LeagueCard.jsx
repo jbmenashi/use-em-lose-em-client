@@ -8,7 +8,6 @@ const LeagueCard = ({ league }) => {
   //   console.log(league_id.$oid)
 
   const handleLeagueClick = () => {
-    console.log("clicked")
     dispatch(getLeagueTeamInfo({ league_id, league_name, contestant_id, team_name }))
   }
 
