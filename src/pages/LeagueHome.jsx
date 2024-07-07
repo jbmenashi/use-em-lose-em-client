@@ -30,7 +30,7 @@ const LeagueHome = () => {
   const league = useSelector((state) => state.league)
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-center text-2xl font-bold mb-3">{league.leagueName}</h1>
+      <h1 className="text-center text-3xl font-bold mb-4">{league.leagueName}</h1>
       <div className="grid grid-cols-2 gap-4 h-screen">
         <div className="flex flex-col">
           <div className="h-2/3 mb-4">
