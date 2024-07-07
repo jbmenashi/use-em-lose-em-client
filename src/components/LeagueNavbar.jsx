@@ -36,7 +36,7 @@ const LeagueNavbar = () => {
           <Link to={`/leagues/${leagueId}`} className="btn btn-ghost">
             <span className="font-extrabold">League Home</span>
           </Link>
-          <Link to={`/teams/${teamId}`} className="btn btn-ghost">
+          <Link to={`/leagues/${leagueId}/teams/${teamId}`} className="btn btn-ghost">
             <span className="font-extrabold">My Team</span>
           </Link>
           <Link to={`/leagues/${leagueId}/used`} className="btn btn-ghost">

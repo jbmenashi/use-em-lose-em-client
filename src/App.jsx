@@ -6,13 +6,12 @@ import Register from "./pages/Register"
 import Login from "./pages/Login"
 import League from "./pages/League"
 import LeagueHome from "./pages/LeagueHome"
-import LeagueScoreboard from "./pages/LeagueScoreboard"
 import LeagueUsed from "./pages/LeagueUsed"
 import CreateLeague from "./pages/CreateLeague"
 import JoinLeague from "./pages/JoinLeague"
-import Team from "./pages/Team"
 import TeamHome from "./pages/TeamHome"
-import TeamPlayerSearch from "./pages/TeamPlayerSearch"
+import PlayerSearch from "./pages/PlayerSearch"
+import Matchup from "./pages/Matchup"
 
 import { action as registerAction } from "./pages/Register"
 import { action as loginAction } from "./pages/Login"
@@ -65,26 +64,20 @@ const router = createBrowserRouter([
         loader: leagueHomeLoader(store),
       },
       {
-        path: "/leagues/:league_id/scoreboard",
-        element: <LeagueScoreboard />,
+        path: "/leagues/:league_id/teams/:team_id",
+        element: <TeamHome />,
       },
       {
         path: "/leagues/:league_id/used",
         element: <LeagueUsed />,
       },
-    ],
-  },
-  {
-    path: "/teams/:team_id",
-    element: <Team />,
-    children: [
       {
-        path: "/teams/:team_id",
-        element: <TeamHome />,
+        path: "/leagues/:league_id/teams/:team_id/playersearch",
+        element: <PlayerSearch />,
       },
       {
-        path: "/teams/:team_id/playersearch",
-        element: <TeamPlayerSearch />,
+        path: "/leagues/:league_id/matchups/:matchup_id",
+        element: <Matchup />,
       },
     ],
   },
