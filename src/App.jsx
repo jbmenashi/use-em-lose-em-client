@@ -21,6 +21,7 @@ import { action as joinLeagueAction } from "./components/JoinLeagueCard"
 
 import { loader as homeLoader } from "./pages/Home"
 import { loader as joinLeagueLoader } from "./pages/JoinLeague"
+import { loader as leagueHomeLoader } from "./pages/LeagueHome"
 
 import { store } from "./store"
 import { useEffect } from "react"
@@ -61,6 +62,7 @@ const router = createBrowserRouter([
       {
         path: "/leagues/:league_id",
         element: <LeagueHome />,
+        loader: leagueHomeLoader(store),
       },
       {
         path: "/leagues/:league_id/scoreboard",
