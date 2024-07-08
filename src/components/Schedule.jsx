@@ -1,8 +1,9 @@
 import { useSelector } from "react-redux"
 import { useLoaderData } from "react-router-dom"
+import ScheduleMatchupList from "./ScheduleMatchupList"
 
 const Schedule = () => {
-  const { schedule, league } = useLoaderData()
+  const { league } = useLoaderData()
   const week = useSelector((state) => state.week)
   const currentLeague = useSelector((state) => state.league)
 
@@ -27,20 +28,18 @@ const Schedule = () => {
     }
   }
 
-  console.log(newWeeks)
-
   return (
     <div className="h-full bg-sky-200 flex flex-col items-center rounded-lg">
       <h1 className="text-center text-2xl font-bold mt-5">Schedule</h1>
       <div className="carousel w-full h-full mt-5">
         {newWeeks.map((item) => {
           return (
-            <div key={`slide${item}`} id={`slide${item}`} className="carousel-item relative w-full">
-              <img src="https://img.daisyui.com/images/stock/photo-1625726411847-8cbb60cc71e6.jpg" className="w-full" />
+            <section key={`slide${item}`} id={`slide${item}`} className="carousel-item relative w-full">
+              <ScheduleMatchupList week={item} />
               <div className="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
                 <a
                   href={`${currentLeague.leagueId}#slide${item - 1 === 0 ? weeksArray.length - 1 : item - 1}`}
-                  className="btn btn-circle"
+                  className="btn btn-circle scroll-pt-3.5"
                 >
                   ❮
                 </a>
@@ -51,7 +50,7 @@ const Schedule = () => {
                   ❯
                 </a>
               </div>
-            </div>
+            </section>
           )
         })}
         <div id="slide1" className="carousel-item relative w-full">
