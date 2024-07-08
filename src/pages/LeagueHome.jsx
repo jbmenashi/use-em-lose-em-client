@@ -8,17 +8,21 @@ import { useSelector } from "react-redux"
 export const loader = (store) => async () => {
   const { leagueId } = store.getState().league
   try {
-    const [scheduleRes, contestantsRes] = await Promise.all([
+    const [scheduleRes, contestantsRes, leagueRes] = await Promise.all([
       axios.get(`http://localhost:8000/league/schedule/${leagueId}`, {
         withCredentials: true,
       }),
       axios.get(`http://localhost:8000/contestant/league/${leagueId}`, {
         withCredentials: true,
       }),
+      axios.get(`http://localhost:8000/league/${leagueId}`, {
+        withCredentials: true,
+      }),
     ])
     const schedule = scheduleRes.data
     const standings = contestantsRes.data
-    return { schedule, standings }
+    const league = leagueRes.data
+    return { schedule, standings, league }
     // return json({ scheduleRes, standingsRes })
   } catch (error) {
     console.log(error)
