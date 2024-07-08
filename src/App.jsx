@@ -26,6 +26,7 @@ import { store } from "./store"
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { getUser } from "./features/user/userSlice"
+import { getWeeks } from "./features/week/weekSlice"
 
 const router = createBrowserRouter([
   {
@@ -98,6 +99,7 @@ export default function App() {
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(getUser())
+    dispatch(getWeeks())
   }, [])
 
   if (isLoading) {
