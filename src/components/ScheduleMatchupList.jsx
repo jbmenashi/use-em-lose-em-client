@@ -6,9 +6,9 @@ const ScheduleMatchupList = ({ week }) => {
 
   const weekSchedule = schedule.filter((s) => s.week === week)
   return (
-    <div className="max-h-full max-w-full overflow-auto p-5">
+    <div className="max-h-[90vh] max-w-full overflow-auto p-4">
       <h3 className="flex text-center text-xl font-bold pl-14">Week {week}</h3>
-      <div className="flex flex-col pl-14">
+      <div className="flex flex-col items-center justify-center">
         {weekSchedule.map((matchup) => {
           return <ScheduleMatchup key={matchup["_id"]} {...matchup} />
         })}

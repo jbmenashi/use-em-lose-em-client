@@ -37,13 +37,13 @@ const Schedule = () => {
               <div className="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
                 <a
                   href={`${currentLeague.leagueId}#slide${item - 1 === 0 ? newWeeks.length : item - 1}`}
-                  className="btn btn-circle scroll-pt-3.5"
+                  className="btn btn-square btn-outline btn-sm scroll-pt-3.5"
                 >
                   ❮
                 </a>
                 <a
                   href={`${currentLeague.leagueId}#slide${item === newWeeks.length ? 1 : item + 1}`}
-                  className="btn btn-circle"
+                  className="btn btn-square btn-outline btn-sm scroll-pt-3.5"
                 >
                   ❯
                 </a>
