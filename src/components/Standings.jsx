@@ -29,9 +29,9 @@ const Standings = () => {
       <h1 className="text-center text-2xl font-bold mt-5">Standings</h1>
       <div className="w-full px-4">
         <div className="max-h-[60vh] max-w-full overflow-auto p-4">
-          <table className="table border-black">
+          <table className="table border-black text-lg">
             <thead>
-              <tr>
+              <tr className="text-lg">
                 <th>Rank</th>
                 <th>Team</th>
                 <th>W</th>
