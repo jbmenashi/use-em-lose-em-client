@@ -6,7 +6,6 @@ import Register from "./pages/Register"
 import Login from "./pages/Login"
 import League from "./pages/League"
 import LeagueHome from "./pages/LeagueHome"
-import LeagueUsed from "./pages/LeagueUsed"
 import CreateLeague from "./pages/CreateLeague"
 import JoinLeague from "./pages/JoinLeague"
 import TeamHome from "./pages/TeamHome"
@@ -67,10 +66,6 @@ const router = createBrowserRouter([
       {
         path: "/leagues/:league_id/teams/:team_id",
         element: <TeamHome />,
-      },
-      {
-        path: "/leagues/:league_id/used",
-        element: <LeagueUsed />,
       },
       {
         path: "/leagues/:league_id/teams/:team_id/playersearch",

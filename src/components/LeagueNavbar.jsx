@@ -39,9 +39,6 @@ const LeagueNavbar = () => {
           <Link to={`/leagues/${leagueId}/teams/${teamId}`} className="btn btn-ghost">
             <span className="font-extrabold">My Team</span>
           </Link>
-          <Link to={`/leagues/${leagueId}/used`} className="btn btn-ghost">
-            <span className="font-extrabold">Used Players/Teams</span>
-          </Link>
         </div>
       </div>
       <div className="navbar-end">
