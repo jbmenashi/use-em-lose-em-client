@@ -12,8 +12,8 @@ export const getWeeks = createAsyncThunk("week/getWeeks", async (thunkAPI) => {
   }
 })
 
-const getUserIdFromLocalStorage = () => {
-  return JSON.parse(localStorage.getItem("userId")) || ""
+const getViewingWeekFromLocalStorage = () => {
+  return JSON.parse(localStorage.getItem("viewingWeek")) || 1
 }
 
 const initialState = {
@@ -21,12 +21,19 @@ const initialState = {
   nflWeek: 1,
   mlbSeason: 2024,
   mlbWeek: 1,
+  viewingWeek: getViewingWeekFromLocalStorage(),
 }
 
 const weekSlice = createSlice({
   name: "week",
   initialState,
-  reducers: {},
+  reducers: {
+    changeViewingWeek: (state, action) => {
+      const { newWeek } = action.payload
+      state.viewingWeek = newWeek
+      localStorage.setItem("viewingWeek", JSON.stringify(newWeek))
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getWeeks.pending, (state) => {})
@@ -36,9 +43,12 @@ const weekSlice = createSlice({
         state.nflWeek = weeks["nfl_week"]
         state.mlbSeason = weeks["mlb_season"]
         state.mlbWeek = weeks["mlb_week"]
+        localStorage.setItem("viewingWeek", JSON.stringify(weeks["nfl_week"]))
       })
       .addCase(getWeeks.rejected, (state) => {})
   },
 })
+
+export const { changeViewingWeek } = weekSlice.actions
 
 export const weekReducer = weekSlice.reducer

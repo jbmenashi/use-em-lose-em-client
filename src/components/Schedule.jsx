@@ -4,8 +4,6 @@ import ScheduleMatchupList from "./ScheduleMatchupList"
 
 const Schedule = () => {
   const { league } = useLoaderData()
-  console.log("AAAAAAA")
-  console.log(league)
   const week = useSelector((state) => state.week)
   const currentLeague = useSelector((state) => state.league)
 

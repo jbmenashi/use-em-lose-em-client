@@ -4,10 +4,12 @@ import axios from "axios"
 import { logoutUser } from "../features/user/userSlice"
 import { clearLeagueTeamInfo } from "../features/league/leagueSlice"
 import { BiHome } from "react-icons/bi"
+import { changeViewingWeek } from "../features/week/weekSlice"
 
 const LeagueNavbar = () => {
   const { userName } = useSelector((state) => state.user)
   const { leagueId, leagueName, teamId, teamName } = useSelector((state) => state.league)
+  const week = useSelector((state) => state.week)
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -24,6 +26,10 @@ const LeagueNavbar = () => {
     }
   }
 
+  const handleWeek = () => {
+    dispatch(changeViewingWeek({ newWeek: week.nflWeek }))
+  }
+
   return (
     <div className="navbar bg-primary text-white">
       <div className="navbar-start">
@@ -36,7 +42,11 @@ const LeagueNavbar = () => {
           <Link to={`/leagues/${leagueId}`} className="btn btn-ghost">
             <span className="font-extrabold text-lg">League Home</span>
           </Link>
-          <Link to={`/leagues/${leagueId}/teams/${teamId}`} className="btn btn-ghost">
+          <Link
+            to={`/leagues/${leagueId}/teams/${teamId}?week=${week.nflWeek}`}
+            className="btn btn-ghost"
+            onClick={handleWeek}
+          >
             <span className="font-extrabold text-lg">My Team</span>
           </Link>
         </div>
