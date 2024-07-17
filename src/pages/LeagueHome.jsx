@@ -23,7 +23,6 @@ export const loader = (store) => async () => {
     const standings = contestantsRes.data
     const league = leagueRes.data
     return { schedule, standings, league }
-    // return json({ scheduleRes, standingsRes })
   } catch (error) {
     console.log(error)
     return null
@@ -31,22 +30,18 @@ export const loader = (store) => async () => {
 }
 
 const LeagueHome = () => {
-  const league = useSelector((state) => state.league)
+  const stateLeague = useSelector((state) => state.league)
+  const data = useLoaderData()
+
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-center text-3xl font-bold mb-4">{league.leagueName}</h1>
+      <h1 className="text-center text-3xl font-bold mb-4">{stateLeague.leagueName}</h1>
       <div className="grid grid-cols-2 gap-4 h-screen">
         <div className="flex flex-col">
-          <div className="h-2/3 mb-4">
-            <Standings />
-          </div>
-          <div className="h-1/3">
-            <LeagueRules />
-          </div>
+          <div className="h-2/3 mb-4">{data?.standings ? <Standings /> : "no standings"}</div>
+          <div className="h-1/3">{data?.league ? <LeagueRules /> : "no league rules"}</div>
         </div>
-        <div>
-          <Schedule />
-        </div>
+        <div>{data?.schedule ? <Schedule /> : "no schedule yet!"}</div>
       </div>
     </div>
   )

@@ -1,7 +1,6 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom"
 import Base from "./pages/Base"
 import Home from "./pages/Home"
-import HowItWorks from "./pages/HowItWorks"
 import Register from "./pages/Register"
 import Login from "./pages/Login"
 import League from "./pages/League"
@@ -36,10 +35,6 @@ const router = createBrowserRouter([
         path: "/",
         element: <Home />,
         loader: homeLoader(store),
-      },
-      {
-        path: "/howitworks",
-        element: <HowItWorks />,
       },
       {
         path: "/createleague",
