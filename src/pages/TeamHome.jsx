@@ -2,7 +2,6 @@ import { useLoaderData, useLocation, useNavigate } from "react-router-dom"
 import { changeViewingWeek } from "../features/week/weekSlice"
 import axios from "axios"
 import UnavailableBlock from "../components/UnavailableBlock"
-import Selection from "../components/Selection"
 import { useDispatch, useSelector } from "react-redux"
 import LineupTable from "../components/LineupTable"
 
@@ -67,7 +66,7 @@ const TeamHome = () => {
       </div>
       <div className="w-full flex justify-center my-8">
         {viewingWeek !== 1 ? (
-          <button className="btn bg-blue-500 text-white py-2 px-4 rounded mr-4" onClick={handleWeekBack}>
+          <button className="btn bg-primary text-white py-2 px-4 rounded mr-4" onClick={handleWeekBack}>
             Week {viewingWeek - 1}
           </button>
         ) : (
@@ -75,7 +74,7 @@ const TeamHome = () => {
         )}
         <LineupTable selections={lineup.selections} statistics={league.scoring.statistics} />
         {viewingWeek !== league.regular_season_weeks ? (
-          <button className="btn bg-blue-500 text-white py-2 px-4 rounded mr-4" onClick={handleWeekForward}>
+          <button className="btn bg-primary text-white py-2 px-4 rounded mr-4" onClick={handleWeekForward}>
             Week {viewingWeek + 1}
           </button>
         ) : (

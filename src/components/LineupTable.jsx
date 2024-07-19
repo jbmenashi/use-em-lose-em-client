@@ -1,10 +1,16 @@
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { Link, useLoaderData } from "react-router-dom"
+import { getLineup } from "../features/lineup/lineupSlice"
 
 const LineupTable = ({ selections, statistics }) => {
-  //   const { contestant, lineup, league } = useLoaderData()
+  const { lineup } = useLoaderData()
   const { leagueId, teamId } = useSelector((state) => state.league)
-  console.log(selections, statistics)
+  const dispatch = useDispatch()
+
+  const handleStartSelection = (lineup, index, position) => {
+    dispatch(getLineup({ lineup, index, position }))
+  }
+  //   console.log(selections, statistics)
   const statColumns = []
   for (const [key, value] of Object.entries(statistics)) {
     if (key === "pass_yds") {
@@ -94,6 +100,7 @@ const LineupTable = ({ selections, statistics }) => {
                   <Link
                     to={`/leagues/${leagueId}/teams/${teamId}/playersearch?position=${sel.position}`}
                     className="btn btn-ghost"
+                    onClick={() => handleStartSelection(lineup, sel.index, sel.position)}
                   >
                     <span className="text-lg text-primary underline">Select Player</span>
                   </Link>

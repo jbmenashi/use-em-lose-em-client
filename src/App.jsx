@@ -20,6 +20,7 @@ import { loader as homeLoader } from "./pages/Home"
 import { loader as joinLeagueLoader } from "./pages/JoinLeague"
 import { loader as leagueHomeLoader } from "./pages/LeagueHome"
 import { loader as teamHomeLoader } from "./pages/TeamHome"
+import { loader as playerSearchLoader } from "./pages/PlayerSearch"
 
 import { store } from "./store"
 import { useEffect } from "react"
@@ -67,6 +68,7 @@ const router = createBrowserRouter([
       {
         path: "/leagues/:league_id/teams/:team_id/playersearch",
         element: <PlayerSearch />,
+        loader: playerSearchLoader(store),
       },
       {
         path: "/leagues/:league_id/matchups/:matchup_id",
