@@ -1,27 +1,104 @@
-import { useLoaderData, useLocation, useNavigate } from "react-router-dom"
+import { Form, useLoaderData, useLocation, useNavigate } from "react-router-dom"
 import axios from "axios"
 import UnavailableBlock from "../components/UnavailableBlock"
 import { useDispatch, useSelector } from "react-redux"
+import { useEffect, useState } from "react"
+import SearchFormSelect from "../components/SearchFormSelect"
+import SubmitBtn from "../components/SubmitBtn"
+import { clearTeamFilter, filterByTeam } from "../features/lineup/lineupSlice"
+import PlayersTable from "../components/PlayersTable"
 
 export const loader = (store) => async () => {
   const { teamId } = store.getState().league
-  const { lineup, index, position, page } = store.getState().lineup
+  const { lineup, selectionIndex, position, teamFilter, page } = store.getState().lineup
+  let url = `http://localhost:8000/players/nfl/${teamId}?position=${position}&page=${page}`
+  if (teamFilter !== "") {
+    url = url + `&teamFilter=${teamFilter}`
+  }
 
   try {
-    const res = await axios.get(`http://localhost:8000/players/nfl/${teamId}?position=${position}&page=${page}`, {
-      withCredentials: true,
-    })
-    const players = res.data
-    return { players }
+    const [playersRes, contestantRes, teamsRes] = await Promise.all([
+      await axios.get(url, {
+        withCredentials: true,
+      }),
+      axios.get(`http://localhost:8000/contestant/${teamId}`, {
+        withCredentials: true,
+      }),
+      axios.get(`http://localhost:8000/teams/nfl`, {
+        withCredentials: true,
+      }),
+    ])
+    const players = playersRes.data
+    const contestant = contestantRes.data
+    const teams = teamsRes.data
+    return { players, contestant, teams }
   } catch (error) {
     console.log(error)
     return null
   }
 }
 
+export const action =
+  (store) =>
+  async ({ request }) => {
+    try {
+      const formData = await request.formData()
+      const data = Object.fromEntries(formData)
+      return null
+    } catch (error) {
+      console.log(error)
+      return null
+    }
+  }
+
 const PlayerSearch = () => {
-  const players = useLoaderData()
+  const { players, contestant, teams } = useLoaderData()
   console.log(players)
-  return <div>PlayerSearch</div>
+  const { position } = useSelector((state) => state.lineup)
+  const navigate = useNavigate()
+  const location = useLocation()
+  const dispatch = useDispatch()
+  const teamsAbbv = teams.map((team) => {
+    return team.abbreviation
+  })
+
+  const handleTeamFilterSelect = (val) => {
+    if (val !== "Filter By Team") {
+      dispatch(filterByTeam({ teamFilter: val }))
+      navigate(`${location.pathname}?position=${position}&teamFilter=${val}`)
+    } else {
+      dispatch(clearTeamFilter())
+      navigate(`${location.pathname}?position=${position}`)
+    }
+  }
+
+  return (
+    <>
+      <div className="flex flex-col items-center my-2">
+        <h1 className="text-4xl font-bold my-8">Player Search: {position}</h1>
+        <div className="w-3/4 bg-accent flex overflow-auto p-2 rounded">
+          <UnavailableBlock />
+        </div>
+      </div>
+      <div>
+        <div className="flex flex-col items-center">
+          <Form method="POST" className="rounded flex flex-col items-center">
+            <SearchFormSelect
+              name="teamFilter"
+              list={teamsAbbv}
+              size="select-sm"
+              onChange={(e) => handleTeamFilterSelect(e.target.value)}
+            />
+          </Form>
+        </div>
+        <div className="w-full flex justify-center my-8">
+          {/* {players.map((player) => {
+            return <h4>{player.first_name}</h4>
+          })} */}
+          <PlayersTable />
+        </div>
+      </div>
+    </>
+  )
 }
 export default PlayerSearch

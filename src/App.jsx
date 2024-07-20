@@ -15,6 +15,7 @@ import { action as registerAction } from "./pages/Register"
 import { action as loginAction } from "./pages/Login"
 import { action as createLeagueAction } from "./pages/CreateLeague"
 import { action as joinLeagueAction } from "./components/JoinLeagueCard"
+import { action as playerSearchAction } from "./pages/PlayerSearch"
 
 import { loader as homeLoader } from "./pages/Home"
 import { loader as joinLeagueLoader } from "./pages/JoinLeague"
@@ -69,6 +70,7 @@ const router = createBrowserRouter([
         path: "/leagues/:league_id/teams/:team_id/playersearch",
         element: <PlayerSearch />,
         loader: playerSearchLoader(store),
+        action: playerSearchAction(store),
       },
       {
         path: "/leagues/:league_id/matchups/:matchup_id",

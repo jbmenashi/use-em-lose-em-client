@@ -7,8 +7,8 @@ const LineupTable = ({ selections, statistics }) => {
   const { leagueId, teamId } = useSelector((state) => state.league)
   const dispatch = useDispatch()
 
-  const handleStartSelection = (lineup, index, position) => {
-    dispatch(getLineup({ lineup, index, position }))
+  const handleStartSelection = (lineup, selectionIndex, position) => {
+    dispatch(getLineup({ lineup, selectionIndex, position }))
   }
   //   console.log(selections, statistics)
   const statColumns = []
