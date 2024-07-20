@@ -52,8 +52,7 @@ export const action =
   }
 
 const PlayerSearch = () => {
-  const { players, contestant, teams } = useLoaderData()
-  console.log(players)
+  const { teams } = useLoaderData()
   const { position } = useSelector((state) => state.lineup)
   const navigate = useNavigate()
   const location = useLocation()
