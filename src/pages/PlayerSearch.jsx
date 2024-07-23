@@ -24,7 +24,7 @@ export const loader = (store) => async () => {
       axios.get(`http://localhost:8000/contestant/${teamId}`, {
         withCredentials: true,
       }),
-      axios.get(`http://localhost:8000/teams/nfl`, {
+      axios.get(`http://localhost:8000/teams/nfl/`, {
         withCredentials: true,
       }),
     ])
@@ -57,9 +57,11 @@ const PlayerSearch = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const dispatch = useDispatch()
-  const teamsAbbv = teams.map((team) => {
-    return team.abbreviation
-  })
+  const teamsAbbv = teams
+    .map((team) => {
+      return team.abbreviation
+    })
+    .sort()
 
   const handleTeamFilterSelect = (val) => {
     if (val !== "Filter By Team") {

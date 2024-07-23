@@ -15,7 +15,7 @@ const PlayersTable = () => {
       position: position,
       locked: false,
       index: selectionIndex,
-      player_id: player["_id"]["$oid"],
+      player_id: player.player_id,
       first_name: player.first_name,
       last_name: player.last_name,
       team_id: player.team_id,
