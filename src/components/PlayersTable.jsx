@@ -25,7 +25,6 @@ const PlayersTable = () => {
       const res = await axios.put(`http://localhost:8000/lineup/${lineup["_id"]["$oid"]}`, selection, {
         withCredentials: true,
       })
-      console.log(res)
       if (res.status === 200) {
         navigate(`/leagues/${leagueId}/teams/${teamId}?week=${viewingWeek}`)
       }

@@ -69,7 +69,7 @@ const LineupTable = ({ selections, statistics }) => {
         <thead>
           <tr>
             <th className="border border-primary px-2">Position</th>
-            <th className="border border-primary px-28 py-2">Player</th>
+            <th className="border border-primary px-32 py-2">Player</th>
             <th className="border border-primary px-4 py-2">Team</th>
             <th className="border border-primary px-4 py-2">Score</th>
             {statColumns.map((col) => {
@@ -89,6 +89,18 @@ const LineupTable = ({ selections, statistics }) => {
                   <td className="border border-primary px-4 py-2 font-extrabold text-base">{sel.position}</td>
                   <td className="border border-primary px-4 py-2 font-extrabold text-lg">
                     {sel.first_name + " " + sel.last_name}
+                    {sel.locked ? (
+                      <></>
+                    ) : (
+                      <button
+                        className="btn btn-xs btn-accent ml-2"
+                        onClick={() => handleStartSelection(lineup, sel.index, sel.position)}
+                      >
+                        <Link to={`/leagues/${leagueId}/teams/${teamId}/playersearch?position=${sel.position}`}>
+                          Change
+                        </Link>
+                      </button>
+                    )}
                   </td>
                   <td className="border border-primary px-4 py-2 font-extrabold">{sel.team_abbreviation}</td>
                   <td className="border border-primary px-4 py-2 font-extrabold">
