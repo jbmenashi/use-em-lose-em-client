@@ -3,7 +3,7 @@ import axios from "axios"
 
 const getLineupInfoFromLocalStorage = () => {
   const lineup = JSON.parse(localStorage.getItem("lineup")) || null
-  const selectionIndex = JSON.parse(localStorage.getItem("selectionIndex")) || null
+  const selectionIndex = JSON.parse(localStorage.getItem("selectionIndex")) || 0
   const position = JSON.parse(localStorage.getItem("position")) || ""
   const teamFilter = ""
   const page = JSON.parse(localStorage.getItem("page")) || 1

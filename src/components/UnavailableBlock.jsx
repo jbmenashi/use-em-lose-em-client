@@ -2,15 +2,14 @@ import { useLoaderData } from "react-router-dom"
 
 const UnavailableBlock = () => {
   const { contestant } = useLoaderData()
-  const players = ""
-  for (player of contestant.unavailable_players) {
-    players.concat(player)
-    players.concat(", ")
+  let players = ""
+  for (let player of contestant.unavailable_players) {
+    players = players + player.first_name + " " + player.last_name + ", "
   }
 
-  const teams = ""
-  for (team of contestant.unavailable_teams) {
-    teams.concat(team)
+  let teams = ""
+  for (let team of contestant.unavailable_teams) {
+    teams.concat(team.team_abbreviation)
     teams.concat(", ")
   }
 
