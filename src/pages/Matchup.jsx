@@ -23,7 +23,7 @@ const Matchup = () => {
       <h1 className="text-center text-3xl font-bold m-4">
         {leagueName} - Week {matchup.week} {matchup.season_type === "REG" ? "(Regular Season)" : "(Playoffs)"}
       </h1>
-      <div className="grid grid-cols-2 gap-4 h-screen m-4">
+      <div className="grid grid-cols-2 gap-8 h-screen m-8">
         <div className="flex flex-col">
           <div className="bg-sky-100 rounded flex flex-col justify-center items-center">
             <h2 className="text-2xl font-bold mt-4">{matchup.team_1_name}</h2>
