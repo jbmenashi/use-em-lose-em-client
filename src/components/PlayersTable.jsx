@@ -8,7 +8,6 @@ const PlayersTable = () => {
   const { leagueId, teamId } = useSelector((state) => state.league)
   const { viewingWeek } = useSelector((state) => state.week)
   const navigate = useNavigate()
-  console.log(players)
 
   const handleAddPlayer = async (player) => {
     let selection = {

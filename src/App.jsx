@@ -11,6 +11,8 @@ import TeamHome from "./pages/TeamHome"
 import PlayerSearch from "./pages/PlayerSearch"
 import Matchup from "./pages/Matchup"
 
+import ErrorElement from "./components/ErrorElement"
+
 import { action as registerAction } from "./pages/Register"
 import { action as loginAction } from "./pages/Login"
 import { action as createLeagueAction } from "./pages/CreateLeague"
@@ -34,20 +36,24 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Base />,
+    errorElement: <ErrorElement />,
     children: [
       {
         path: "/",
         element: <Home />,
+        errorElement: <ErrorElement />,
         loader: homeLoader(store),
       },
       {
         path: "/createleague",
         element: <CreateLeague />,
+        errorElement: <ErrorElement />,
         action: createLeagueAction(store),
       },
       {
         path: "/joinleague",
         element: <JoinLeague />,
+        errorElement: <ErrorElement />,
         loader: joinLeagueLoader(store),
         action: joinLeagueAction(store),
       },
@@ -56,26 +62,31 @@ const router = createBrowserRouter([
   {
     path: "/leagues/:league_id",
     element: <League />,
+    errorElement: <ErrorElement />,
     children: [
       {
         path: "/leagues/:league_id",
         element: <LeagueHome />,
+        errorElement: <ErrorElement />,
         loader: leagueHomeLoader(store),
       },
       {
         path: "/leagues/:league_id/teams/:team_id",
         element: <TeamHome />,
+        errorElement: <ErrorElement />,
         loader: teamHomeLoader(store),
       },
       {
         path: "/leagues/:league_id/teams/:team_id/playersearch",
         element: <PlayerSearch />,
+        errorElement: <ErrorElement />,
         loader: playerSearchLoader(store),
         action: playerSearchAction(store),
       },
       {
         path: "/leagues/:league_id/matchups/:matchup_id",
         element: <Matchup />,
+        errorElement: <ErrorElement />,
         loader: matchupLoader(store),
       },
     ],
@@ -83,11 +94,13 @@ const router = createBrowserRouter([
   {
     path: "/register",
     element: <Register />,
+    errorElement: <ErrorElement />,
     action: registerAction,
   },
   {
     path: "/login",
     element: <Login />,
+    errorElement: <ErrorElement />,
     action: loginAction(store),
   },
 ])
