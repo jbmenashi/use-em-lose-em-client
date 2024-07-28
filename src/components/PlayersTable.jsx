@@ -16,8 +16,7 @@ const PlayersTable = () => {
       locked: false,
       index: selectionIndex,
       player_id: player.player_id,
-      first_name: player.first_name,
-      last_name: player.last_name,
+      player_name: player.player_name,
       team_id: player.team_id,
       team_abbreviation: player.team_abbreviation,
     }
@@ -40,8 +39,7 @@ const PlayersTable = () => {
     //     newSelection.locked = sel.locked
     //     newSelection.index = sel.index
     //     newSelection.player_id = player["_id"]["$oid"]
-    //     newSelection.first_name = player.first_name
-    //     newSelection.last_name = player.last_name
+    //     newSelection.player_name = player.player_name
     //     newSelection.team_id = player.team_id
     //     newSelection.team_abbreviation = player.team_abbreviation
     //     return newSelection
@@ -82,9 +80,7 @@ const PlayersTable = () => {
           {players.map((player) => {
             return (
               <tr key={player["_id"]["$oid"]}>
-                <td className="border border-primary px-4 py-2 font-extrabold text-2xl">
-                  {player.first_name + " " + player.last_name}
-                </td>
+                <td className="border border-primary px-4 py-2 font-extrabold text-2xl">{player.player_name}</td>
                 <td className="border border-primary px-4 py-2 text-xl">{player.team_abbreviation}</td>
                 <td className="border border-primary px-4 py-2 text-xl">{player.position}</td>
                 <td className="border border-primary px-4 py-2 text-xl">{player.status}</td>

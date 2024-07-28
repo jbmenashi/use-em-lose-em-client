@@ -88,7 +88,7 @@ const LineupTable = ({ selections, statistics }) => {
                 <tr key={sel.index}>
                   <td className="border border-primary px-4 py-2 font-extrabold text-base">{sel.position}</td>
                   <td className="border border-primary px-4 py-2 font-extrabold text-lg">
-                    {sel.first_name + " " + sel.last_name}
+                    {sel.player_name}
                     {sel.locked ? (
                       <></>
                     ) : (

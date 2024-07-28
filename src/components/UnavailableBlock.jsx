@@ -4,7 +4,7 @@ const UnavailableBlock = () => {
   const { contestant } = useLoaderData()
   let players = ""
   for (let player of contestant.unavailable_players) {
-    players = players + player.first_name + " " + player.last_name + ", "
+    players = players + player.player_name + ", "
   }
 
   let teams = ""

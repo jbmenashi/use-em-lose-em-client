@@ -49,9 +49,7 @@ const Matchup = () => {
                           <td className="border border-primary px-4 py-2 font-extrabold text-base">
                             {sel.position.toUpperCase()}
                           </td>
-                          <td className="border border-primary px-4 py-2 font-extrabold text-lg">
-                            {sel.first_name + " " + sel.last_name}
-                          </td>
+                          <td className="border border-primary px-4 py-2 font-extrabold text-lg">{sel.player_name}</td>
                           <td className="border border-primary px-4 py-2 font-extrabold">{sel.team_abbreviation}</td>
                           <td className="border border-primary px-4 py-2 font-extrabold">
                             {sel.total_points ? sel.total_points : 0}
@@ -104,9 +102,7 @@ const Matchup = () => {
                           <td className="border border-primary px-4 py-2 font-extrabold text-base">
                             {sel.position.toUpperCase()}
                           </td>
-                          <td className="border border-primary px-4 py-2 font-extrabold text-lg">
-                            {sel.first_name + " " + sel.last_name}
-                          </td>
+                          <td className="border border-primary px-4 py-2 font-extrabold text-lg">{sel.player_name}</td>
                           <td className="border border-primary px-4 py-2 font-extrabold">{sel.team_abbreviation}</td>
                           <td className="border border-primary px-4 py-2 font-extrabold">
                             {sel.total_points ? sel.total_points : 0}
