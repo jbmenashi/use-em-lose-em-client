@@ -15,7 +15,7 @@ const LeagueNavbar = () => {
 
   const handleLogout = async () => {
     try {
-      const res = await axios.post("http://localhost:8000/auth/logout", null, {
+      const res = await axios.post("https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/auth/logout", null, {
         withCredentials: true,
       })
       dispatch(logoutUser())

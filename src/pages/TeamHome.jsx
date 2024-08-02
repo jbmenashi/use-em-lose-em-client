@@ -10,13 +10,16 @@ export const loader = (store) => async () => {
   const { viewingWeek } = store.getState().week
   try {
     const [contestantRes, lineupRes, leagueRes] = await Promise.all([
-      axios.get(`http://localhost:8000/contestant/${teamId}`, {
+      axios.get(`https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/contestant/${teamId}`, {
         withCredentials: true,
       }),
-      axios.get(`http://localhost:8000/lineup/contestant/${teamId}?week=${viewingWeek}`, {
-        withCredentials: true,
-      }),
-      axios.get(`http://localhost:8000/league/${leagueId}`, {
+      axios.get(
+        `https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/lineup/contestant/${teamId}?week=${viewingWeek}`,
+        {
+          withCredentials: true,
+        }
+      ),
+      axios.get(`https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/league/${leagueId}`, {
         withCredentials: true,
       }),
     ])

@@ -20,9 +20,13 @@ const PlayersTable = () => {
       team_abbreviation: player.team_abbreviation,
     }
     try {
-      const res = await axios.put(`http://localhost:8000/lineup/${lineup["_id"]["$oid"]}`, selection, {
-        withCredentials: true,
-      })
+      const res = await axios.put(
+        `https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/lineup/${lineup["_id"]["$oid"]}`,
+        selection,
+        {
+          withCredentials: true,
+        }
+      )
       if (res.status === 200) {
         navigate(`/leagues/${leagueId}/teams/${teamId}?week=${viewingWeek}`)
       }
@@ -49,7 +53,7 @@ const PlayersTable = () => {
     // newLineup["selections"] = newSelections
 
     // try {
-    //   const res = await axios.put(`http://localhost:8000/lineup/${lineup["_id"]["$oid"]}`, newLineup, {
+    //   const res = await axios.put(`https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/lineup/${lineup["_id"]["$oid"]}`, newLineup, {
     //     withCredentials: true,
     //   })
     //   if (res.status === 201) {

@@ -9,13 +9,13 @@ export const loader = (store) => async () => {
   const { leagueId } = store.getState().league
   try {
     const [scheduleRes, contestantsRes, leagueRes] = await Promise.all([
-      axios.get(`http://localhost:8000/league/schedule/${leagueId}`, {
+      axios.get(`https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/league/schedule/${leagueId}`, {
         withCredentials: true,
       }),
-      axios.get(`http://localhost:8000/contestant/league/${leagueId}`, {
+      axios.get(`https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/contestant/league/${leagueId}`, {
         withCredentials: true,
       }),
-      axios.get(`http://localhost:8000/league/${leagueId}`, {
+      axios.get(`https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/league/${leagueId}`, {
         withCredentials: true,
       }),
     ])

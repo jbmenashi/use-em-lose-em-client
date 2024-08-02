@@ -11,7 +11,7 @@ import PlayersTable from "../components/PlayersTable"
 export const loader = (store) => async () => {
   const { teamId } = store.getState().league
   const { lineup, selectionIndex, position, teamFilter, page } = store.getState().lineup
-  let url = `http://localhost:8000/players/nfl/${teamId}?position=${position}&page=${page}`
+  let url = `https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/players/nfl/${teamId}?position=${position}&page=${page}`
   if (teamFilter !== "") {
     url = url + `&teamFilter=${teamFilter}`
   }
@@ -21,10 +21,10 @@ export const loader = (store) => async () => {
       await axios.get(url, {
         withCredentials: true,
       }),
-      axios.get(`http://localhost:8000/contestant/${teamId}`, {
+      axios.get(`https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/contestant/${teamId}`, {
         withCredentials: true,
       }),
-      axios.get(`http://localhost:8000/teams/nfl/`, {
+      axios.get(`https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/teams/nfl/`, {
         withCredentials: true,
       }),
     ])

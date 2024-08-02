@@ -5,7 +5,7 @@ import { useLoaderData } from "react-router-dom"
 export const loader = (store) => async () => {
   const { matchupId } = store.getState().matchup
   try {
-    const res = await axios.get(`http://localhost:8000/matchup/${matchupId}`, {
+    const res = await axios.get(`https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/matchup/${matchupId}`, {
       withCredentials: true,
     })
     return res.data

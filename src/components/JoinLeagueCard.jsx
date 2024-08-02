@@ -15,7 +15,7 @@ export const action =
     const data = Object.fromEntries(formData)
     try {
       const res = await axios.post(
-        `http://localhost:8000/contestant/${data.league_id}?team_name=${data.team_name}`,
+        `https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/contestant/${data.league_id}?team_name=${data.team_name}`,
         null,
         {
           withCredentials: true,

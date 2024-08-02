@@ -3,13 +3,16 @@ import axios from "axios"
 
 export const getUser = createAsyncThunk("user/getUser", async (thunkAPI) => {
   try {
-    const res = await axios.get("http://localhost:8000/users/me", {
+    const res = await axios.get("https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/users/me", {
       withCredentials: true,
     })
     if (res.status === 200) {
-      const res2 = await axios.get(`http://localhost:8000/contestant/user/${res.data.id}`, {
-        withCredentials: true,
-      })
+      const res2 = await axios.get(
+        `https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/contestant/user/${res.data.id}`,
+        {
+          withCredentials: true,
+        }
+      )
       return { user: res.data, leagues: res2.data }
     } else {
       return { user: res.data }

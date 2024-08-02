@@ -61,7 +61,7 @@ export const action =
       full: false,
     }
     try {
-      const res = await axios.post("http://localhost:8000/league", transformedData, {
+      const res = await axios.post("https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/league", transformedData, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -69,7 +69,7 @@ export const action =
       })
       if (res.status === 201) {
         toast.success("New League Created")
-        // const res2 = await axios.get(`http://localhost:8000/league/${store.getState.league}`, {
+        // const res2 = await axios.get(`https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/league/${store.getState.league}`, {
         //   withCredentials: true,
         // })
       }

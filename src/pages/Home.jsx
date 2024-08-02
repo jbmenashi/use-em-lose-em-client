@@ -10,9 +10,12 @@ export const loader = (store) => async () => {
     return null
   } else {
     try {
-      const res = await axios.get(`http://localhost:8000/contestant/user/${userId}`, {
-        withCredentials: true,
-      })
+      const res = await axios.get(
+        `https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/contestant/user/${userId}`,
+        {
+          withCredentials: true,
+        }
+      )
       store.dispatch(loadLeagues(res.data))
       return res.data
     } catch (error) {

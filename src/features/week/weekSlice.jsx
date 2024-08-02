@@ -3,7 +3,7 @@ import axios from "axios"
 
 export const getWeeks = createAsyncThunk("week/getWeeks", async (thunkAPI) => {
   try {
-    const res = await axios.get("http://localhost:8000/currentweeks", {
+    const res = await axios.get("https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/currentweeks", {
       withCredentials: true,
     })
     return { weeks: res.data }
