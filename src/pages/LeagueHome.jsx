@@ -10,17 +10,17 @@ export const loader = (store) => async () => {
   const { token } = store.getState().user
   try {
     const [scheduleRes, contestantsRes, leagueRes] = await Promise.all([
-      axios.get(`https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/league/schedule/${leagueId}`, {
+      axios.get(`${import.meta.env.VITE_BACKEND_URL}/league/schedule/${leagueId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }),
-      axios.get(`https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/contestant/league/${leagueId}`, {
+      axios.get(`${import.meta.env.VITE_BACKEND_URL}/contestant/league/${leagueId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }),
-      axios.get(`https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/league/${leagueId}`, {
+      axios.get(`${import.meta.env.VITE_BACKEND_URL}/league/${leagueId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

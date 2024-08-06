@@ -5,7 +5,7 @@ import JoinLeagueCard from "../components/JoinLeagueCard"
 export const loader = (store) => async () => {
   const { user, userId, token } = store.getState().user
   try {
-    const res = await axios.get(`https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/league/available/${userId}`, {
+    const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/league/available/${userId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

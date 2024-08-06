@@ -14,7 +14,7 @@ const ErrorElement = () => {
 
   const handleReset = async () => {
     try {
-      const res = await axios.post("https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/auth/logout", null, {
+      const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/auth/logout`, null, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

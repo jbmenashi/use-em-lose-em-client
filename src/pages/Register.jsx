@@ -8,7 +8,7 @@ export const action = async ({ request }) => {
   const formData = await request.formData()
   const data = Object.fromEntries(formData)
   try {
-    const res = await axios.post("https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/auth/register", data)
+    const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/auth/register`, data)
     if (res.status === 201) {
       console.log(res)
       toast.success("Account created successfully; please log in")

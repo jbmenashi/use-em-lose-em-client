@@ -62,7 +62,7 @@ export const action =
       full: false,
     }
     try {
-      const res = await axios.post("https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/league", transformedData, {
+      const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/league`, transformedData, {
         headers: {
           "Content-Type": "application/json",
         },

@@ -16,7 +16,7 @@ export const action =
     const { token } = store.getState().user
     try {
       const res = await axios.post(
-        `https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/contestant/${data.league_id}?team_name=${data.team_name}`,
+        `${import.meta.env.VITE_BACKEND_URL}/contestant/${data.league_id}?team_name=${data.team_name}`,
         null,
         {
           headers: {

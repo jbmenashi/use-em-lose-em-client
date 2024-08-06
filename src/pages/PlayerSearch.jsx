@@ -12,7 +12,7 @@ export const loader = (store) => async () => {
   const { teamId } = store.getState().league
   const { lineup, selectionIndex, position, teamFilter, page } = store.getState().lineup
   const { token } = store.getState().user
-  let url = `https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/players/nfl/${teamId}?position=${position}&page=${page}`
+  let url = `${import.meta.env.VITE_BACKEND_URL}/players/nfl/${teamId}?position=${position}&page=${page}`
   if (teamFilter !== "") {
     url = url + `&teamFilter=${teamFilter}`
   }
@@ -24,12 +24,12 @@ export const loader = (store) => async () => {
           Authorization: `Bearer ${token}`,
         },
       }),
-      axios.get(`https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/contestant/${teamId}`, {
+      axios.get(`${import.meta.env.VITE_BACKEND_URL}/contestant/${teamId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }),
-      axios.get(`https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/teams/nfl/`, {
+      axios.get(`${import.meta.env.VITE_BACKEND_URL}/teams/nfl/`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

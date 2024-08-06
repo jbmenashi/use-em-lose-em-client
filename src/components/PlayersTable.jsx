@@ -21,15 +21,11 @@ const PlayersTable = () => {
       team_abbreviation: player.team_abbreviation,
     }
     try {
-      const res = await axios.put(
-        `https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/lineup/${lineup["_id"]["$oid"]}`,
-        selection,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
+      const res = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/lineup/${lineup["_id"]["$oid"]}`, selection, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       if (res.status === 200) {
         navigate(`/leagues/${leagueId}/teams/${teamId}?week=${viewingWeek}`)
       }

@@ -10,14 +10,11 @@ export const loader = (store) => async () => {
     return null
   } else {
     try {
-      const res = await axios.get(
-        `https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/contestant/user/${userId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/contestant/user/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       store.dispatch(loadLeagues(res.data))
       return res.data
     } catch (error) {

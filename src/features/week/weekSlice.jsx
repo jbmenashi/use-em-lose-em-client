@@ -9,7 +9,7 @@ const token = getUserTokenFromLocalStorage()
 
 export const getWeeks = createAsyncThunk("week/getWeeks", async (thunkAPI) => {
   try {
-    const res = await axios.get("https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/currentweeks", {
+    const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/currentweeks`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

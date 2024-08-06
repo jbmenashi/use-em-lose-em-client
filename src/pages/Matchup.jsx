@@ -6,7 +6,7 @@ export const loader = (store) => async () => {
   const { matchupId } = store.getState().matchup
   const { token } = store.getState().user
   try {
-    const res = await axios.get(`https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/matchup/${matchupId}`, {
+    const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/matchup/${matchupId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
