@@ -19,6 +19,9 @@ export const action =
       })
       if (res.status === 204) {
         const res2 = await axios.get("https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/users/me", {
+          headers: {
+            Cookie: "cookie1=GCmC8RTjapQ-dlWJxwU5UsQOaqSYj9y52B5pYiEadhI;",
+          },
           withCredentials: true,
         })
         store.dispatch(loginUser(res2.data))
