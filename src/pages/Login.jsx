@@ -38,6 +38,7 @@ export const action =
   }
 
 const Login = () => {
+  console.log(import.meta.env.VITE_BACKEND_URL)
   return (
     <section className="h-screen grid place-items-center bg-accent">
       <Form method="post" className="card w-96 p-8 bg-base-100 shadow-lg flex flex-col gap-y-4">
