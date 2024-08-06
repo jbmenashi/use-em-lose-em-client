@@ -8,16 +8,26 @@ import LineupTable from "../components/LineupTable"
 export const loader = (store) => async () => {
   const { leagueId, teamId } = store.getState().league
   const { viewingWeek } = store.getState().week
+  const { token } = store.getState().user
   try {
     const [contestantRes, lineupRes, leagueRes] = await Promise.all([
-      axios.get(`http://localhost:8000/contestant/${teamId}`, {
-        withCredentials: true,
+      axios.get(`https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/contestant/${teamId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }),
-      axios.get(`http://localhost:8000/lineup/contestant/${teamId}?week=${viewingWeek}`, {
-        withCredentials: true,
-      }),
-      axios.get(`http://localhost:8000/league/${leagueId}`, {
-        withCredentials: true,
+      axios.get(
+        `https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/lineup/contestant/${teamId}?week=${viewingWeek}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      ),
+      axios.get(`https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/league/${leagueId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }),
     ])
     const contestant = contestantRes.data

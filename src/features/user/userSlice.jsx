@@ -1,16 +1,30 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import axios from "axios"
 
+const getUserIdFromLocalStorage = () => {
+  return JSON.parse(localStorage.getItem("userId")) || ""
+}
+
+const getUserTokenFromLocalStorage = () => {
+  return JSON.parse(localStorage.getItem("token")) || ""
+}
+
+const token = getUserTokenFromLocalStorage()
+
 export const getUser = createAsyncThunk("user/getUser", async (thunkAPI) => {
   try {
     const res = await axios.get("https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/users/me", {
-      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     })
     if (res.status === 200) {
       const res2 = await axios.get(
         `https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/contestant/user/${res.data.id}`,
         {
-          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       )
       return { user: res.data, leagues: res2.data }
@@ -22,14 +36,11 @@ export const getUser = createAsyncThunk("user/getUser", async (thunkAPI) => {
   }
 })
 
-const getUserIdFromLocalStorage = () => {
-  return JSON.parse(localStorage.getItem("userId")) || ""
-}
-
 const initialState = {
   user: false,
   userName: "",
   userId: getUserIdFromLocalStorage(),
+  token: getUserTokenFromLocalStorage(),
   isLoading: false,
   leagues: [],
 }
@@ -39,16 +50,20 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     loginUser: (state, action) => {
-      const { id, email } = action.payload
+      const data = action.payload
+      console.log(data)
       state.user = true
-      state.userName = email
-      state.userId = id
-      localStorage.setItem("userId", JSON.stringify(id))
+      state.userName = data.email
+      state.userId = data.id
+      state.token = data.token
+      localStorage.setItem("userId", JSON.stringify(data.id))
+      localStorage.setItem("token", JSON.stringify(data.token))
     },
     logoutUser: (state, action) => {
       state.user = false
       state.userName = ""
       state.userId = ""
+      state.token = ""
       state.leagues = []
       localStorage.clear()
     },

@@ -15,17 +15,15 @@ export const action =
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
-        withCredentials: true,
       })
-      console.log(res.data.access_token)
       if (res.status === 200) {
         const res2 = await axios.get("https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/users/me", {
           headers: {
             Authorization: `Bearer ${res.data.access_token}`,
           },
         })
-        console.log(res2)
-        store.dispatch(loginUser(res2.data))
+        const data = { id: res2.data.id, email: res2.data.email, token: res.data.access_token }
+        store.dispatch(loginUser(data))
       }
       // store.dispatch(loginUser(response.data))
       toast.success("logged in successfully")

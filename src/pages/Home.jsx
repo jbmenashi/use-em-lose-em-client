@@ -5,7 +5,7 @@ import axios from "axios"
 import { loadLeagues } from "../features/user/userSlice"
 
 export const loader = (store) => async () => {
-  const { user, userId } = store.getState().user
+  const { user, userId, token } = store.getState().user
   if (!user) {
     return null
   } else {
@@ -13,7 +13,9 @@ export const loader = (store) => async () => {
       const res = await axios.get(
         `https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/contestant/user/${userId}`,
         {
-          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       )
       store.dispatch(loadLeagues(res.data))

@@ -7,7 +7,7 @@ import { BiHome } from "react-icons/bi"
 import { changeViewingWeek } from "../features/week/weekSlice"
 
 const LeagueNavbar = () => {
-  const { userName } = useSelector((state) => state.user)
+  const { userName, token } = useSelector((state) => state.user)
   const { leagueId, leagueName, teamId, teamName } = useSelector((state) => state.league)
   const week = useSelector((state) => state.week)
   const dispatch = useDispatch()
@@ -15,8 +15,10 @@ const LeagueNavbar = () => {
 
   const handleLogout = async () => {
     try {
-      const res = await axios.post("http://localhost:8000/auth/logout", null, {
-        withCredentials: true,
+      const res = await axios.post("https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/auth/logout", null, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       })
       dispatch(logoutUser())
       dispatch(clearLeagueTeamInfo())

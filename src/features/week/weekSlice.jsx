@@ -1,10 +1,18 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import axios from "axios"
 
+const getUserTokenFromLocalStorage = () => {
+  return JSON.parse(localStorage.getItem("token")) || ""
+}
+
+const token = getUserTokenFromLocalStorage()
+
 export const getWeeks = createAsyncThunk("week/getWeeks", async (thunkAPI) => {
   try {
     const res = await axios.get("https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/currentweeks", {
-      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     })
     return { weeks: res.data }
   } catch (error) {

@@ -7,6 +7,7 @@ const PlayersTable = () => {
   const { lineup, selectionIndex, position } = useSelector((state) => state.lineup)
   const { leagueId, teamId } = useSelector((state) => state.league)
   const { viewingWeek } = useSelector((state) => state.week)
+  const { token } = useSelector((state) => state.user)
   const navigate = useNavigate()
 
   const handleAddPlayer = async (player) => {
@@ -24,7 +25,9 @@ const PlayersTable = () => {
         `https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/lineup/${lineup["_id"]["$oid"]}`,
         selection,
         {
-          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       )
       if (res.status === 200) {
@@ -51,16 +54,6 @@ const PlayersTable = () => {
     // let newLineup = { ...lineup, selections: newSelections }
     // console.log(newLineup)
     // newLineup["selections"] = newSelections
-
-    // try {
-    //   const res = await axios.put(`https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/lineup/${lineup["_id"]["$oid"]}`, newLineup, {
-    //     withCredentials: true,
-    //   })
-    //   if (res.status === 201) {
-    //   }
-    // } catch (error) {
-    //   console.log(error)
-    // }
   }
 
   return (

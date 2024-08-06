@@ -1,4 +1,4 @@
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { Link, useRouteError } from "react-router-dom"
 import { logoutUser } from "../features/user/userSlice"
 import { clearLeagueTeamInfo } from "../features/league/leagueSlice"
@@ -8,12 +8,16 @@ const ErrorElement = () => {
   const error = useRouteError()
   console.log(error)
 
+  const { token } = useSelector((state) => state.user)
+
   const dispatch = useDispatch()
 
   const handleReset = async () => {
     try {
       const res = await axios.post("https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/auth/logout", null, {
-        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       })
       dispatch(logoutUser())
     } catch (error) {

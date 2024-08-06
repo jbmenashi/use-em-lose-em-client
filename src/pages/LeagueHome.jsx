@@ -7,16 +7,23 @@ import { useSelector } from "react-redux"
 
 export const loader = (store) => async () => {
   const { leagueId } = store.getState().league
+  const { token } = store.getState().user
   try {
     const [scheduleRes, contestantsRes, leagueRes] = await Promise.all([
-      axios.get(`http://localhost:8000/league/schedule/${leagueId}`, {
-        withCredentials: true,
+      axios.get(`https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/league/schedule/${leagueId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }),
-      axios.get(`http://localhost:8000/contestant/league/${leagueId}`, {
-        withCredentials: true,
+      axios.get(`https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/contestant/league/${leagueId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }),
-      axios.get(`http://localhost:8000/league/${leagueId}`, {
-        withCredentials: true,
+      axios.get(`https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/league/${leagueId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }),
     ])
     const schedule = scheduleRes.data

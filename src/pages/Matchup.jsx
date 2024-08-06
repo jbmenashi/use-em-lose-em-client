@@ -4,9 +4,12 @@ import { useLoaderData } from "react-router-dom"
 
 export const loader = (store) => async () => {
   const { matchupId } = store.getState().matchup
+  const { token } = store.getState().user
   try {
     const res = await axios.get(`https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/matchup/${matchupId}`, {
-      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     })
     return res.data
   } catch (error) {

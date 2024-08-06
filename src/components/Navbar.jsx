@@ -6,13 +6,15 @@ import { logoutUser } from "../features/user/userSlice"
 import { clearLeagueTeamInfo } from "../features/league/leagueSlice"
 
 const Navbar = () => {
-  const { user, userName } = useSelector((state) => state.user)
+  const { user, userName, token } = useSelector((state) => state.user)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const handleLogout = async () => {
     try {
       const res = await axios.post("https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/auth/logout", null, {
-        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       })
       dispatch(logoutUser())
       dispatch(clearLeagueTeamInfo())

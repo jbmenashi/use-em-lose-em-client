@@ -11,6 +11,7 @@ import PlayersTable from "../components/PlayersTable"
 export const loader = (store) => async () => {
   const { teamId } = store.getState().league
   const { lineup, selectionIndex, position, teamFilter, page } = store.getState().lineup
+  const { token } = store.getState().user
   let url = `https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/players/nfl/${teamId}?position=${position}&page=${page}`
   if (teamFilter !== "") {
     url = url + `&teamFilter=${teamFilter}`
@@ -19,13 +20,19 @@ export const loader = (store) => async () => {
   try {
     const [playersRes, contestantRes, teamsRes] = await Promise.all([
       await axios.get(url, {
-        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }),
       axios.get(`https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/contestant/${teamId}`, {
-        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }),
       axios.get(`https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/teams/nfl/`, {
-        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }),
     ])
     const players = playersRes.data

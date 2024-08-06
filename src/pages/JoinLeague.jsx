@@ -3,10 +3,12 @@ import { useLoaderData } from "react-router-dom"
 import JoinLeagueCard from "../components/JoinLeagueCard"
 
 export const loader = (store) => async () => {
-  const { user, userId } = store.getState().user
+  const { user, userId, token } = store.getState().user
   try {
     const res = await axios.get(`https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/league/available/${userId}`, {
-      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     })
     return res.data
   } catch (error) {

@@ -13,12 +13,15 @@ export const action =
   async ({ request }) => {
     const formData = await request.formData()
     const data = Object.fromEntries(formData)
+    const { token } = store.getState().user
     try {
       const res = await axios.post(
         `https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/contestant/${data.league_id}?team_name=${data.team_name}`,
         null,
         {
-          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       )
       if (res.status === 201) {

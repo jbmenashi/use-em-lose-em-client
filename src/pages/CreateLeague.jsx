@@ -12,6 +12,7 @@ import { useState } from "react"
 export const action =
   (store) =>
   async ({ request }) => {
+    const { token } = store.getState().user
     const formData = await request.formData()
     const data = Object.fromEntries(formData)
     const transformedData = {
@@ -65,13 +66,12 @@ export const action =
         headers: {
           "Content-Type": "application/json",
         },
-        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       })
       if (res.status === 201) {
         toast.success("New League Created")
-        // const res2 = await axios.get(`https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/league/${store.getState.league}`, {
-        //   withCredentials: true,
-        // })
       }
       return redirect("/")
     } catch (error) {
