@@ -4,7 +4,6 @@ import { Form, Link, redirect, useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
 import axios from "axios"
 import { loginUser } from "../features/user/userSlice"
-import "dotenv/config"
 
 export const action =
   (store) =>
@@ -12,13 +11,13 @@ export const action =
     const formData = await request.formData()
     const data = Object.fromEntries(formData)
     try {
-      const res = await axios.post(`${process.env.BACKEND_URL}/auth/login`, data, {
+      const res = await axios.post(`${import.meta.env.BACKEND_URL}/auth/login`, data, {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
       })
       if (res.status === 200) {
-        const res2 = await axios.get(`${process.env.BACKEND_URL}/users/me`, {
+        const res2 = await axios.get(`${import.meta.env.BACKEND_URL}/users/me`, {
           headers: {
             Authorization: `Bearer ${res.data.access_token}`,
           },

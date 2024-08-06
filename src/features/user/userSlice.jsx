@@ -14,13 +14,13 @@ const token = getUserTokenFromLocalStorage()
 
 export const getUser = createAsyncThunk("user/getUser", async (thunkAPI) => {
   try {
-    const res = await axios.get(`${process.env.BACKEND_URL}/users/me`, {
+    const res = await axios.get(`${import.meta.env.BACKEND_URL}/users/me`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     })
     if (res.status === 200) {
-      const res2 = await axios.get(`${process.env.BACKEND_URL}/contestant/user/${res.data.id}`, {
+      const res2 = await axios.get(`${import.meta.env.BACKEND_URL}/contestant/user/${res.data.id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
