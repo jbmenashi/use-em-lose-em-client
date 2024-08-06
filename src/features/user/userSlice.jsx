@@ -13,20 +13,17 @@ const token = getUserTokenFromLocalStorage()
 
 export const getUser = createAsyncThunk("user/getUser", async (thunkAPI) => {
   try {
-    const res = await axios.get(`https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/users/me`, {
+    const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/users/me`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     })
     if (res.status === 200) {
-      const res2 = await axios.get(
-        `https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/contestant/user/${res.data.id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
+      const res2 = await axios.get(`${import.meta.env.VITE_BACKEND_URL}contestant/user/${res.data.id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       return { user: res.data, leagues: res2.data }
     } else {
       return { user: res.data }

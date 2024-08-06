@@ -11,13 +11,13 @@ export const action =
     const formData = await request.formData()
     const data = Object.fromEntries(formData)
     try {
-      const res = await axios.post(`https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/auth/login`, data, {
+      const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/auth/login`, data, {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
       })
       if (res.status === 200) {
-        const res2 = await axios.get(`https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/users/me`, {
+        const res2 = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/users/me`, {
           headers: {
             Authorization: `Bearer ${res.data.access_token}`,
           },
@@ -38,7 +38,6 @@ export const action =
   }
 
 const Login = () => {
-  console.log(import.meta.env.VITE_BACKEND_URL)
   return (
     <section className="h-screen grid place-items-center bg-accent">
       <Form method="post" className="card w-96 p-8 bg-base-100 shadow-lg flex flex-col gap-y-4">
