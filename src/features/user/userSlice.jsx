@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import axios from "axios"
-import "dotenv/config"
 
 const getUserIdFromLocalStorage = () => {
   return JSON.parse(localStorage.getItem("userId")) || ""
