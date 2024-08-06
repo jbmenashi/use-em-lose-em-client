@@ -11,16 +11,20 @@ export const action =
     const formData = await request.formData()
     const data = Object.fromEntries(formData)
     try {
-      const res = await axios.post("https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/auth/login", data, {
+      const res = await axios.post("http://localhost:8000/auth/login", data, {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
         withCredentials: true,
       })
-      if (res.status === 204) {
-        const res2 = await axios.get("https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/users/me", {
-          withCredentials: true,
+      console.log(res.data.access_token)
+      if (res.status === 200) {
+        const res2 = await axios.get("http://localhost:8000/users/me", {
+          headers: {
+            Authorization: `Bearer ${res.data.access_token}`,
+          },
         })
+        console.log(res2)
         store.dispatch(loginUser(res2.data))
       }
       // store.dispatch(loginUser(response.data))
