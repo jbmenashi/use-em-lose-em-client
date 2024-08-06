@@ -1,11 +1,27 @@
 import { useSelector } from "react-redux"
 import LeagueCard from "./LeagueCard"
+import { Link } from "react-router-dom"
 
 const HomeLoggedIn = () => {
   const { leagues } = useSelector((state) => state.user)
 
   if (leagues.length === 0) {
-    return <h1>You currently aren't in any leagues</h1>
+    return (
+      <main className="grid min-h-[100vh] place-items-center px-8">
+        <div className="text-center">
+          <p className="text-6xl font-semibold mb-8">Your Leagues Will Appear Here</p>
+          <div>
+            <Link to="/createleague" className="ml-2 text-4xl font-semibold link link-hover link-primary capitalize">
+              Create League
+            </Link>
+            <p className="mt-2 text-3xl font-semibold">Or</p>
+            <Link to="/joinleague" className="ml-2 text-4xl font-semibold link link-hover link-primary capitalize">
+              Join League
+            </Link>
+          </div>
+        </div>
+      </main>
+    )
   }
 
   return (

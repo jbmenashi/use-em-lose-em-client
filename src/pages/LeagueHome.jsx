@@ -9,13 +9,13 @@ export const loader = (store) => async () => {
   const { leagueId } = store.getState().league
   try {
     const [scheduleRes, contestantsRes, leagueRes] = await Promise.all([
-      axios.get(`https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/league/schedule/${leagueId}`, {
+      axios.get(`http://localhost:8000/league/schedule/${leagueId}`, {
         withCredentials: true,
       }),
-      axios.get(`https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/contestant/league/${leagueId}`, {
+      axios.get(`http://localhost:8000/contestant/league/${leagueId}`, {
         withCredentials: true,
       }),
-      axios.get(`https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/league/${leagueId}`, {
+      axios.get(`http://localhost:8000/league/${leagueId}`, {
         withCredentials: true,
       }),
     ])
@@ -41,7 +41,17 @@ const LeagueHome = () => {
           <div className="h-2/3 mb-4">{data?.standings ? <Standings /> : "no standings"}</div>
           <div className="h-1/3">{data?.league ? <LeagueRules /> : "no league rules"}</div>
         </div>
-        <div>{data?.schedule ? <Schedule /> : "no schedule yet!"}</div>
+        <div>
+          {data?.schedule ? (
+            <Schedule />
+          ) : (
+            <main className="grid min-h-[100vh] place-items-center px-8">
+              <div className="text-center">
+                <p className="text-xl font-semibold">Schedule Will Become Available Once League Is Full</p>
+              </div>
+            </main>
+          )}
+        </div>
       </div>
     </div>
   )

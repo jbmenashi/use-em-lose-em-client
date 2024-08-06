@@ -10,16 +10,13 @@ export const loader = (store) => async () => {
   const { viewingWeek } = store.getState().week
   try {
     const [contestantRes, lineupRes, leagueRes] = await Promise.all([
-      axios.get(`https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/contestant/${teamId}`, {
+      axios.get(`http://localhost:8000/contestant/${teamId}`, {
         withCredentials: true,
       }),
-      axios.get(
-        `https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/lineup/contestant/${teamId}?week=${viewingWeek}`,
-        {
-          withCredentials: true,
-        }
-      ),
-      axios.get(`https://use-em-lose-em-server-bd575796a9b2.herokuapp.com/league/${leagueId}`, {
+      axios.get(`http://localhost:8000/lineup/contestant/${teamId}?week=${viewingWeek}`, {
+        withCredentials: true,
+      }),
+      axios.get(`http://localhost:8000/league/${leagueId}`, {
         withCredentials: true,
       }),
     ])
@@ -34,6 +31,17 @@ export const loader = (store) => async () => {
 }
 
 const TeamHome = () => {
+  const data = useLoaderData()
+
+  if (data === null) {
+    return (
+      <main className="grid min-h-[100vh] place-items-center px-8">
+        <div className="text-center">
+          <p className="text-xl font-semibold">Lineup Will Become Available Once League Is Full</p>
+        </div>
+      </main>
+    )
+  }
   const { contestant, lineup, league } = useLoaderData()
   const { viewingWeek } = useSelector((state) => state.week)
   const { pathname } = useLocation()

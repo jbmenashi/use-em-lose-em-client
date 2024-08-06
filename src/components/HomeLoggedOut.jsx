@@ -6,28 +6,20 @@ const HomeLoggedOut = () => {
   }
 
   return (
-    <div className="mx-auto max-w-6xl px-8">
-      <div className="border-b border-base-300 pb-5 text-center">
-        <h1 className="text-4xl font-bold mt-10">Welcome To Use 'Em, Lose 'Em Fantasy Sports!</h1>
-      </div>
-      <div>
+    <main className="grid min-h-[100vh] place-items-center px-8">
+      <div className="text-center">
+        <p className="text-5xl font-bold mb-10">Welcome To Use 'Em, Lose 'Em Fantasy Sports!</p>
         <div>
-          <h4>Learn About How It works</h4>
-          <Link to="/howitworks" className="ml-2 link link-hover link-primary capitalize">
-            How It works
-          </Link>
-        </div>
-        <div>
-          <h4>Create an account</h4>
-          <Link to="/register" className="ml-2 link link-hover link-primary capitalize">
+          <Link to="/register" className="ml-2 text-4xl font-semibold link link-hover link-primary capitalize">
             Register
           </Link>
-          <Link to="/login" className="ml-2 link link-hover link-primary capitalize">
+          <p className="mt-2 text-3xl font-semibold">Or</p>
+          <Link to="/login" className="ml-2 text-4xl font-semibold link link-hover link-primary capitalize">
             Login
           </Link>
         </div>
       </div>
-    </div>
+    </main>
   )
 }
 export default HomeLoggedOut
