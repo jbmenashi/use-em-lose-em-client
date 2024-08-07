@@ -19,7 +19,7 @@ export const getUser = createAsyncThunk("user/getUser", async (thunkAPI) => {
       },
     })
     if (res.status === 200) {
-      const res2 = await axios.get(`${import.meta.env.VITE_BACKEND_URL}contestant/user/${res.data.id}`, {
+      const res2 = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/contestant/user/${res.data.id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
