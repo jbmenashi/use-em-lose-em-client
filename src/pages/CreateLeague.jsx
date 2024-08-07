@@ -23,7 +23,7 @@ export const action =
       style: data.style,
       size: data.num_teams,
       playoff_teams: data.num_playoff_teams,
-      regular_season_weeks: 13,
+      regular_season_weeks: 14,
       playoff_weeks: 3,
       team_count: data.num_players_franchise,
       roster: {

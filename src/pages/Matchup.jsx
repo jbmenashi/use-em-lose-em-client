@@ -120,7 +120,7 @@ const Matchup = () => {
                         </td>
                         <td className="border border-primary px-4 py-2">
                           {teamId === matchup.team_2_lineup.contestant_id
-                            ? "Make Your Selection on the 'My Team' Page"
+                            ? "Make Your Selection on the 'Set Lineup' Page"
                             : "Selection Revealed Once Locked"}
                         </td>
                         <td className="border border-primary px-4 py-2"></td>

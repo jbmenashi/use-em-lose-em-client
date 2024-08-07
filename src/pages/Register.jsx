@@ -10,7 +10,6 @@ export const action = async ({ request }) => {
   try {
     const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/auth/register`, data)
     if (res.status === 201) {
-      console.log(res)
       toast.success("Account created successfully; please log in")
       return redirect("/login")
     }

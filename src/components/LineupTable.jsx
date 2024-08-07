@@ -86,7 +86,9 @@ const LineupTable = ({ selections, statistics }) => {
             if ("player_id" in sel) {
               return (
                 <tr key={sel.index}>
-                  <td className="border border-primary px-4 py-2 font-extrabold text-base">{sel.position}</td>
+                  <td className="border border-primary px-4 py-2 font-extrabold text-base">
+                    {sel.position.toUpperCase()}
+                  </td>
                   <td className="border border-primary px-4 py-2 font-extrabold text-lg">
                     {sel.player_name}
                     {sel.locked ? (
@@ -94,9 +96,11 @@ const LineupTable = ({ selections, statistics }) => {
                     ) : (
                       <button
                         className="btn btn-xs btn-accent ml-2"
-                        onClick={() => handleStartSelection(lineup, sel.index, sel.position)}
+                        onClick={() => handleStartSelection(lineup, sel.index, sel.position.toUpperCase())}
                       >
-                        <Link to={`/leagues/${leagueId}/teams/${teamId}/playersearch?position=${sel.position}`}>
+                        <Link
+                          to={`/leagues/${leagueId}/teams/${teamId}/playersearch?position=${sel.position.toUpperCase()}`}
+                        >
                           Change
                         </Link>
                       </button>
@@ -155,11 +159,13 @@ const LineupTable = ({ selections, statistics }) => {
             }
             return (
               <tr key={sel.index}>
-                <td className="border border-primary px-4 py-2 font-extrabold text-base">{sel.position}</td>
+                <td className="border border-primary px-4 py-2 font-extrabold text-base">
+                  {sel.position.toUpperCase()}
+                </td>
                 <td className="border border-primary px-4 py-2">
                   <Link
-                    to={`/leagues/${leagueId}/teams/${teamId}/playersearch?position=${sel.position}`}
-                    onClick={() => handleStartSelection(lineup, sel.index, sel.position)}
+                    to={`/leagues/${leagueId}/teams/${teamId}/playersearch?position=${sel.position.toUpperCase()}`}
+                    onClick={() => handleStartSelection(lineup, sel.index, sel.position.toUpperCase())}
                   >
                     <span className="text-lg text-primary underline">Select Player</span>
                   </Link>
