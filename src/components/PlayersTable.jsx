@@ -77,12 +77,14 @@ const PlayersTable = () => {
                 <td className="border border-primary px-4 py-2 text-xl">{player.position}</td>
                 <td className="border border-primary px-4 py-2 text-xl">{player.status}</td>
                 <td className="border border-primary px-4 py-2 text-xl">
-                  {player.projection?.location === "AWAY"
-                    ? "@ " + player.projection?.opponent
-                    : "vs " + player.projection?.opponent}
+                  {player.projection?.location
+                    ? player.projection?.location === "AWAY"
+                      ? "@ " + player.projection?.opponent
+                      : "vs " + player.projection?.opponent
+                    : "No Opponent"}
                 </td>
                 <td className="border border-primary px-4 py-2 text-xl">
-                  {Math.round(player.projection?.stats?.score * 100) / 100}
+                  {player.projection?.stats?.score ? Math.round(player.projection?.stats?.score * 100) / 100 : 0.0}
                 </td>
                 <td className="border border-primary px-4 py-2 text-xl">
                   {player.season_stats?.stats?.games ? player.season_stats?.stats?.games : 0}

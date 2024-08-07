@@ -1,14 +1,20 @@
 import { useDispatch, useSelector } from "react-redux"
-import { Link, useLoaderData } from "react-router-dom"
+import { Link, useLoaderData, useNavigate } from "react-router-dom"
 import { getLineup } from "../features/lineup/lineupSlice"
 
 const LineupTable = ({ selections, statistics }) => {
   const { lineup } = useLoaderData()
   const { leagueId, teamId } = useSelector((state) => state.league)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const handleStartSelection = (lineup, selectionIndex, position) => {
     dispatch(getLineup({ lineup, selectionIndex, position }))
+    try {
+      navigate(`/leagues/${leagueId}/teams/${teamId}/playersearch?position=${position.toUpperCase()}`)
+    } catch (error) {
+      console.log(error)
+    }
   }
   //   console.log(selections, statistics)
   const statColumns = []
@@ -98,11 +104,7 @@ const LineupTable = ({ selections, statistics }) => {
                         className="btn btn-xs btn-accent ml-2"
                         onClick={() => handleStartSelection(lineup, sel.index, sel.position.toUpperCase())}
                       >
-                        <Link
-                          to={`/leagues/${leagueId}/teams/${teamId}/playersearch?position=${sel.position.toUpperCase()}`}
-                        >
-                          Change
-                        </Link>
+                        Change
                       </button>
                     )}
                   </td>

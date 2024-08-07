@@ -35,10 +35,10 @@ const Navbar = () => {
         {user && (
           <div>
             <Link to="/createleague" className="btn btn-ghost">
-              <span className="font-extrabold">Create League</span>
+              <span className="font-extrabold text-lg">Create League</span>
             </Link>
             <Link to="/joinleague" className="btn btn-ghost">
-              <span className="font-extrabold">Join League</span>
+              <span className="font-extrabold text-lg">Join League</span>
             </Link>
           </div>
         )}
