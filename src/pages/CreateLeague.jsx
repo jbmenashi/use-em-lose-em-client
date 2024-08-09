@@ -29,12 +29,12 @@ export const action =
       roster: {
         roster_size: 8,
         positions: {
-          qb: parseInt(data.qb),
-          rb: parseInt(data.rb),
-          wr: parseInt(data.wr),
-          te: parseInt(data.te),
-          flex: parseInt(data.flex),
-          def: parseInt(data.def),
+          QB: parseInt(data.qb),
+          RB: parseInt(data.rb),
+          WR: parseInt(data.wr),
+          TE: parseInt(data.te),
+          FLEX: parseInt(data.flex),
+          DEF: parseInt(data.def),
         },
       },
       scoring: {
