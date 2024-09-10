@@ -30,7 +30,7 @@ const Matchup = () => {
         <div className="flex flex-col">
           <div className="bg-sky-200 rounded flex flex-col justify-center items-center">
             <h2 className="text-2xl font-bold mt-4">{matchup.team_1_name}</h2>
-            <h1 className="text-5xl font-bold my-4">{matchup.team_1_score}</h1>
+            <h1 className="text-5xl font-bold my-4">{matchup.team_1_score.toFixed(2)}</h1>
             <div className="flex-grow mb-20">
               <table className="table w-full border-collapse border border-primary">
                 <thead>
@@ -83,7 +83,7 @@ const Matchup = () => {
         <div className="flex flex-col">
           <div className="bg-sky-200 rounded flex flex-col justify-center items-center">
             <h2 className="text-2xl font-bold mt-4">{matchup.team_2_name}</h2>
-            <h1 className="text-5xl font-bold my-4">{matchup.team_2_score}</h1>
+            <h1 className="text-5xl font-bold my-4">{matchup.team_2_score.toFixed(2)}</h1>
             <div className="flex-grow mb-20">
               <table className="table w-full border-collapse border border-primary">
                 <thead>
