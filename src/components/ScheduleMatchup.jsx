@@ -52,7 +52,7 @@ const ScheduleMatchup = (matchup) => {
                   : "col-span-1 text-2xl px-5 py-4"
               }
             >
-              {team_1_score}
+              {team_1_score.toFixed(2)}
             </div>
             <div
               className={
@@ -74,7 +74,7 @@ const ScheduleMatchup = (matchup) => {
                   : "col-span-1 text-2xl px-5 py-4"
               }
             >
-              {team_2_score}
+              {team_2_score.toFixed(2)}
             </div>
           </div>
         </div>

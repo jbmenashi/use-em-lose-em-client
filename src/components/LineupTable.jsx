@@ -110,7 +110,7 @@ const LineupTable = ({ selections, statistics }) => {
                   </td>
                   <td className="border border-primary px-4 py-2 font-extrabold">{sel.team_abbreviation}</td>
                   <td className="border border-primary px-4 py-2 font-extrabold">
-                    {sel.total_points ? sel.total_points : 0}
+                    {sel.total_points ? sel.total_points.toFixed(2) : 0}
                   </td>
                   <td className="border border-primary px-4 py-2">
                     {sel.fantasy_stats ? sel.fantasy_stats.pass_yds : 0}
