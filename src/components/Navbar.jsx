@@ -91,10 +91,10 @@ const Navbar = () => {
           <div className="flex flex-row space-x-4 justify-center items-center flex-wrap">
             {user ? (
               <>
-                <Link to="/createleague" className="btn btn-ghost">
+                <Link to="/createleague" className="btn btn-ghost" onClick={toggleMobileMenu}>
                   <span className="font-extrabold text-lg md:text-xl">Create League</span>
                 </Link>
-                <Link to="/joinleague" className="btn btn-ghost">
+                <Link to="/joinleague" className="btn btn-ghost" onClick={toggleMobileMenu}>
                   <span className="font-extrabold text-lg md:text-xl">Join League</span>
                 </Link>
                 <button className="btn btn-accent text-lg md:text-xl" onClick={handleLogout}>
@@ -103,10 +103,10 @@ const Navbar = () => {
               </>
             ) : (
               <>
-                <Link to="/register" className="btn btn-ghost text-lg md:text-xl">
+                <Link to="/register" className="btn btn-ghost text-lg md:text-xl" onClick={toggleMobileMenu}>
                   Register
                 </Link>
-                <Link to="/login" className="btn btn-ghost text-lg md:text-xl">
+                <Link to="/login" className="btn btn-ghost text-lg md:text-xl" onClick={toggleMobileMenu}>
                   Login
                 </Link>
               </>

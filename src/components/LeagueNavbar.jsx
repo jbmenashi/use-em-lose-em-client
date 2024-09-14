@@ -32,6 +32,7 @@ const LeagueNavbar = () => {
 
   const handleWeek = () => {
     dispatch(changeViewingWeek({ newWeek: week.nflWeek }))
+    toggleMobileMenu()
   }
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -85,7 +86,7 @@ const LeagueNavbar = () => {
       {isMobileMenuOpen && (
         <div className="absolute top-16 right-0 bg-primary w-full h-auto shadow-lg text-center py-4 md:hidden z-50">
           <div className="flex flex-row space-x-4 justify-center items-center flex-wrap">
-            <Link to={`/leagues/${leagueId}`} className="btn btn-ghost">
+            <Link to={`/leagues/${leagueId}`} className="btn btn-ghost" onClick={toggleMobileMenu}>
               <span className="font-extrabold text-lg md:text-xl">League Home</span>
             </Link>
             <Link
