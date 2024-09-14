@@ -1,6 +1,7 @@
 import { Link, Navigate } from "react-router-dom"
 import { getLeagueTeamInfo } from "../features/league/leagueSlice"
 import { useDispatch } from "react-redux"
+import { getWeeks } from "../features/week/weekSlice"
 
 const LeagueCard = ({ league }) => {
   const dispatch = useDispatch()
@@ -9,6 +10,7 @@ const LeagueCard = ({ league }) => {
 
   const handleLeagueClick = () => {
     dispatch(getLeagueTeamInfo({ league_id, league_name, contestant_id, team_name }))
+    dispatch(getWeeks())
   }
 
   return (

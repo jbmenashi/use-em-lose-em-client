@@ -5,10 +5,9 @@ const getUserTokenFromLocalStorage = () => {
   return JSON.parse(localStorage.getItem("token")) || ""
 }
 
-const token = getUserTokenFromLocalStorage()
-
 export const getWeeks = createAsyncThunk("week/getWeeks", async (thunkAPI) => {
   try {
+    const token = getUserTokenFromLocalStorage()
     const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/currentweeks`, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -52,6 +51,7 @@ const weekSlice = createSlice({
         state.mlbSeason = weeks["mlb_season"]
         state.mlbWeek = weeks["mlb_week"]
         localStorage.setItem("viewingWeek", JSON.stringify(weeks["nfl_week"]))
+        state.viewingWeek = getViewingWeekFromLocalStorage()
       })
       .addCase(getWeeks.rejected, (state) => {})
   },
