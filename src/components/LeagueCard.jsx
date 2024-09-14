@@ -13,7 +13,7 @@ const LeagueCard = ({ league }) => {
 
   return (
     <Link to={`/leagues/${league_id}`} onClick={handleLeagueClick}>
-      <div className="card w-96 bg-accent shadow-xl m-5">
+      <div className="card bg-accent shadow-xl mx-auto my-5 w-full max-w-xs sm:max-w-sm lg:max-w-md">
         <div className="card-body">
           <h2 className="card-title">{league_name}</h2>
           <p>Sport: {sport}</p>
@@ -21,8 +21,8 @@ const LeagueCard = ({ league }) => {
           <p>Team: {team_name ? team_name : "Create your team"}</p>
           <div className="card-actions justify-end">
             {/* <button className="btn btn-primary text-white" onClick={handleClick}>
-              Go to League Page
-            </button> */}
+          Go to League Page
+        </button> */}
           </div>
         </div>
       </div>

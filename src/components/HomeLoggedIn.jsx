@@ -25,14 +25,15 @@ const HomeLoggedIn = () => {
   }
 
   return (
-    <div className="mx-auto px-14">
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="border-b border-base-300 pb-5 text-center">
-        <h1 className="text-4xl font-bold mt-5">My Leagues</h1>
+        <h1 className="text-3xl sm:text-4xl font-bold mt-5">My Leagues</h1>
       </div>
-      <div className="grid grid-cols-3">
-        {leagues.map((league) => {
-          return <LeagueCard key={league.league_id} league={league} />
-        })}
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+        {leagues.map((league) => (
+          <LeagueCard key={league.league_id} league={league} />
+        ))}
       </div>
     </div>
   )

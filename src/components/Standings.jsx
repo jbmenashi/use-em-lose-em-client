@@ -25,38 +25,38 @@ const Standings = () => {
     })
 
   return (
-    <div className="h-full bg-blue-100 flex flex-col items-center rounded-lg">
+    <div className="h-full bg-blue-100 flex flex-col items-center rounded-lg w-full">
       <h1 className="text-center text-2xl font-bold mt-5">Standings</h1>
-      <div className="w-full px-4">
-        <div className="max-h-[60vh] max-w-full overflow-auto p-4">
-          <table className="table border-black text-lg">
-            <thead>
-              <tr className="text-lg">
-                <th>Rank</th>
-                <th>Team</th>
-                <th>W</th>
-                <th>L</th>
-                <th>PCT</th>
-                <th>PF</th>
-                <th>PA</th>
-              </tr>
-            </thead>
-            <tbody>
-              {newStandings.map((item, index) => {
-                return (
-                  <tr key={index} className={item.teamId === teamId ? "bg-blue-200 font-bold" : ""}>
-                    <td>{index + 1}</td>
-                    <td>{item.teamName}</td>
-                    <td>{item.wins}</td>
-                    <td>{item.losses}</td>
-                    <td>{item.winPct}</td>
-                    <td>{item.pointsFor}</td>
-                    <td>{item.pointsAgainst}</td>
+      <div className="w-full px-2 sm:px-4">
+        <div className="max-h-[60vh] w-full overflow-auto p-2 sm:p-4">
+          <div className="overflow-x-auto w-full">
+            <table className="table-auto border-collapse border border-black text-sm sm:text-lg w-full">
+              <thead>
+                <tr className="text-sm sm:text-lg">
+                  <th className="border border-black px-2 py-1">Rank</th>
+                  <th className="border border-black px-2 py-1">Team</th>
+                  <th className="border border-black px-2 py-1">W</th>
+                  <th className="border border-black px-2 py-1">L</th>
+                  <th className="border border-black px-2 py-1">PCT</th>
+                  <th className="border border-black px-2 py-1">PF</th>
+                  <th className="border border-black px-2 py-1">PA</th>
+                </tr>
+              </thead>
+              <tbody>
+                {newStandings.map((item, index) => (
+                  <tr key={index} className={`${item.teamId === teamId ? "bg-blue-200 font-bold" : ""}`}>
+                    <td className="border border-black px-2 py-1">{index + 1}</td>
+                    <td className="border border-black px-2 py-1">{item.teamName}</td>
+                    <td className="border border-black px-2 py-1">{item.wins}</td>
+                    <td className="border border-black px-2 py-1">{item.losses}</td>
+                    <td className="border border-black px-2 py-1">{item.winPct}</td>
+                    <td className="border border-black px-2 py-1">{item.pointsFor}</td>
+                    <td className="border border-black px-2 py-1">{item.pointsAgainst}</td>
                   </tr>
-                )
-              })}
-            </tbody>
-          </table>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
