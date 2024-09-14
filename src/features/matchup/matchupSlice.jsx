@@ -12,7 +12,6 @@ const matchupSlice = createSlice({
   initialState,
   reducers: {
     getMatchupId: (state, action) => {
-      console.log(action.payload)
       const { matchupId } = action.payload
       state.matchupId = matchupId
       localStorage.setItem("matchupId", JSON.stringify(matchupId))
