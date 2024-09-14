@@ -2,7 +2,8 @@ import { useSelector } from "react-redux"
 import HomeLoggedOut from "../components/HomeLoggedOut"
 import HomeLoggedIn from "../components/HomeLoggedIn"
 import axios from "axios"
-import { loadLeagues } from "../features/user/userSlice"
+import { loadLeagues, logoutUser } from "../features/user/userSlice"
+import { redirect } from "react-router-dom"
 
 export const loader = (store) => async () => {
   const { user, userId, token } = store.getState().user
@@ -19,7 +20,8 @@ export const loader = (store) => async () => {
       return res.data
     } catch (error) {
       console.log(error)
-      return null
+      store.dispatch(logoutUser())
+      return redirect("/")
     }
   }
 }

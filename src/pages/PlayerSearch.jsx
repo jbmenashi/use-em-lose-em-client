@@ -1,4 +1,4 @@
-import { Form, useLoaderData, useLocation, useNavigate } from "react-router-dom"
+import { Form, useLoaderData, useLocation, useNavigate, redirect } from "react-router-dom"
 import axios from "axios"
 import UnavailableBlock from "../components/UnavailableBlock"
 import { useDispatch, useSelector } from "react-redux"
@@ -7,6 +7,7 @@ import SearchFormSelect from "../components/SearchFormSelect"
 import SubmitBtn from "../components/SubmitBtn"
 import { clearTeamFilter, filterByTeam } from "../features/lineup/lineupSlice"
 import PlayersTable from "../components/PlayersTable"
+import { logoutUser } from "../features/user/userSlice"
 
 export const loader = (store) => async () => {
   const { teamId } = store.getState().league
@@ -41,7 +42,8 @@ export const loader = (store) => async () => {
     return { players, contestant, teams }
   } catch (error) {
     console.log(error)
-    return null
+    store.dispatch(logoutUser())
+    return redirect("/")
   }
 }
 

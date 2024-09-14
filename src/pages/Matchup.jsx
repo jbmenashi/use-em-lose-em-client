@@ -1,6 +1,7 @@
 import axios from "axios"
 import { useSelector } from "react-redux"
-import { useLoaderData } from "react-router-dom"
+import { useLoaderData, redirect } from "react-router-dom"
+import { logoutUser } from "../features/user/userSlice"
 
 export const loader = (store) => async () => {
   const { matchupId } = store.getState().matchup
@@ -14,7 +15,8 @@ export const loader = (store) => async () => {
     return res.data
   } catch (error) {
     console.log(error)
-    return null
+    store.dispatch(logoutUser())
+    return redirect("/")
   }
 }
 

@@ -1,9 +1,10 @@
 import Schedule from "../components/Schedule"
-import { useLoaderData } from "react-router-dom"
+import { useLoaderData, redirect } from "react-router-dom"
 import axios from "axios"
 import Standings from "../components/Standings"
 import LeagueRules from "../components/LeagueRules"
 import { useSelector } from "react-redux"
+import { logoutUser } from "../features/user/userSlice"
 
 export const loader = (store) => async () => {
   const { leagueId } = store.getState().league
@@ -32,7 +33,8 @@ export const loader = (store) => async () => {
     return { schedule, standings, league }
   } catch (error) {
     console.log(error)
-    return null
+    store.dispatch(logoutUser())
+    return redirect("/")
   }
 }
 

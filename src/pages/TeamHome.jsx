@@ -1,9 +1,10 @@
-import { useLoaderData, useLocation, useNavigate } from "react-router-dom"
+import { redirect, useLoaderData, useLocation, useNavigate } from "react-router-dom"
 import { changeViewingWeek } from "../features/week/weekSlice"
 import axios from "axios"
 import UnavailableBlock from "../components/UnavailableBlock"
 import { useDispatch, useSelector } from "react-redux"
 import LineupTable from "../components/LineupTable"
+import { logoutUser } from "../features/user/userSlice"
 
 export const loader = (store) => async () => {
   const { leagueId, teamId } = store.getState().league
@@ -33,7 +34,8 @@ export const loader = (store) => async () => {
     return { contestant, lineup, league }
   } catch (error) {
     console.log(error)
-    return null
+    store.dispatch(logoutUser())
+    return redirect("/")
   }
 }
 
