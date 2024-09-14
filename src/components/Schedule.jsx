@@ -34,7 +34,7 @@ const Schedule = () => {
           return (
             <section key={`slide${item}`} id={`slide${item}`} className="carousel-item relative w-full">
               <ScheduleMatchupList week={item} />
-              <div className="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
+              <div className="hidden sm:flex absolute left-5 right-5 top-1/2 -translate-y-1/2 transform justify-between">
                 <a
                   href={`${currentLeague.leagueId}#slide${item - 1 === 0 ? newWeeks.length : item - 1}`}
                   className="btn btn-square btn-outline btn-sm scroll-pt-3.5"
