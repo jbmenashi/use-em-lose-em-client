@@ -14,7 +14,7 @@ const SearchFormSelect = ({ label, name, list, defaultValue, size, onChange, pla
     )
   })
 
-  newList.unshift(<option key="placeholder">Filter By Team</option>)
+  newList.unshift(<option key="placeholder">No Filter</option>)
 
   return (
     <div className="form-control">

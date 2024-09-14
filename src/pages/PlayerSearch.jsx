@@ -71,7 +71,7 @@ const PlayerSearch = () => {
     .sort()
 
   const handleTeamFilterSelect = (val) => {
-    if (val !== "Filter By Team") {
+    if (val !== "No Filter") {
       dispatch(filterByTeam({ teamFilter: val }))
       navigate(`${location.pathname}?position=${position}&teamFilter=${val}`)
     } else {
@@ -93,6 +93,7 @@ const PlayerSearch = () => {
           <Form method="POST" className="rounded flex flex-col items-center">
             <SearchFormSelect
               name="teamFilter"
+              label="Filter By Team"
               list={teamsAbbv}
               size="select-sm"
               onChange={(e) => handleTeamFilterSelect(e.target.value)}

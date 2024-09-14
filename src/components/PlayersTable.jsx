@@ -1,6 +1,7 @@
 import axios from "axios"
-import { useSelector } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
 import { useLoaderData, useNavigate } from "react-router-dom"
+import { clearTeamFilter, filterByTeam } from "../features/lineup/lineupSlice"
 
 const PlayersTable = () => {
   const { players, contestant } = useLoaderData()
@@ -9,6 +10,7 @@ const PlayersTable = () => {
   const { viewingWeek } = useSelector((state) => state.week)
   const { token } = useSelector((state) => state.user)
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const handleAddPlayer = async (player) => {
     let selection = {
@@ -27,6 +29,7 @@ const PlayersTable = () => {
         },
       })
       if (res.status === 200) {
+        dispatch(clearTeamFilter())
         navigate(`/leagues/${leagueId}/teams/${teamId}?week=${viewingWeek}`)
       }
     } catch (error) {

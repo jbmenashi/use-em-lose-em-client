@@ -167,10 +167,10 @@ const Matchup = () => {
                         <td className="border border-primary px-4 py-2 font-extrabold text-base">
                           {sel.position.toUpperCase()}
                         </td>
-                        <td className="border border-primary px-4 py-2">
+                        <td className="border border-primary px-4 py-2 italic">
                           {teamId === matchup.team_1_lineup.contestant_id
-                            ? "Make Your Selection on the 'My Team' Page"
-                            : "Selection Revealed Once Locked"}
+                            ? "Select on 'Set Lineup' Page"
+                            : "Selection Hidden"}
                         </td>
                         <td className="border border-primary px-4 py-2"></td>
                         <td className="border border-primary px-4 py-2"></td>
@@ -222,10 +222,10 @@ const Matchup = () => {
                         <td className="border border-primary px-4 py-2 font-extrabold text-base">
                           {sel.position.toUpperCase()}
                         </td>
-                        <td className="border border-primary px-4 py-2">
+                        <td className="border border-primary px-4 py-2 italic">
                           {teamId === matchup.team_2_lineup.contestant_id
-                            ? "Make Your Selection on the 'Set Lineup' Page"
-                            : "Selection Revealed Once Locked"}
+                            ? "Select on 'Set Lineup' Page"
+                            : "Selection Hidden"}
                         </td>
                         <td className="border border-primary px-4 py-2"></td>
                         <td className="border border-primary px-4 py-2"></td>
