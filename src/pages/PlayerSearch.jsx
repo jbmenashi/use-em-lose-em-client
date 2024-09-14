@@ -84,7 +84,7 @@ const PlayerSearch = () => {
     <>
       <div className="flex flex-col items-center my-2">
         <h1 className="text-4xl font-bold my-8">Player Search: {position}</h1>
-        <div className="w-3/4 bg-accent flex overflow-auto p-2 rounded">
+        <div className="w-full sm:w-3/4 bg-accent flex overflow-auto p-2 rounded">
           <UnavailableBlock />
         </div>
       </div>

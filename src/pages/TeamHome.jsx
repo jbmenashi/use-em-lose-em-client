@@ -76,27 +76,33 @@ const TeamHome = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center">
-      <h1 className="text-4xl font-bold my-8">
+      <h1 className="text-center text-2xl sm:text-4xl font-bold my-8">
         {contestant.team_name} - Week {viewingWeek}
       </h1>
-      <div className="w-3/4 bg-accent flex overflow-auto p-2 rounded">
+
+      <div className="w-full sm:w-3/4 bg-accent flex overflow-auto p-2 rounded">
         <UnavailableBlock />
       </div>
-      <div className="w-full flex justify-center my-8">
-        {viewingWeek !== 1 ? (
-          <button className="btn bg-primary text-white py-2 px-4 rounded mr-4" onClick={handleWeekBack}>
+
+      <div className="w-full flex flex-col sm:flex-row justify-center items-center sm:my-8 my-4">
+        {viewingWeek !== 1 && (
+          <button
+            className="btn bg-primary text-white py-2 px-4 rounded mr-0 sm:mr-4 mb-4 sm:mb-0"
+            onClick={handleWeekBack}
+          >
             Week {viewingWeek - 1}
           </button>
-        ) : (
-          <></>
         )}
+
         <LineupTable selections={lineup.selections} statistics={league.scoring.statistics} />
-        {viewingWeek !== league.regular_season_weeks ? (
-          <button className="btn bg-primary text-white py-2 px-4 rounded mr-4" onClick={handleWeekForward}>
+
+        {viewingWeek !== league.regular_season_weeks && (
+          <button
+            className="btn bg-primary text-white py-2 px-4 rounded ml-0 sm:ml-4 mt-4 sm:mt-0"
+            onClick={handleWeekForward}
+          >
             Week {viewingWeek + 1}
           </button>
-        ) : (
-          <></>
         )}
       </div>
     </div>

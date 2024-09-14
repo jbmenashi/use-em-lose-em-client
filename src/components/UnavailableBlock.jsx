@@ -14,11 +14,11 @@ const UnavailableBlock = () => {
   }
 
   return (
-    <div>
-      <p>
+    <div className="max-h-[4.5rem] sm:max-h-full overflow-y-auto">
+      <p className="line-clamp-none">
         <span className="font-bold">Unavailable Players:</span> {players}
       </p>
-      <p>
+      <p className="line-clamp-none">
         <span className="font-bold">Unavailable Teams:</span> {teams}
       </p>
     </div>

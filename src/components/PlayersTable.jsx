@@ -53,52 +53,57 @@ const PlayersTable = () => {
   }
 
   return (
-    <div>
-      <table className="table w-full border-collapse border border-primary">
+    <div className="w-full overflow-x-auto">
+      <table className="table-auto w-full border-collapse border border-primary">
         <thead>
           <tr>
-            <th className="border border-primary px-20 py-2">Player</th>
-            <th className="border border-primary px-4 py-2">Team</th>
-            <th className="border border-primary px-4 py-2">Position</th>
-            <th className="border border-primary px-4 py-2">Status</th>
-            <th className="border border-primary px-4 py-2">Opponent</th>
-            <th className="border border-primary px-4 py-2">Projected Pts</th>
-            <th className="border border-primary px-4 py-2">Season Games</th>
-            <th className="border border-primary px-4 py-2">Season PPG</th>
-            <th className="border border-primary px-4 py-2"></th>
+            <th className="border border-primary px-16 sm:px-16 py-2 text-sm sm:text-base">Player</th>
+            <th className="border border-primary px-2 sm:px-4 py-2 text-sm sm:text-base">Team</th>
+            <th className="border border-primary px-2 sm:px-4 py-2 text-sm sm:text-base">Position</th>
+            <th className="border border-primary px-2 sm:px-4 py-2"></th>
+            <th className="border border-primary px-2 sm:px-4 py-2 text-sm sm:text-base">Status</th>
+            <th className="border border-primary px-2 sm:px-4 py-2 text-sm sm:text-base">Opponent</th>
+            <th className="border border-primary px-2 sm:px-4 py-2 text-sm sm:text-base">Projected Pts</th>
+            <th className="border border-primary px-2 sm:px-4 py-2 text-sm sm:text-base">Season Games</th>
+            <th className="border border-primary px-2 sm:px-4 py-2 text-sm sm:text-base">Season PPG</th>
           </tr>
         </thead>
         <tbody>
           {players.map((player) => {
             return (
               <tr key={player["_id"]["$oid"]}>
-                <td className="border border-primary px-4 py-2 font-extrabold text-2xl">{player.player_name}</td>
-                <td className="border border-primary px-4 py-2 text-xl">{player.team_abbreviation}</td>
-                <td className="border border-primary px-4 py-2 text-xl">{player.position}</td>
-                <td className="border border-primary px-4 py-2 text-xl">{player.status}</td>
-                <td className="border border-primary px-4 py-2 text-xl">
+                <td className="border border-primary px-2 sm:px-4 py-2 font-extrabold text-lg sm:text-2xl">
+                  {player.player_name}
+                </td>
+
+                <td className="border border-primary px-2 sm:px-4 py-2 text-sm sm:text-xl">
+                  {player.team_abbreviation}
+                </td>
+                <td className="border border-primary px-2 sm:px-4 py-2 text-sm sm:text-xl">{player.position}</td>
+                <td className="border border-primary px-2 sm:px-4 py-2">
+                  <button className="btn btn-secondary text-xs sm:text-sm" onClick={() => handleAddPlayer(player)}>
+                    Add Player
+                  </button>
+                </td>
+                <td className="border border-primary px-2 sm:px-4 py-2 text-sm sm:text-xl">{player.status}</td>
+                <td className="border border-primary px-2 sm:px-4 py-2 text-sm sm:text-xl">
                   {player.projection?.location
                     ? player.projection?.location === "AWAY"
                       ? "@ " + player.projection?.opponent
                       : "vs " + player.projection?.opponent
                     : "No Opponent"}
                 </td>
-                <td className="border border-primary px-4 py-2 text-xl">
+                <td className="border border-primary px-2 sm:px-4 py-2 text-sm sm:text-xl">
                   {player.projection?.stats?.score ? Math.round(player.projection?.stats?.score * 100) / 100 : 0.0}
                 </td>
-                <td className="border border-primary px-4 py-2 text-xl">
+                <td className="border border-primary px-2 sm:px-4 py-2 text-sm sm:text-xl">
                   {player.season_stats?.stats?.games ? player.season_stats?.stats?.games : 0}
                 </td>
-                <td className="border border-primary px-4 py-2 text-xl">
+                <td className="border border-primary px-2 sm:px-4 py-2 text-sm sm:text-xl">
                   {player.season_stats?.stats?.games
                     ? Math.round((player.season_stats?.stats?.yahoo_pts / player.season_stats?.stats?.games) * 100) /
                       100
                     : 0}
-                </td>
-                <td className="border border-primary px-4 py-2">
-                  <button className="btn btn-secondary" onClick={() => handleAddPlayer(player)}>
-                    Add Player
-                  </button>
                 </td>
               </tr>
             )

@@ -70,113 +70,102 @@ const LineupTable = ({ selections, statistics }) => {
   }
 
   return (
-    <div className="flex-grow overflow-auto">
-      <table className="table w-full border-collapse border border-primary">
-        <thead>
-          <tr>
-            <th className="border border-primary px-2">Position</th>
-            <th className="border border-primary px-32 py-2">Player</th>
-            <th className="border border-primary px-4 py-2">Team</th>
-            <th className="border border-primary px-4 py-2">Score</th>
-            {statColumns.map((col) => {
-              return (
-                <th key={col} className="border border-primary px-4 py-2">
+    <div className="flex-grow overflow-auto w-full">
+      {/* Table is responsive and scrollable on small screens */}
+      <div className="overflow-x-auto">
+        <table className="table-auto w-full border-collapse border border-primary">
+          <thead>
+            <tr>
+              <th className="border border-primary px-2 py-1 text-sm sm:text-base" style={{ width: "10%" }}>
+                Position
+              </th>
+              <th className="border border-primary px-20 py-1 text-sm sm:text-base md:px-24" style={{ width: "40%" }}>
+                Player
+              </th>
+              <th className="border border-primary px-2 py-1 text-sm sm:text-base" style={{ width: "10%" }}>
+                Team
+              </th>
+              <th className="border border-primary px-2 py-1 text-sm sm:text-base" style={{ width: "10%" }}>
+                Score
+              </th>
+              {statColumns.map((col) => (
+                <th key={col} className="border border-primary px-2 py-1 text-sm sm:text-base" style={{ width: "5%" }}>
                   {col}
                 </th>
-              )
-            })}
-          </tr>
-        </thead>
-        <tbody>
-          {selections.map((sel) => {
-            if ("player_id" in sel) {
-              return (
-                <tr key={sel.index}>
-                  <td className="border border-primary px-4 py-2 font-extrabold text-base">
-                    {sel.position.toUpperCase()}
-                  </td>
-                  <td className="border border-primary px-4 py-2 font-extrabold text-lg">
-                    {sel.player_name}
-                    {sel.locked ? (
-                      <></>
-                    ) : (
-                      <button
-                        className="btn btn-xs btn-accent ml-2"
-                        onClick={() => handleStartSelection(lineup, sel.index, sel.position.toUpperCase())}
-                      >
-                        Change
-                      </button>
-                    )}
-                  </td>
-                  <td className="border border-primary px-4 py-2 font-extrabold">{sel.team_abbreviation}</td>
-                  <td className="border border-primary px-4 py-2 font-extrabold">
-                    {sel.total_points ? sel.total_points.toFixed(2) : 0}
-                  </td>
-                  <td className="border border-primary px-4 py-2">
-                    {sel.fantasy_stats ? sel.fantasy_stats.pass_yds : 0}
-                  </td>
-                  <td className="border border-primary px-4 py-2">
-                    {sel.fantasy_stats ? sel.fantasy_stats.pass_tds : 0}
-                  </td>
-                  <td className="border border-primary px-4 py-2">{sel.fantasy_stats ? sel.fantasy_stats.ints : 0}</td>
-                  <td className="border border-primary px-4 py-2">
-                    {sel.fantasy_stats ? sel.fantasy_stats.rush_yds : 0}
-                  </td>
-                  <td className="border border-primary px-4 py-2">
-                    {sel.fantasy_stats ? sel.fantasy_stats.receptions : 0}
-                  </td>
-                  <td className="border border-primary px-4 py-2">
-                    {sel.fantasy_stats ? sel.fantasy_stats.rec_yds : 0}
-                  </td>
-                  <td className="border border-primary px-4 py-2">{sel.fantasy_stats ? sel.fantasy_stats.tds : 0}</td>
-                  <td className="border border-primary px-4 py-2">
-                    {sel.fantasy_stats ? sel.fantasy_stats.fumbles : 0}
-                  </td>
-                  <td className="border border-primary px-4 py-2">
-                    {sel.fantasy_stats ? sel.fantasy_stats.two_pt_conv : 0}
-                  </td>
-                  <td className="border border-primary px-4 py-2">
-                    {sel.fantasy_stats ? sel.fantasy_stats.def_sacks : 0}
-                  </td>
-                  <td className="border border-primary px-4 py-2">
-                    {sel.fantasy_stats ? sel.fantasy_stats.def_fum_rec : 0}
-                  </td>
-                  <td className="border border-primary px-4 py-2">
-                    {sel.fantasy_stats ? sel.fantasy_stats.def_int : 0}
-                  </td>
-                  <td className="border border-primary px-4 py-2">
-                    {sel.fantasy_stats ? sel.fantasy_stats.def_blk_kicks : 0}
-                  </td>
-                  <td className="border border-primary px-4 py-2">
-                    {sel.fantasy_stats ? sel.fantasy_stats.def_safeties : 0}
-                  </td>
-                  <td className="border border-primary px-4 py-2">
-                    {sel.fantasy_stats ? sel.fantasy_stats.def_tds_scored : 0}
-                  </td>
-                  <td className="border border-primary px-4 py-2">
-                    {sel.fantasy_stats ? sel.fantasy_stats.def_pts_allowed : 0}
-                  </td>
-                </tr>
-              )
-            }
-            return (
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {selections.map((sel) => (
               <tr key={sel.index}>
-                <td className="border border-primary px-4 py-2 font-extrabold text-base">
+                <td className="border border-primary px-2 py-1 font-extrabold text-sm sm:text-base">
                   {sel.position.toUpperCase()}
                 </td>
+                <td className="border border-primary px-2 py-1 font-extrabold text-sm sm:text-lg w-[250%]">
+                  {sel.player_name || (
+                    <Link
+                      to={`/leagues/${leagueId}/teams/${teamId}/playersearch?position=${sel.position.toUpperCase()}`}
+                      onClick={() => handleStartSelection(lineup, sel.index, sel.position.toUpperCase())}
+                    >
+                      <span className="text-primary underline">Select Player</span>
+                    </Link>
+                  )}
+                  {!sel.locked && sel.player_name && (
+                    <button
+                      className="btn btn-xs btn-accent ml-2"
+                      onClick={() => handleStartSelection(lineup, sel.index, sel.position.toUpperCase())}
+                    >
+                      Change
+                    </button>
+                  )}
+                </td>
+                <td className="border border-primary px-2 py-1 text-sm sm:text-base">{sel.team_abbreviation}</td>
+                <td className="border border-primary px-2 py-1 text-sm sm:text-base">
+                  {sel.total_points ? sel.total_points.toFixed(2) : 0}
+                </td>
                 <td className="border border-primary px-4 py-2">
-                  <Link
-                    to={`/leagues/${leagueId}/teams/${teamId}/playersearch?position=${sel.position.toUpperCase()}`}
-                    onClick={() => handleStartSelection(lineup, sel.index, sel.position.toUpperCase())}
-                  >
-                    <span className="text-lg text-primary underline">Select Player</span>
-                  </Link>
+                  {sel.fantasy_stats ? sel.fantasy_stats.pass_yds : 0}
+                </td>
+                <td className="border border-primary px-4 py-2">
+                  {sel.fantasy_stats ? sel.fantasy_stats.pass_tds : 0}
+                </td>
+                <td className="border border-primary px-4 py-2">{sel.fantasy_stats ? sel.fantasy_stats.ints : 0}</td>
+                <td className="border border-primary px-4 py-2">
+                  {sel.fantasy_stats ? sel.fantasy_stats.rush_yds : 0}
+                </td>
+                <td className="border border-primary px-4 py-2">
+                  {sel.fantasy_stats ? sel.fantasy_stats.receptions : 0}
+                </td>
+                <td className="border border-primary px-4 py-2">{sel.fantasy_stats ? sel.fantasy_stats.rec_yds : 0}</td>
+                <td className="border border-primary px-4 py-2">{sel.fantasy_stats ? sel.fantasy_stats.tds : 0}</td>
+                <td className="border border-primary px-4 py-2">{sel.fantasy_stats ? sel.fantasy_stats.fumbles : 0}</td>
+                <td className="border border-primary px-4 py-2">
+                  {sel.fantasy_stats ? sel.fantasy_stats.two_pt_conv : 0}
+                </td>
+                <td className="border border-primary px-4 py-2">
+                  {sel.fantasy_stats ? sel.fantasy_stats.def_sacks : 0}
+                </td>
+                <td className="border border-primary px-4 py-2">
+                  {sel.fantasy_stats ? sel.fantasy_stats.def_fum_rec : 0}
+                </td>
+                <td className="border border-primary px-4 py-2">{sel.fantasy_stats ? sel.fantasy_stats.def_int : 0}</td>
+                <td className="border border-primary px-4 py-2">
+                  {sel.fantasy_stats ? sel.fantasy_stats.def_blk_kicks : 0}
+                </td>
+                <td className="border border-primary px-4 py-2">
+                  {sel.fantasy_stats ? sel.fantasy_stats.def_safeties : 0}
+                </td>
+                <td className="border border-primary px-4 py-2">
+                  {sel.fantasy_stats ? sel.fantasy_stats.def_tds_scored : 0}
+                </td>
+                <td className="border border-primary px-4 py-2">
+                  {sel.fantasy_stats ? sel.fantasy_stats.def_pts_allowed : 0}
                 </td>
               </tr>
-            )
-          })}
-        </tbody>
-      </table>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   )
 }
