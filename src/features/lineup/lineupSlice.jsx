@@ -7,7 +7,8 @@ const getLineupInfoFromLocalStorage = () => {
   const position = JSON.parse(localStorage.getItem("position")) || ""
   const teamFilter = ""
   const page = JSON.parse(localStorage.getItem("page")) || 1
-  return { lineup, selectionIndex, position, teamFilter, page }
+  const lineupLoading = false
+  return { lineup, selectionIndex, position, teamFilter, page, lineupLoading }
 }
 
 const initialState = getLineupInfoFromLocalStorage()
@@ -42,9 +43,16 @@ const lineupSlice = createSlice({
       state.teamFilter = ""
       localStorage.setItem("teamFilter", JSON.stringify(""))
     },
+    lineupLoadingTrue: (state, action) => {
+      state.lineupLoading = true
+    },
+    lineupLoadingFalse: (state, action) => {
+      state.lineupLoading = false
+    },
   },
 })
 
-export const { getLineup, clearLineup, filterByTeam, clearTeamFilter } = lineupSlice.actions
+export const { getLineup, clearLineup, filterByTeam, clearTeamFilter, lineupLoadingTrue, lineupLoadingFalse } =
+  lineupSlice.actions
 
 export const lineupReducer = lineupSlice.reducer

@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux"
 import { Link, useLoaderData, useNavigate } from "react-router-dom"
 import { getLineup } from "../features/lineup/lineupSlice"
+import { lineupLoadingTrue } from "../features/lineup/lineupSlice"
 
 const LineupTable = ({ selections, statistics }) => {
   const { lineup } = useLoaderData()
@@ -10,6 +11,7 @@ const LineupTable = ({ selections, statistics }) => {
 
   const handleStartSelection = (lineup, selectionIndex, position) => {
     dispatch(getLineup({ lineup, selectionIndex, position }))
+    dispatch(lineupLoadingTrue())
     try {
       navigate(`/leagues/${leagueId}/teams/${teamId}/playersearch?position=${position.toUpperCase()}`)
     } catch (error) {

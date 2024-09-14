@@ -4,14 +4,13 @@ import UnavailableBlock from "../components/UnavailableBlock"
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect, useState } from "react"
 import SearchFormSelect from "../components/SearchFormSelect"
-import SubmitBtn from "../components/SubmitBtn"
-import { clearTeamFilter, filterByTeam } from "../features/lineup/lineupSlice"
+import { clearTeamFilter, filterByTeam, lineupLoadingFalse } from "../features/lineup/lineupSlice"
 import PlayersTable from "../components/PlayersTable"
 import { logoutUser } from "../features/user/userSlice"
 
 export const loader = (store) => async () => {
   const { teamId } = store.getState().league
-  const { lineup, selectionIndex, position, teamFilter, page } = store.getState().lineup
+  const { position, teamFilter, page } = store.getState().lineup
   const { token } = store.getState().user
   let url = `${import.meta.env.VITE_BACKEND_URL}/players/nfl/${teamId}?position=${position}&page=${page}`
   if (teamFilter !== "") {
@@ -39,6 +38,7 @@ export const loader = (store) => async () => {
     const players = playersRes.data
     const contestant = contestantRes.data
     const teams = teamsRes.data
+    store.dispatch(lineupLoadingFalse())
     return { players, contestant, teams }
   } catch (error) {
     console.log(error)

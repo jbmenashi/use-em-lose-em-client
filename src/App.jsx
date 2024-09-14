@@ -12,6 +12,7 @@ import PlayerSearch from "./pages/PlayerSearch"
 import Matchup from "./pages/Matchup"
 
 import ErrorElement from "./components/ErrorElement"
+import Loading from "./components/Loading"
 
 import { action as registerAction } from "./pages/Register"
 import { action as loginAction } from "./pages/Login"
@@ -114,7 +115,7 @@ export default function App() {
   }, [])
 
   if (isLoading) {
-    return <span className="loading loading-spinner loading-lg"></span>
+    return <Loading />
   }
   return <RouterProvider router={router} />
 }

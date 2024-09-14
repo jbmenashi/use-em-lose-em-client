@@ -5,6 +5,7 @@ import UnavailableBlock from "../components/UnavailableBlock"
 import { useDispatch, useSelector } from "react-redux"
 import LineupTable from "../components/LineupTable"
 import { logoutUser } from "../features/user/userSlice"
+import Loading from "../components/Loading"
 
 export const loader = (store) => async () => {
   const { leagueId, teamId } = store.getState().league
@@ -41,6 +42,7 @@ export const loader = (store) => async () => {
 
 const TeamHome = () => {
   const data = useLoaderData()
+  const { lineupLoading } = useSelector((state) => state.lineup)
 
   if (data === null) {
     return (
@@ -75,6 +77,11 @@ const TeamHome = () => {
   // }
 
   const totalWeeks = league.regular_season_weeks + league.playoff_weeks
+
+  if (lineupLoading) {
+    console.log("test")
+    return <Loading />
+  }
 
   return (
     <div className="min-h-screen flex flex-col items-center">
