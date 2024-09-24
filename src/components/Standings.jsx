@@ -12,7 +12,7 @@ const Standings = () => {
         teamName: s.team_name,
         wins: s.standings.wins || 0,
         losses: s.standings.losses || 0,
-        winPct: s.standings.win_pct || 0,
+        winPct: s.standings.win_pct.toFixed(3) || 0,
         pointsFor: s.standings.total_points_for.toFixed(2) || 0,
         pointsAgainst: s.standings.total_points_ag.toFixed(2) || 0,
       }

@@ -2,7 +2,6 @@ import { Form, useLoaderData, useLocation, useNavigate, redirect } from "react-r
 import axios from "axios"
 import UnavailableBlock from "../components/UnavailableBlock"
 import { useDispatch, useSelector } from "react-redux"
-import { useEffect, useState } from "react"
 import SearchFormSelect from "../components/SearchFormSelect"
 import { clearTeamFilter, filterByTeam, lineupLoadingFalse } from "../features/lineup/lineupSlice"
 import PlayersTable from "../components/PlayersTable"
