@@ -4,10 +4,11 @@ import { useLoaderData, redirect } from "react-router-dom"
 import { logoutUser } from "../features/user/userSlice"
 
 export const loader = (store) => async () => {
-  const { matchupId } = store.getState().matchup
+  const { matchupId, matchupIdUser, isUserMatchup } = store.getState().matchup
   const { token } = store.getState().user
   try {
-    const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/matchup/${matchupId}`, {
+    const correctId = isUserMatchup ? matchupIdUser : matchupId
+    const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/matchup/${correctId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

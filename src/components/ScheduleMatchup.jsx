@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux"
-import { getMatchupId } from "../features/matchup/matchupSlice"
+import { getMatchupId, falseIsUserMatchup } from "../features/matchup/matchupSlice"
 import { Link } from "react-router-dom"
 
 const ScheduleMatchup = (matchup) => {
@@ -21,6 +21,7 @@ const ScheduleMatchup = (matchup) => {
 
   const handleMatchup = (matchupId) => {
     dispatch(getMatchupId({ matchupId }))
+    dispatch(falseIsUserMatchup())
   }
 
   return (

@@ -5,9 +5,11 @@ import Standings from "../components/Standings"
 import LeagueRules from "../components/LeagueRules"
 import { useSelector } from "react-redux"
 import { logoutUser } from "../features/user/userSlice"
+import { getMatchupIdUser } from "../features/matchup/matchupSlice"
 
 export const loader = (store) => async () => {
-  const { leagueId } = store.getState().league
+  const { leagueId, teamId } = store.getState().league
+  const { viewingWeek } = store.getState().week
   const { token } = store.getState().user
   try {
     const [scheduleRes, contestantsRes, leagueRes] = await Promise.all([
@@ -28,6 +30,9 @@ export const loader = (store) => async () => {
       }),
     ])
     const schedule = scheduleRes.data
+    const matchup = schedule.find((e) => e.week === viewingWeek && (e.team_1_id === teamId || e.team_2_id === teamId))
+    const matchupIdUser = matchup["_id"]
+    store.dispatch(getMatchupIdUser({ matchupIdUser }))
     const standings = contestantsRes.data
     const league = leagueRes.data
     return { schedule, standings, league }

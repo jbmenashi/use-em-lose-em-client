@@ -7,11 +7,13 @@ import { BiHome } from "react-icons/bi"
 import { changeViewingWeek } from "../features/week/weekSlice"
 import { useState } from "react"
 import { FaBars, FaTimes } from "react-icons/fa"
+import { clearMatchupInfo, trueIsUserMatchup } from "../features/matchup/matchupSlice"
 
 const LeagueNavbar = () => {
   const { userName, token } = useSelector((state) => state.user)
   const { leagueId, leagueName, teamId, teamName } = useSelector((state) => state.league)
   const week = useSelector((state) => state.week)
+  const { matchupIdUser } = useSelector((state) => state.matchup)
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -24,6 +26,7 @@ const LeagueNavbar = () => {
       })
       dispatch(logoutUser())
       dispatch(clearLeagueTeamInfo())
+      dispatch(clearMatchupInfo())
       navigate("/")
     } catch (error) {
       console.log(error)
@@ -39,6 +42,10 @@ const LeagueNavbar = () => {
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen)
+  }
+
+  const handleMatchup = (matchupId) => {
+    dispatch(trueIsUserMatchup())
   }
 
   return (
@@ -68,6 +75,9 @@ const LeagueNavbar = () => {
           >
             <span className="font-extrabold text-lg">Set Lineup</span>
           </Link>
+          <Link to={`/leagues/${leagueId}/matchups/${matchupIdUser}`} className="btn btn-ghost" onClick={handleMatchup}>
+            <span className="font-extrabold text-lg">My Matchup</span>
+          </Link>
         </div>
       </div>
 
@@ -95,6 +105,13 @@ const LeagueNavbar = () => {
               onClick={handleWeek}
             >
               <span className="font-extrabold text-lg md:text-xl">Set Lineup</span>
+            </Link>
+            <Link
+              to={`/leagues/${leagueId}/matchups/${matchupIdUser}`}
+              className="btn btn-ghost"
+              onClick={handleMatchup}
+            >
+              <span className="font-extrabold text-lg">My Matchup</span>
             </Link>
             <button className="btn btn-accent text-lg md:text-xl" onClick={handleLogout}>
               Logout
