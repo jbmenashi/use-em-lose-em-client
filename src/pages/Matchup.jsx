@@ -70,7 +70,8 @@ const Matchup = () => {
                 return (
                   <tr key={index}>
                     {/* Team 1 Player + Score */}
-                    {sel1.locked === true ? (
+                    {sel1.player_id !== null &&
+                    (teamId === matchup.team_1_lineup.contestant_id || sel1.locked === true) ? (
                       <>
                         <td className="border border-primary px-2 py-2 text-xs sm:text-lg">
                           {sel1.player_id !== null
@@ -100,7 +101,8 @@ const Matchup = () => {
                         : sel2.position?.toUpperCase() || ""}
                     </td>
                     {/* Team 2 Player + Score */}
-                    {sel2.locked === true ? (
+                    {sel2.player_id !== null &&
+                    (teamId === matchup.team_2_lineup.contestant_id || sel2.locked === true) ? (
                       <>
                         <td className="border border-primary px-2 py-2 text-xs sm:text-lg">
                           {sel2.player_id !== null
