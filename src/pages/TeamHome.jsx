@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux"
 import LineupTable from "../components/LineupTable"
 import { logoutUser } from "../features/user/userSlice"
 import Loading from "../components/Loading"
+import { changePage } from "../features/lineup/lineupSlice"
 
 export const loader = (store) => async () => {
   const { leagueId, teamId } = store.getState().league
@@ -32,6 +33,7 @@ export const loader = (store) => async () => {
     const contestant = contestantRes.data
     const lineup = lineupRes.data
     const league = leagueRes.data
+    store.dispatch(changePage({ page: 1 }))
     return { contestant, lineup, league }
   } catch (error) {
     console.log(error)
@@ -79,7 +81,6 @@ const TeamHome = () => {
   const totalWeeks = league.regular_season_weeks + league.playoff_weeks
 
   if (lineupLoading) {
-    console.log("test")
     return <Loading />
   }
 

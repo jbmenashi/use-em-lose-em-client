@@ -1,5 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
-import axios from "axios"
+import { createSlice } from "@reduxjs/toolkit"
 
 const getLineupInfoFromLocalStorage = () => {
   const lineup = JSON.parse(localStorage.getItem("lineup")) || null
@@ -49,10 +48,22 @@ const lineupSlice = createSlice({
     lineupLoadingFalse: (state, action) => {
       state.lineupLoading = false
     },
+    changePage: (state, action) => {
+      const { page } = action.payload
+      state.page = page
+      localStorage.setItem("page", JSON.stringify(page))
+    },
   },
 })
 
-export const { getLineup, clearLineup, filterByTeam, clearTeamFilter, lineupLoadingTrue, lineupLoadingFalse } =
-  lineupSlice.actions
+export const {
+  getLineup,
+  clearLineup,
+  filterByTeam,
+  clearTeamFilter,
+  lineupLoadingTrue,
+  lineupLoadingFalse,
+  changePage,
+} = lineupSlice.actions
 
 export const lineupReducer = lineupSlice.reducer

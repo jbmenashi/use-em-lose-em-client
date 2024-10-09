@@ -1,10 +1,10 @@
 import axios from "axios"
 import { useSelector, useDispatch } from "react-redux"
 import { useLoaderData, useNavigate } from "react-router-dom"
-import { clearTeamFilter, filterByTeam } from "../features/lineup/lineupSlice"
+import { clearTeamFilter, changePage } from "../features/lineup/lineupSlice"
 
 const PlayersTable = () => {
-  const { players, contestant } = useLoaderData()
+  const { players } = useLoaderData()
   const { lineup, selectionIndex, position } = useSelector((state) => state.lineup)
   const { leagueId, teamId } = useSelector((state) => state.league)
   const { viewingWeek } = useSelector((state) => state.week)
@@ -30,6 +30,7 @@ const PlayersTable = () => {
       })
       if (res.status === 200) {
         dispatch(clearTeamFilter())
+        dispatch(changePage({ page: 1 }))
         navigate(`/leagues/${leagueId}/teams/${teamId}?week=${viewingWeek}`)
       }
     } catch (error) {

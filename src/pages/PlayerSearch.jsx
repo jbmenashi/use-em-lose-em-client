@@ -3,9 +3,11 @@ import axios from "axios"
 import UnavailableBlock from "../components/UnavailableBlock"
 import { useDispatch, useSelector } from "react-redux"
 import SearchFormSelect from "../components/SearchFormSelect"
-import { clearTeamFilter, filterByTeam, lineupLoadingFalse } from "../features/lineup/lineupSlice"
+import { clearTeamFilter, filterByTeam, lineupLoadingFalse, changePage } from "../features/lineup/lineupSlice"
 import PlayersTable from "../components/PlayersTable"
 import { logoutUser } from "../features/user/userSlice"
+import PageDropdown from "../components/PageDropdown"
+import Loading from "../components/Loading"
 
 export const loader = (store) => async () => {
   const { teamId } = store.getState().league
@@ -61,7 +63,7 @@ export const action =
 
 const PlayerSearch = () => {
   const { teams } = useLoaderData()
-  const { position } = useSelector((state) => state.lineup)
+  const { position, playerSearchLoading } = useSelector((state) => state.lineup)
   const navigate = useNavigate()
   const location = useLocation()
   const dispatch = useDispatch()
@@ -81,6 +83,15 @@ const PlayerSearch = () => {
     }
   }
 
+  const handlePageSelect = (val) => {
+    dispatch(changePage({ page: val }))
+    navigate(`${location.pathname}?position=${position}&page=${val}`)
+  }
+
+  if (playerSearchLoading) {
+    return <Loading />
+  }
+
   return (
     <>
       <div className="flex flex-col items-center my-2">
@@ -91,7 +102,7 @@ const PlayerSearch = () => {
       </div>
       <div>
         <div className="flex flex-col items-center">
-          <Form method="POST" className="rounded flex flex-col items-center">
+          <Form method="POST" className="rounded flex flex-row items-center space-x-4">
             <SearchFormSelect
               name="teamFilter"
               label="Filter By Team"
@@ -99,12 +110,16 @@ const PlayerSearch = () => {
               size="select-sm"
               onChange={(e) => handleTeamFilterSelect(e.target.value)}
             />
+            <PageDropdown
+              name="pageSelector"
+              label="Page"
+              list={[1, 2, 3, 4, 5]}
+              size="select-sm"
+              onChange={(e) => handlePageSelect(e.target.value)}
+            />
           </Form>
         </div>
         <div className="w-full flex justify-center my-8">
-          {/* {players.map((player) => {
-            return <h4>{player.first_name}</h4>
-          })} */}
           <PlayersTable />
         </div>
       </div>
