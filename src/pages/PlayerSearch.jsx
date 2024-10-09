@@ -3,13 +3,20 @@ import axios from "axios"
 import UnavailableBlock from "../components/UnavailableBlock"
 import { useDispatch, useSelector } from "react-redux"
 import SearchFormSelect from "../components/SearchFormSelect"
-import { clearTeamFilter, filterByTeam, lineupLoadingFalse, changePage } from "../features/lineup/lineupSlice"
+import {
+  clearTeamFilter,
+  filterByTeam,
+  lineupLoadingFalse,
+  lineupLoadingTrue,
+  changePage,
+} from "../features/lineup/lineupSlice"
 import PlayersTable from "../components/PlayersTable"
 import { logoutUser } from "../features/user/userSlice"
 import PageDropdown from "../components/PageDropdown"
 import Loading from "../components/Loading"
 
 export const loader = (store) => async () => {
+  store.dispatch(lineupLoadingTrue())
   const { teamId } = store.getState().league
   const { position, teamFilter, page } = store.getState().lineup
   const { token } = store.getState().user
@@ -39,7 +46,7 @@ export const loader = (store) => async () => {
     const players = playersRes.data
     const contestant = contestantRes.data
     const teams = teamsRes.data
-    store.dispatch(lineupLoadingFalse())
+
     return { players, contestant, teams }
   } catch (error) {
     console.log(error)
@@ -63,10 +70,11 @@ export const action =
 
 const PlayerSearch = () => {
   const { teams } = useLoaderData()
-  const { position, playerSearchLoading } = useSelector((state) => state.lineup)
+  const { position, lineupLoading, tableLoading } = useSelector((state) => state.lineup)
   const navigate = useNavigate()
   const location = useLocation()
   const dispatch = useDispatch()
+  dispatch(lineupLoadingFalse())
   const teamsAbbv = teams
     .map((team) => {
       return team.abbreviation
@@ -88,7 +96,7 @@ const PlayerSearch = () => {
     navigate(`${location.pathname}?position=${position}&page=${val}`)
   }
 
-  if (playerSearchLoading) {
+  if (lineupLoading) {
     return <Loading />
   }
 

@@ -36,24 +36,6 @@ const PlayersTable = () => {
     } catch (error) {
       console.log(error)
     }
-
-    // console.log(lineup)
-    // let newSelections = lineup.selections.map((sel, index) => {
-    //   if (index === selectionIndex) {
-    //     let newSelection = {}
-    //     newSelection.position = sel.position
-    //     newSelection.locked = sel.locked
-    //     newSelection.index = sel.index
-    //     newSelection.player_id = player["_id"]["$oid"]
-    //     newSelection.player_name = player.player_name
-    //     newSelection.team_id = player.team_id
-    //     newSelection.team_abbreviation = player.team_abbreviation
-    //     return newSelection
-    //   } else return sel
-    // })
-    // let newLineup = { ...lineup, selections: newSelections }
-    // console.log(newLineup)
-    // newLineup["selections"] = newSelections
   }
 
   return (
