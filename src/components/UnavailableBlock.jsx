@@ -9,8 +9,7 @@ const UnavailableBlock = () => {
 
   let teams = ""
   for (let team of contestant.unavailable_teams) {
-    teams.concat(team.team_abbreviation)
-    teams.concat(", ")
+    teams = teams + team.team_abbreviation + ", "
   }
 
   return (
