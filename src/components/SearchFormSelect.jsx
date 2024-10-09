@@ -1,4 +1,7 @@
+import { useSelector } from "react-redux"
+
 const SearchFormSelect = ({ label, name, list, defaultValue, size, onChange, placeholder }) => {
+  const { teamFilter } = useSelector((state) => state.lineup)
   let newList = []
   if (!list) {
     newList = [1, 2, 3, 4, 5]
@@ -25,7 +28,7 @@ const SearchFormSelect = ({ label, name, list, defaultValue, size, onChange, pla
         name={name}
         id={name}
         className={`select select-bordered ${size}`}
-        defaultValue={newList[0]}
+        defaultValue={teamFilter}
         onChange={onChange}
         placeholder={placeholder}
       >
