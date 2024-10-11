@@ -21,6 +21,7 @@ const PlayersTable = () => {
       player_name: player.player_name,
       team_id: player.team_id,
       team_abbreviation: player.team_abbreviation,
+      opponent: player.projection?.opponent,
     }
     try {
       const res = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/lineup/${lineup["_id"]["$oid"]}`, selection, {

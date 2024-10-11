@@ -76,7 +76,7 @@ const Matchup = () => {
                       <>
                         <td className="border border-primary px-2 py-2 text-xs sm:text-lg">
                           {sel1.player_id !== null
-                            ? `${sel1.player_name} (${sel1.team_abbreviation})`
+                            ? `${sel1.player_name} (${sel1.team_abbreviation} vs ${sel1.opponent})`
                             : "An error occurred"}
                         </td>
                         <td className="border border-primary px-2 py-2 text-xs sm:text-base">
@@ -145,6 +145,7 @@ const Matchup = () => {
                     <th className="border border-primary px-2 py-2">Position</th>
                     <th className="border border-primary px-8 sm:px-32 py-2">Player</th>
                     <th className="border border-primary px-2 py-2">Team</th>
+                    <th className="border border-primary px-2 py-2">Opp</th>
                     <th className="border border-primary px-2 py-2">Score</th>
                   </tr>
                 </thead>
@@ -161,6 +162,7 @@ const Matchup = () => {
                           </td>
                           <td className="border border-primary px-4 py-2 font-extrabold text-lg">{sel.player_name}</td>
                           <td className="border border-primary px-4 py-2 font-extrabold">{sel.team_abbreviation}</td>
+                          <td className="border border-primary px-4 py-2 font-extrabold">{sel.opponent}</td>
                           <td className="border border-primary px-4 py-2 font-extrabold">
                             {sel.total_points ? sel.total_points.toFixed(2) : 0}
                           </td>
@@ -177,6 +179,7 @@ const Matchup = () => {
                             ? "Select on 'Set Lineup' Page"
                             : "Selection Hidden"}
                         </td>
+                        <td className="border border-primary px-4 py-2"></td>
                         <td className="border border-primary px-4 py-2"></td>
                         <td className="border border-primary px-4 py-2"></td>
                       </tr>
@@ -200,6 +203,7 @@ const Matchup = () => {
                     <th className="border border-primary px-2 py-2">Position</th>
                     <th className="border border-primary px-8 sm:px-32 py-2">Player</th>
                     <th className="border border-primary px-2 py-2">Team</th>
+                    <th className="border border-primary px-2 py-2">Opp</th>
                     <th className="border border-primary px-2 py-2">Score</th>
                   </tr>
                 </thead>
@@ -216,6 +220,7 @@ const Matchup = () => {
                           </td>
                           <td className="border border-primary px-4 py-2 font-extrabold text-lg">{sel.player_name}</td>
                           <td className="border border-primary px-4 py-2 font-extrabold">{sel.team_abbreviation}</td>
+                          <td className="border border-primary px-4 py-2 font-extrabold">{sel.opponent}</td>
                           <td className="border border-primary px-4 py-2 font-extrabold">
                             {sel.total_points ? sel.total_points.toFixed(2) : 0}
                           </td>
@@ -232,6 +237,7 @@ const Matchup = () => {
                             ? "Select on 'Set Lineup' Page"
                             : "Selection Hidden"}
                         </td>
+                        <td className="border border-primary px-4 py-2"></td>
                         <td className="border border-primary px-4 py-2"></td>
                         <td className="border border-primary px-4 py-2"></td>
                       </tr>

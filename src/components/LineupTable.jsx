@@ -88,6 +88,9 @@ const LineupTable = ({ selections, statistics }) => {
                 Team
               </th>
               <th className="border border-primary px-2 py-1 text-sm sm:text-base" style={{ width: "10%" }}>
+                Opp
+              </th>
+              <th className="border border-primary px-2 py-1 text-sm sm:text-base" style={{ width: "10%" }}>
                 Score
               </th>
               {statColumns.map((col) => (
@@ -122,6 +125,7 @@ const LineupTable = ({ selections, statistics }) => {
                   )}
                 </td>
                 <td className="border border-primary px-2 py-1 text-sm sm:text-base">{sel.team_abbreviation}</td>
+                <td className="border border-primary px-2 py-1 text-sm sm:text-base">{sel.opponent}</td>
                 <td className="border border-primary px-2 py-1 text-sm sm:text-base">
                   {sel.total_points ? sel.total_points.toFixed(2) : 0}
                 </td>
