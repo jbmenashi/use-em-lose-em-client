@@ -22,6 +22,7 @@ const PlayersTable = () => {
       team_id: player.team_id,
       team_abbreviation: player.team_abbreviation,
       opponent: player.projection?.opponent,
+      game_time: player.projection?.game_time,
     }
     try {
       const res = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/lineup/${lineup["_id"]["$oid"]}`, selection, {
@@ -41,7 +42,7 @@ const PlayersTable = () => {
 
   return (
     <div className="w-full overflow-x-auto">
-      <table className="table-auto w-full border-collapse border border-primary">
+      <table className="table-auto w-90% border-collapse border border-primary mx-auto">
         <thead>
           <tr>
             <th className="border border-primary px-16 sm:px-16 py-2 text-sm sm:text-base">Player</th>
@@ -50,6 +51,7 @@ const PlayersTable = () => {
             <th className="border border-primary px-2 sm:px-4 py-2"></th>
             <th className="border border-primary px-2 sm:px-4 py-2 text-sm sm:text-base">Status</th>
             <th className="border border-primary px-2 sm:px-4 py-2 text-sm sm:text-base">Opponent</th>
+            <th className="border border-primary px-2 sm:px-4 py-2 text-sm sm:text-base">Game Time</th>
             <th className="border border-primary px-2 sm:px-4 py-2 text-sm sm:text-base">Projected Pts</th>
             <th className="border border-primary px-2 sm:px-4 py-2 text-sm sm:text-base">Season Games</th>
             <th className="border border-primary px-2 sm:px-4 py-2 text-sm sm:text-base">Season PPG</th>
@@ -75,10 +77,13 @@ const PlayersTable = () => {
                 <td className="border border-primary px-2 sm:px-4 py-2 text-sm sm:text-xl">{player.status}</td>
                 <td className="border border-primary px-2 sm:px-4 py-2 text-sm sm:text-xl">
                   {player.projection?.location
-                    ? player.projection?.location === "AWAY"
+                    ? player.projection?.location === "Away"
                       ? "@ " + player.projection?.opponent
                       : "vs " + player.projection?.opponent
                     : "No Opponent"}
+                </td>
+                <td className="border border-primary px-2 sm:px-4 py-2 text-sm sm:text-xl">
+                  {player.projection?.game_time ? player.projection?.game_time : ""}
                 </td>
                 <td className="border border-primary px-2 sm:px-4 py-2 text-sm sm:text-xl">
                   {player.projection?.stats?.score ? Math.round(player.projection?.stats?.score * 100) / 100 : 0.0}

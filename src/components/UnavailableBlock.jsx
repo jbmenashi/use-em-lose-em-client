@@ -2,7 +2,6 @@ import { useLoaderData } from "react-router-dom"
 
 const UnavailableBlock = () => {
   const { contestant } = useLoaderData()
-  console.log(contestant)
   let players = ""
   for (let player of contestant.unavailable_players) {
     players = players + player.player_name + ", "
@@ -23,8 +22,6 @@ const UnavailableBlock = () => {
   for (let [key, value] of Object.entries(sortedTeamCount)) {
     teamCount = teamCount + `${key}: ${value}, `
   }
-
-  console.log(teamCount)
   return (
     <div className="max-h-[5rem] sm:max-h-[7rem] overflow-y-auto">
       <p className="line-clamp-none">
