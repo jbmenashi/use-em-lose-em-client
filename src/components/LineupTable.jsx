@@ -87,8 +87,14 @@ const LineupTable = ({ selections, statistics }) => {
               <th className="border border-primary px-2 py-1 text-sm sm:text-base" style={{ width: "10%" }}>
                 Team
               </th>
-              <th className="border border-primary px-2 py-1 text-sm sm:text-base" style={{ width: "10%" }}>
+              <th className="border border-primary px-4 py-1 text-sm sm:text-base" style={{ width: "10%" }}>
                 Opp
+              </th>
+              <th
+                className="border border-primary px-6 py-1 text-sm sm:text-base whitespace-nowrap"
+                style={{ width: "10%" }}
+              >
+                When
               </th>
               <th className="border border-primary px-2 py-1 text-sm sm:text-base" style={{ width: "10%" }}>
                 Score
@@ -125,7 +131,10 @@ const LineupTable = ({ selections, statistics }) => {
                   )}
                 </td>
                 <td className="border border-primary px-2 py-1 text-sm sm:text-base">{sel.team_abbreviation}</td>
-                <td className="border border-primary px-2 py-1 text-sm sm:text-base">{sel.opponent}</td>
+                <td className="border border-primary px-2 py-1 text-sm sm:text-base">
+                  {sel.location ? (sel.location === "Away" ? `@ ${sel.opponent}` : `vs ${sel.opponent}`) : sel.opponent}
+                </td>
+                <td className="border border-primary px-2 py-1 text-sm sm:text-base">{sel.game_time}</td>
                 <td className="border border-primary px-2 py-1 text-sm sm:text-base">
                   {sel.total_points ? sel.total_points.toFixed(2) : 0}
                 </td>

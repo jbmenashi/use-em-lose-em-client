@@ -50,14 +50,14 @@ const Matchup = () => {
           <table className="table-auto w-full border-collapse border border-primary">
             <thead>
               <tr>
-                <th className="border border-primary px-2 py-2" style={{ width: "35%" }}>
+                <th className="border border-primary px-8 py-2" style={{ width: "35%" }}>
                   Player
                 </th>
                 <th className="border border-primary px-2 py-2" style={{ width: "10%" }}>
                   Pts
                 </th>
                 <th className="border border-primary" style={{ width: "10%" }}></th>
-                <th className="border border-primary px-2 py-2" style={{ width: "35%" }}>
+                <th className="border border-primary px-8 py-2" style={{ width: "35%" }}>
                   Player
                 </th>
                 <th className="border border-primary px-2 py-2" style={{ width: "10%" }}>
@@ -75,11 +75,32 @@ const Matchup = () => {
                     (teamId === matchup.team_1_lineup.contestant_id || sel1.locked === true) ? (
                       <>
                         <td className="border border-primary px-2 py-2 text-xs sm:text-lg">
-                          {sel1.player_id !== null
-                            ? `${sel1.player_name} (${sel1.team_abbreviation} vs ${sel1.opponent})`
-                            : "An error occurred"}
+                          {sel1.player_id !== null ? (
+                            sel1.location && sel1.opponent && sel1.game_time ? (
+                              sel1.location === "Away" ? (
+                                <>
+                                  <div className="font-bold">{`${sel1.player_name}`}</div>
+                                  <div>{`${sel1.team_abbreviation} @ ${sel1.opponent}`}</div>
+                                  <div>{`${sel1.game_time}`}</div>
+                                </>
+                              ) : (
+                                <>
+                                  <div className="font-bold">{`${sel1.player_name}`}</div>
+                                  <div>{`${sel1.team_abbreviation} vs ${sel1.opponent}`}</div>
+                                  <div>{`${sel1.game_time}`}</div>
+                                </>
+                              )
+                            ) : (
+                              <>
+                                <div className="font-bold">{`${sel1.player_name}`}</div>
+                                <div>{`${sel1.team_abbreviation}`}</div>
+                              </>
+                            )
+                          ) : (
+                            "An error occurred"
+                          )}
                         </td>
-                        <td className="border border-primary px-2 py-2 text-xs sm:text-base">
+                        <td className="border border-primary px-2 py-2 text-xs sm:text-base font-bold">
                           {sel1.total_points ? sel1.total_points.toFixed(2) : 0}
                         </td>
                       </>
@@ -106,9 +127,30 @@ const Matchup = () => {
                     (teamId === matchup.team_2_lineup.contestant_id || sel2.locked === true) ? (
                       <>
                         <td className="border border-primary px-2 py-2 text-xs sm:text-lg">
-                          {sel2.player_id !== null
-                            ? `${sel2.player_name} (${sel2.team_abbreviation})`
-                            : "An error occurred"}
+                          {sel2.player_id !== null ? (
+                            sel2.location && sel2.opponent && sel2.game_time ? (
+                              sel2.location === "Away" ? (
+                                <>
+                                  <div className="font-bold">{`${sel2.player_name}`}</div>
+                                  <div>{`${sel2.team_abbreviation} @ ${sel2.opponent}`}</div>
+                                  <div>{`${sel2.game_time}`}</div>
+                                </>
+                              ) : (
+                                <>
+                                  <div className="font-bold">{`${sel2.player_name}`}</div>
+                                  <div>{`${sel2.team_abbreviation} vs ${sel2.opponent}`}</div>
+                                  <div>{`${sel2.game_time}`}</div>
+                                </>
+                              )
+                            ) : (
+                              <>
+                                <div className="font-bold">{`${sel2.player_name}`}</div>
+                                <div>{`${sel2.team_abbreviation}`}</div>
+                              </>
+                            )
+                          ) : (
+                            "An error occurred"
+                          )}
                         </td>
                         <td className="border border-primary px-2 py-2 text-xs sm:text-base">
                           {sel2.total_points ? sel2.total_points.toFixed(2) : 0}
@@ -142,11 +184,11 @@ const Matchup = () => {
               <table className="table-auto w-full border-collapse border border-primary">
                 <thead>
                   <tr>
-                    <th className="border border-primary px-2 py-2">Position</th>
-                    <th className="border border-primary px-8 sm:px-32 py-2">Player</th>
-                    <th className="border border-primary px-2 py-2">Team</th>
-                    <th className="border border-primary px-2 py-2">Opp</th>
-                    <th className="border border-primary px-2 py-2">Score</th>
+                    <th className="border border-primary px-3 py-2">Position</th>
+                    <th className="border border-primary px-14 sm:px-20 py-2">Player</th>
+                    <th className="border border-primary px-3 py-2">Team</th>
+                    <th className="border border-primary px-6 py-2">Game</th>
+                    <th className="border border-primary px-3 py-2">Score</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -157,13 +199,25 @@ const Matchup = () => {
                     ) {
                       return (
                         <tr key={sel.index}>
-                          <td className="border border-primary px-4 py-2 font-extrabold text-base">
+                          <td className="border border-primary px-3 py-2 font-extrabold text-base">
                             {sel.position.toUpperCase()}
                           </td>
-                          <td className="border border-primary px-4 py-2 font-extrabold text-lg">{sel.player_name}</td>
-                          <td className="border border-primary px-4 py-2 font-extrabold">{sel.team_abbreviation}</td>
-                          <td className="border border-primary px-4 py-2 font-extrabold">{sel.opponent}</td>
-                          <td className="border border-primary px-4 py-2 font-extrabold">
+                          <td className="border border-primary px-3 py-2 font-extrabold text-lg">{sel.player_name}</td>
+                          <td className="border border-primary px-3 py-2 font-extrabold">{sel.team_abbreviation}</td>
+                          <td className="border border-primary px-3 py-2 font-bold text-sm">
+                            {sel.location ? (
+                              <>
+                                <div>{sel.location === "Away" ? `@ ${sel.opponent}` : `vs ${sel.opponent}`}</div>
+                                <div>{sel.game_time}</div>
+                              </>
+                            ) : (
+                              <>
+                                <div>{sel.opponent}</div>
+                                <div>{sel.game_time}</div>
+                              </>
+                            )}
+                          </td>
+                          <td className="border border-primary px-3 py-2 font-extrabold">
                             {sel.total_points ? sel.total_points.toFixed(2) : 0}
                           </td>
                         </tr>
@@ -171,17 +225,17 @@ const Matchup = () => {
                     }
                     return (
                       <tr key={sel.index}>
-                        <td className="border border-primary px-4 py-2 font-extrabold text-base">
+                        <td className="border border-primary px-3 py-2 font-extrabold text-base">
                           {sel.position.toUpperCase()}
                         </td>
-                        <td className="border border-primary px-4 py-2 italic">
+                        <td className="border border-primary px-3 py-2 italic">
                           {teamId === matchup.team_1_lineup.contestant_id
                             ? "Select on 'Set Lineup' Page"
                             : "Selection Hidden"}
                         </td>
-                        <td className="border border-primary px-4 py-2"></td>
-                        <td className="border border-primary px-4 py-2"></td>
-                        <td className="border border-primary px-4 py-2"></td>
+                        <td className="border border-primary px-3 py-2"></td>
+                        <td className="border border-primary px-3 py-2"></td>
+                        <td className="border border-primary px-3 py-2"></td>
                       </tr>
                     )
                   })}
@@ -200,11 +254,11 @@ const Matchup = () => {
               <table className="table-auto w-full border-collapse border border-primary">
                 <thead>
                   <tr>
-                    <th className="border border-primary px-2 py-2">Position</th>
-                    <th className="border border-primary px-8 sm:px-32 py-2">Player</th>
-                    <th className="border border-primary px-2 py-2">Team</th>
-                    <th className="border border-primary px-2 py-2">Opp</th>
-                    <th className="border border-primary px-2 py-2">Score</th>
+                    <th className="border border-primary px-3 py-2">Position</th>
+                    <th className="border border-primary px-14 sm:px-20 py-2">Player</th>
+                    <th className="border border-primary px-3 py-2">Team</th>
+                    <th className="border border-primary px-6 py-2">Game</th>
+                    <th className="border border-primary px-3 py-2">Score</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -215,13 +269,25 @@ const Matchup = () => {
                     ) {
                       return (
                         <tr key={sel.index}>
-                          <td className="border border-primary px-4 py-2 font-extrabold text-base">
+                          <td className="border border-primary px-3 py-2 font-extrabold text-base">
                             {sel.position.toUpperCase()}
                           </td>
-                          <td className="border border-primary px-4 py-2 font-extrabold text-lg">{sel.player_name}</td>
-                          <td className="border border-primary px-4 py-2 font-extrabold">{sel.team_abbreviation}</td>
-                          <td className="border border-primary px-4 py-2 font-extrabold">{sel.opponent}</td>
-                          <td className="border border-primary px-4 py-2 font-extrabold">
+                          <td className="border border-primary px-3 py-2 font-extrabold text-lg">{sel.player_name}</td>
+                          <td className="border border-primary px-3 py-2 font-extrabold">{sel.team_abbreviation}</td>
+                          <td className="border border-primary px-3 py-2 font-bold text-sm">
+                            {sel.location ? (
+                              <>
+                                <div>{sel.location === "Away" ? `@ ${sel.opponent}` : `vs ${sel.opponent}`}</div>
+                                <div>{sel.game_time}</div>
+                              </>
+                            ) : (
+                              <>
+                                <div>{sel.opponent}</div>
+                                <div>{sel.game_time}</div>
+                              </>
+                            )}
+                          </td>
+                          <td className="border border-primary px-3 py-2 font-extrabold">
                             {sel.total_points ? sel.total_points.toFixed(2) : 0}
                           </td>
                         </tr>
@@ -229,17 +295,17 @@ const Matchup = () => {
                     }
                     return (
                       <tr key={sel.index}>
-                        <td className="border border-primary px-4 py-2 font-extrabold text-base">
+                        <td className="border border-primary px-3 py-2 font-extrabold text-base">
                           {sel.position.toUpperCase()}
                         </td>
-                        <td className="border border-primary px-4 py-2 italic">
+                        <td className="border border-primary px-3 py-2 italic">
                           {teamId === matchup.team_2_lineup.contestant_id
                             ? "Select on 'Set Lineup' Page"
                             : "Selection Hidden"}
                         </td>
-                        <td className="border border-primary px-4 py-2"></td>
-                        <td className="border border-primary px-4 py-2"></td>
-                        <td className="border border-primary px-4 py-2"></td>
+                        <td className="border border-primary px-3 py-2"></td>
+                        <td className="border border-primary px-3 py-2"></td>
+                        <td className="border border-primary px-3 py-2"></td>
                       </tr>
                     )
                   })}
