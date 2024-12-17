@@ -30,8 +30,9 @@ export const loader = (store) => async () => {
       }),
     ])
     const schedule = scheduleRes.data
-    const matchup = schedule.find((e) => e.week === viewingWeek && (e.team_1_id === teamId || e.team_2_id === teamId))
-    const matchupIdUser = matchup["_id"]
+    const matchup =
+      schedule.find((e) => e.week === viewingWeek && (e.team_1_id === teamId || e.team_2_id === teamId)) || {}
+    const matchupIdUser = matchup["_id"] || null
     store.dispatch(getMatchupIdUser({ matchupIdUser }))
     const standings = contestantsRes.data
     const league = leagueRes.data

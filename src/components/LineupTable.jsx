@@ -87,7 +87,7 @@ const LineupTable = ({ selections, statistics }) => {
               <th className="border border-primary px-2 py-1 text-sm sm:text-base" style={{ width: "10%" }}>
                 Team
               </th>
-              <th className="border border-primary px-4 py-1 text-sm sm:text-base" style={{ width: "10%" }}>
+              <th className="border border-primary px-6 py-1 text-sm sm:text-base" style={{ width: "10%" }}>
                 Opp
               </th>
               <th
