@@ -2,13 +2,15 @@ import { useSelector } from "react-redux"
 import { useLoaderData } from "react-router-dom"
 import { api } from "../api/client"
 
-export const loader = (store) => async () => {
-  const { matchupId, matchupIdUser, isUserMatchup } = store.getState().matchup
+export const loader = (store) => async ({ params }) => {
+  const { matchup_id: matchupId } = params
   try {
-    const correctId = isUserMatchup ? matchupIdUser : matchupId
-    const res = await api.get(`/matchups/${correctId}`)
+    const res = await api.get(`/matchups/${matchupId}`)
     return res.data
   } catch (error) {
+    if (error?.response?.status === 404) {
+      return null
+    }
     console.error("[Matchup loader] failed to load matchup data", {
       url: error?.config?.url,
       method: error?.config?.method,
@@ -17,8 +19,6 @@ export const loader = (store) => async () => {
       responseData: error?.response?.data,
       message: error?.message,
       matchupId,
-      matchupIdUser,
-      isUserMatchup,
     })
     throw error
   }
@@ -27,6 +27,17 @@ export const loader = (store) => async () => {
 const Matchup = () => {
   const matchup = useLoaderData()
   const { leagueName, teamId } = useSelector((state) => state.league)
+
+  if (!matchup) {
+    return (
+      <main className="grid min-h-[100vh] place-items-center px-8">
+        <div className="text-center">
+          <p className="text-xl font-semibold">Matchup Will Become Available Once League Is Full</p>
+        </div>
+      </main>
+    )
+  }
+
   return (
     <div>
       <h1 className="text-center text-2xl sm:text-3xl font-bold m-4">

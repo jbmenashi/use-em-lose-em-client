@@ -11,14 +11,21 @@ export const loader = (store) => async () => {
   const { leagueId, teamId } = store.getState().league
   const { viewingWeek } = store.getState().week
   try {
-    const [contestantRes, lineupRes, leagueRes] = await Promise.all([
+    const [contestantRes, leagueRes] = await Promise.all([
       api.get(`/contestants/${teamId}`),
-      api.get(`/lineups/contestant/${teamId}?week=${viewingWeek}`),
       api.get(`/leagues/${leagueId}`),
     ])
     const contestant = contestantRes.data
-    const lineup = lineupRes.data
     const league = leagueRes.data
+
+    let lineup = null
+    try {
+      const lineupRes = await api.get(`/lineups/contestant/${teamId}?week=${viewingWeek}`)
+      lineup = lineupRes.data
+    } catch (lineupError) {
+      if (lineupError?.response?.status !== 404) throw lineupError
+    }
+
     store.dispatch(changePage({ page: 1 }))
     return { contestant, lineup, league }
   } catch (error) {
@@ -38,19 +45,8 @@ export const loader = (store) => async () => {
 }
 
 const TeamHome = () => {
-  const data = useLoaderData()
-  const { lineupLoading } = useSelector((state) => state.lineup)
-
-  if (data === null) {
-    return (
-      <main className="grid min-h-[100vh] place-items-center px-8">
-        <div className="text-center">
-          <p className="text-xl font-semibold">Lineup Will Become Available Once League Is Full</p>
-        </div>
-      </main>
-    )
-  }
   const { contestant, lineup, league } = useLoaderData()
+  const { lineupLoading } = useSelector((state) => state.lineup)
   const { viewingWeek } = useSelector((state) => state.week)
   const { pathname } = useLocation()
   const dispatch = useDispatch()
@@ -73,10 +69,18 @@ const TeamHome = () => {
   //   }
   // }
 
-  const totalWeeks = league.regularSeasonWeeks + league.playoffWeeks
-
   if (lineupLoading) {
     return <Loading />
+  }
+
+  if (!lineup) {
+    return (
+      <main className="grid min-h-[100vh] place-items-center px-8">
+        <div className="text-center">
+          <p className="text-xl font-semibold">Lineup Will Become Available Once League Is Full</p>
+        </div>
+      </main>
+    )
   }
 
   return (

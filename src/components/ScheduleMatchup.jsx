@@ -1,5 +1,4 @@
-import { useDispatch, useSelector } from "react-redux"
-import { getMatchupId, falseIsUserMatchup } from "../features/matchup/matchupSlice"
+import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
 
 const ScheduleMatchup = (matchup) => {
@@ -16,13 +15,6 @@ const ScheduleMatchup = (matchup) => {
     finished,
     _id,
   } = matchup
-
-  const dispatch = useDispatch()
-
-  const handleMatchup = (matchupId) => {
-    dispatch(getMatchupId({ matchupId }))
-    dispatch(falseIsUserMatchup())
-  }
 
   let nameStyling = ""
   let scoreStyling = ""
@@ -90,11 +82,7 @@ const ScheduleMatchup = (matchup) => {
   }
 
   return (
-    <Link
-      className="card bg-base-100 shadow-xl my-3 w-full sm:w-5/6"
-      to={`/leagues/${leagueId}/matchups/${_id}`}
-      onClick={() => handleMatchup(_id)}
-    >
+    <Link className="card bg-base-100 shadow-xl my-3 w-full sm:w-5/6" to={`/leagues/${leagueId}/matchups/${_id}`}>
       <div className="card-body p-2 sm:p-4">
         <div className="flex items-center justify-center">
           <div className="grid grid-rows-2 grid-cols-5 w-full max-w-full sm:max-w-screen-md h-auto sm:h-32">

@@ -8,11 +8,28 @@ import { toast } from "react-toastify"
 import { api } from "../api/client"
 import { useState } from "react"
 
+const playoffFormats = [
+  { label: "1 week, 2 teams", playoffWeeks: 1, playoffTeams: 2 },
+  { label: "2 weeks, 4 teams", playoffWeeks: 2, playoffTeams: 4 },
+  { label: "3 weeks, 6 teams", playoffWeeks: 3, playoffTeams: 6 },
+  { label: "3 weeks, 8 teams", playoffWeeks: 3, playoffTeams: 8 },
+]
+
 export const action =
   (store) =>
   async ({ request }) => {
     const formData = await request.formData()
     const data = Object.fromEntries(formData)
+    const isHeadToHead = data.style === "Head to Head"
+    const playoffFormat = playoffFormats.find((format) => format.label === data.playoff_format)
+    const regularSeasonWeeks = parseInt(data.regular_season_weeks)
+    const playoffWeeks = isHeadToHead ? (playoffFormat?.playoffWeeks ?? 0) : 0
+
+    if (regularSeasonWeeks + playoffWeeks > 18) {
+      toast.error("Regular season weeks plus playoff weeks can't be more than 18")
+      return null
+    }
+
     const transformedData = {
       leagueName: data.league_name,
       teamName: data.team_name,
@@ -20,9 +37,9 @@ export const action =
       season: 2024,
       style: data.style,
       size: data.num_teams,
-      playoffTeams: data.num_playoff_teams,
-      regularSeasonWeeks: 14,
-      playoffWeeks: 3,
+      playoffTeams: isHeadToHead ? (playoffFormat?.playoffTeams ?? 0) : 0,
+      regularSeasonWeeks,
+      playoffWeeks,
       teamCount: data.num_players_franchise,
       roster: {
         rosterSize: 8,
@@ -63,6 +80,21 @@ export const action =
       const res = await api.post("/leagues", transformedData)
       if (res.status === 201) {
         toast.success("New League Created")
+        if (res.data.leagueFull && res.data.league.style === "Head to Head") {
+          try {
+            await api.post(`/leagues/${res.data.league._id}/schedule`)
+          } catch (scheduleError) {
+            console.error("[CreateLeague action] failed to generate schedule", {
+              url: scheduleError?.config?.url,
+              method: scheduleError?.config?.method,
+              status: scheduleError?.response?.status,
+              statusText: scheduleError?.response?.statusText,
+              responseData: scheduleError?.response?.data,
+              message: scheduleError?.message,
+              leagueId: res.data.league._id,
+            })
+          }
+        }
       }
       return redirect("/")
     } catch (error) {
@@ -74,12 +106,15 @@ export const action =
 
 const sports = ["NFL", "MLB"]
 const styles = ["Head to Head", "Rotisserie"]
-const playoffTeams = [4, 6, 8]
 
 const CreateLeague = () => {
   const [sport, setSport] = useState("NFL")
+  const [style, setStyle] = useState(styles[0])
   const handleSportSelect = (val) => {
     setSport(val)
+  }
+  const handleStyleSelect = (val) => {
+    setStyle(val)
   }
 
   return (
@@ -98,7 +133,14 @@ const CreateLeague = () => {
           onChange={(e) => handleSportSelect(e.target.value)}
         />
         {/* STYLE */}
-        <FormSelect label="select style" name="style" list={styles} size="select-sm" defaultValue={styles[0]} />
+        <FormSelect
+          label="select style"
+          name="style"
+          list={styles}
+          size="select-sm"
+          defaultValue={styles[0]}
+          onChange={(e) => handleStyleSelect(e.target.value)}
+        />
         {/* NUMBER OF TEAMS */}
         <FormRange
           label="select number of teams"
@@ -109,14 +151,26 @@ const CreateLeague = () => {
           max={20}
           step={2}
         />
-        {/* PLAYOFF TEAMS */}
-        <FormSelect
-          label="select number of playoff teams"
-          name="num_playoff_teams"
-          list={playoffTeams}
-          size="select-sm"
-          defaultValue={playoffTeams[0]}
+        {/* REGULAR SEASON WEEKS */}
+        <FormRange
+          label="select number of regular season weeks"
+          name="regular_season_weeks"
+          size="range-sm"
+          teams={14}
+          min={1}
+          max={20}
+          step={1}
         />
+        {/* PLAYOFFS (Head to Head only) */}
+        {style === "Head to Head" && (
+          <FormSelect
+            label="select playoff format"
+            name="playoff_format"
+            list={playoffFormats.map((format) => format.label)}
+            size="select-sm"
+            defaultValue={playoffFormats[0].label}
+          />
+        )}
         {/* MAX PLAYERS PER TEAM */}
         <FormRange
           label="max number of players that can be used per franchise"

@@ -5,7 +5,7 @@ import { clearLeagueTeamInfo } from "../features/league/leagueSlice"
 import { changeViewingWeek } from "../features/week/weekSlice"
 import { useState } from "react"
 import { FaBars, FaTimes } from "react-icons/fa"
-import { clearMatchupInfo, trueIsUserMatchup } from "../features/matchup/matchupSlice"
+import { clearMatchupInfo } from "../features/matchup/matchupSlice"
 
 const LeagueNavbar = () => {
   const { user } = useUser()
@@ -32,10 +32,6 @@ const LeagueNavbar = () => {
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen)
-  }
-
-  const handleMatchup = (matchupId) => {
-    dispatch(trueIsUserMatchup())
   }
 
   return (
@@ -65,7 +61,7 @@ const LeagueNavbar = () => {
           >
             <span className="font-extrabold text-lg">Set Lineup</span>
           </Link>
-          <Link to={`/leagues/${leagueId}/matchups/${matchupIdUser}`} className="btn btn-ghost" onClick={handleMatchup}>
+          <Link to={`/leagues/${leagueId}/matchups/${matchupIdUser}`} className="btn btn-ghost">
             <span className="font-extrabold text-lg">My Matchup</span>
           </Link>
         </div>
@@ -96,11 +92,7 @@ const LeagueNavbar = () => {
             >
               <span className="font-extrabold text-lg md:text-xl">Set Lineup</span>
             </Link>
-            <Link
-              to={`/leagues/${leagueId}/matchups/${matchupIdUser}`}
-              className="btn btn-ghost"
-              onClick={handleMatchup}
-            >
+            <Link to={`/leagues/${leagueId}/matchups/${matchupIdUser}`} className="btn btn-ghost">
               <span className="font-extrabold text-lg">My Matchup</span>
             </Link>
             <button className="btn btn-accent text-lg md:text-xl" onClick={handleLogout}>
