@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { useSelector } from "react-redux"
 import { useLoaderData } from "react-router-dom"
 import ScheduleMatchupList from "./ScheduleMatchupList"
@@ -5,7 +6,6 @@ import ScheduleMatchupList from "./ScheduleMatchupList"
 const Schedule = () => {
   const { league } = useLoaderData()
   const week = useSelector((state) => state.week)
-  const currentLeague = useSelector((state) => state.league)
 
   let currentWeek
 
@@ -15,7 +15,7 @@ const Schedule = () => {
     currentWeek = week.mlbWeek
   }
 
-  const weeksArray = [...Array(league.regular_season_weeks + league.playoff_weeks).keys()]
+  const weeksArray = [...Array(league.regularSeasonWeeks + league.playoffWeeks).keys()]
   const newWeeks = weeksArray.map((w) => w + 1)
 
   for (let i = 1; i <= newWeeks.length; i++) {
@@ -26,31 +26,30 @@ const Schedule = () => {
     }
   }
 
+  const [activeIndex, setActiveIndex] = useState(0)
+  const activeWeek = newWeeks[activeIndex]
+
+  const handlePrev = () => {
+    setActiveIndex((prev) => (prev === 0 ? newWeeks.length - 1 : prev - 1))
+  }
+
+  const handleNext = () => {
+    setActiveIndex((prev) => (prev === newWeeks.length - 1 ? 0 : prev + 1))
+  }
+
   return (
     <div className="h-full bg-sky-200 flex flex-col items-center rounded-lg">
       <h1 className="text-center text-2xl font-bold mt-5">Schedule</h1>
-      <div className="carousel w-full h-full">
-        {newWeeks.map((item) => {
-          return (
-            <section key={`slide${item}`} id={`slide${item}`} className="carousel-item relative w-full">
-              <ScheduleMatchupList week={item} />
-              <div className="hidden sm:flex absolute left-5 right-5 top-1/2 -translate-y-1/2 transform justify-between">
-                <a
-                  href={`${currentLeague.leagueId}#slide${item - 1 === 0 ? newWeeks.length : item - 1}`}
-                  className="btn btn-square btn-outline btn-sm scroll-pt-3.5"
-                >
-                  ❮
-                </a>
-                <a
-                  href={`${currentLeague.leagueId}#slide${item === newWeeks.length ? 1 : item + 1}`}
-                  className="btn btn-square btn-outline btn-sm scroll-pt-3.5"
-                >
-                  ❯
-                </a>
-              </div>
-            </section>
-          )
-        })}
+      <div className="relative w-full h-full">
+        <ScheduleMatchupList week={activeWeek} />
+        <div className="hidden sm:flex absolute left-5 right-5 top-1/2 -translate-y-1/2 transform justify-between">
+          <button type="button" onClick={handlePrev} className="btn btn-square btn-outline btn-sm">
+            ❮
+          </button>
+          <button type="button" onClick={handleNext} className="btn btn-square btn-outline btn-sm">
+            ❯
+          </button>
+        </div>
       </div>
     </div>
   )

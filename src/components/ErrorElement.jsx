@@ -1,28 +1,19 @@
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 import { Link, useRouteError } from "react-router-dom"
-import { logoutUser } from "../features/user/userSlice"
+import { useAuth } from "@clerk/clerk-react"
 import { clearLeagueTeamInfo } from "../features/league/leagueSlice"
-import axios from "axios"
 
 const ErrorElement = () => {
   const error = useRouteError()
   console.log(error)
 
-  const { token } = useSelector((state) => state.user)
+  const { signOut } = useAuth()
 
   const dispatch = useDispatch()
 
   const handleReset = async () => {
-    try {
-      const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/auth/logout`, null, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      dispatch(logoutUser())
-    } catch (error) {
-      console.log(error)
-    }
+    await signOut()
+    dispatch(clearLeagueTeamInfo())
   }
 
   return (

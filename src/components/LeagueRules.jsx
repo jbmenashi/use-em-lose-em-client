@@ -23,16 +23,16 @@ const LeagueRules = () => {
             <span className="font-bold">Style:</span> {league.style}
           </p>
           <p className="mb-1">
-            <span className="font-bold">Schedule:</span> Regular Season: {league.regular_season_weeks} weeks | Playoffs:{" "}
-            {league.playoff_weeks} weeks
+            <span className="font-bold">Schedule:</span> Regular Season: {league.regularSeasonWeeks} weeks | Playoffs:{" "}
+            {league.playoffWeeks} weeks
           </p>
         </div>
         <div className="w-1/2 p-4">
           <p className="mb-1">
-            <span className="font-bold">Playoff Teams:</span> {league.playoff_teams}
+            <span className="font-bold">Playoff Teams:</span> {league.playoffTeams}
           </p>
           <p className="mb-1">
-            <span className="font-bold">Times Each Team Can Be Used:</span> {league.team_count}
+            <span className="font-bold">Times Each Team Can Be Used:</span> {league.teamCount}
           </p>
           <p className="mb-1">
             <span className="font-bold">Rosters:</span> {rosterString}

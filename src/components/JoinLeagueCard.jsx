@@ -1,36 +1,40 @@
-import axios from "axios"
-import { useDispatch, useSelector } from "react-redux"
-import { Link, Navigate, redirect, useLoaderData, useNavigate } from "react-router-dom"
+import { redirect } from "react-router-dom"
 import { getLeagueTeamInfo } from "../features/league/leagueSlice"
-import { useState } from "react"
 import FormInput from "./FormInput"
 import SubmitBtn from "./SubmitBtn"
 import { Form } from "react-router-dom"
 import { toast } from "react-toastify"
+import { api } from "../api/client"
 
 export const action =
   (store) =>
   async ({ request }) => {
     const formData = await request.formData()
     const data = Object.fromEntries(formData)
-    const { token } = store.getState().user
     try {
-      const res = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/contestant/${data.league_id}?team_name=${data.team_name}`,
-        null,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
+      const res = await api.post(`/contestants/${data.leagueId}?teamName=${data.teamName}`, null)
       if (res.status === 201) {
-        const contestant_id = res.data.contestant["_id"]["$oid"]
-        const league_id = data.league_id
-        const league_name = data.league_name
-        const team_name = data.team_name
-        store.dispatch(getLeagueTeamInfo({ league_id, league_name, contestant_id, team_name }))
-        return redirect(`/leagues/${data.league_id}`)
+        const contestantId = res.data.contestant._id
+        const leagueId = data.leagueId
+        const leagueName = data.leagueName
+        const teamName = data.teamName
+        store.dispatch(getLeagueTeamInfo({ leagueId, leagueName, contestantId, teamName }))
+        if (res.data.leagueFull && data.style === "Head to Head") {
+          try {
+            await api.post(`/leagues/${leagueId}/schedule`)
+          } catch (scheduleError) {
+            console.error("[JoinLeagueCard action] failed to generate schedule", {
+              url: scheduleError?.config?.url,
+              method: scheduleError?.config?.method,
+              status: scheduleError?.response?.status,
+              statusText: scheduleError?.response?.statusText,
+              responseData: scheduleError?.response?.data,
+              message: scheduleError?.message,
+              leagueId,
+            })
+          }
+        }
+        return redirect(`/leagues/${data.leagueId}`)
       }
     } catch (error) {
       console.log(error)
@@ -40,34 +44,38 @@ export const action =
   }
 
 const JoinLeagueCard = ({ league }) => {
-  const { league_name, sport, style } = league
-  const league_id = league["_id"]["$oid"]
+  const { leagueName, sport, style } = league
+  const leagueId = league._id
+  const modalId = `join_league_modal_${leagueId}`
 
   return (
     <div className="card w-96 bg-secondary shadow-xl m-5">
       <div className="card-body">
-        <h2 className="card-title">{league_name}</h2>
+        <h2 className="card-title">{leagueName}</h2>
         <p>Sport: {sport}</p>
         <p>Style: {style}</p>
-        <button className="btn btn-primary" onClick={() => document.getElementById("my_modal_1").showModal()}>
+        <button className="btn btn-primary" onClick={() => document.getElementById(modalId).showModal()}>
           Join League
         </button>
-        <dialog id="my_modal_1" className="modal">
+        <dialog id={modalId} className="modal">
           <div className="modal-box">
-            <div className="modal-action">
-              <Form method="POST" className="m-8 p-8 rounded bg-base-200 shadow-lg grid gap-y-4 gap-x-6 w-2/3">
-                <FormInput type="text" name="league_id" defaultValue={league_id} hidden={true} />
-                <FormInput type="text" name="league_name" defaultValue={league_name} hidden={true} />
-                <FormInput type="text" label="team name" name="team_name" />
-                <div className="mt-4">
-                  <SubmitBtn text="Join!" />
-                </div>
-              </Form>
-              <button className="btn" onClick={() => document.getElementById("my_modal_1").close()}>
-                Close
-              </button>
-            </div>
+            <form method="dialog">
+              <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+            </form>
+            <h3 className="font-bold text-lg">Join {leagueName}</h3>
+            <Form method="POST" className="flex flex-col gap-4 mt-4">
+              <FormInput type="text" name="leagueId" defaultValue={leagueId} hidden={true} />
+              <FormInput type="text" name="leagueName" defaultValue={leagueName} hidden={true} />
+              <FormInput type="text" name="style" defaultValue={style} hidden={true} />
+              <FormInput type="text" label="team name" name="teamName" />
+              <div className="modal-action">
+                <SubmitBtn text="Join!" />
+              </div>
+            </Form>
           </div>
+          <form method="dialog" className="modal-backdrop">
+            <button>close</button>
+          </form>
         </dialog>
       </div>
     </div>

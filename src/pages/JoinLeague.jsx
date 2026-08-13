@@ -1,21 +1,21 @@
-import axios from "axios"
-import { useLoaderData, redirect } from "react-router-dom"
+import { useLoaderData } from "react-router-dom"
 import JoinLeagueCard from "../components/JoinLeagueCard"
-import { logoutUser } from "../features/user/userSlice"
+import { api } from "../api/client"
 
 export const loader = (store) => async () => {
-  const { user, userId, token } = store.getState().user
   try {
-    const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/league/available/${userId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
+    const res = await api.get("/leagues/available")
     return res.data
   } catch (error) {
-    console.log(error)
-    store.dispatch(logoutUser())
-    return redirect("/")
+    console.error("[JoinLeague loader] failed to load available leagues", {
+      url: error?.config?.url,
+      method: error?.config?.method,
+      status: error?.response?.status,
+      statusText: error?.response?.statusText,
+      responseData: error?.response?.data,
+      message: error?.message,
+    })
+    throw error
   }
 }
 
@@ -30,7 +30,7 @@ const JoinLeague = () => {
         </div>
         <div className="grid grid-cols-3">
           {leagues.map((league) => {
-            return <JoinLeagueCard key={league["_id"]["$oid"]} league={league} />
+            return <JoinLeagueCard key={league._id} league={league} />
           })}
         </div>
       </div>

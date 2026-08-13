@@ -1,51 +1,78 @@
-import SubmitBtn from "../components/SubmitBtn"
-import FormInput from "../components/FormInput"
-import { Form, Link, redirect, useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
-import axios from "axios"
-import { loginUser } from "../features/user/userSlice"
+import { useSignIn } from "@clerk/clerk-react"
+import { useState } from "react"
 
-export const action =
-  (store) =>
-  async ({ request }) => {
-    const formData = await request.formData()
-    const data = Object.fromEntries(formData)
+const Login = () => {
+  const { signIn, setActive, isLoaded } = useSignIn()
+  const navigate = useNavigate()
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    if (!isLoaded) return
+
+    setIsSubmitting(true)
     try {
-      const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/auth/login`, data, {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-      })
-      if (res.status === 200) {
-        const res2 = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/users/me`, {
-          headers: {
-            Authorization: `Bearer ${res.data.access_token}`,
-          },
-        })
-        const data = { id: res2.data.id, email: res2.data.email, token: res.data.access_token }
-        store.dispatch(loginUser(data))
+      const res = await signIn.create({ identifier: email, password })
+
+      if (res.createdSessionId) {
+        await setActive({ session: res.createdSessionId })
+        toast.success("logged in successfully")
+        navigate("/")
+      } else {
+        toast.error("please double check your credentials")
       }
-      // store.dispatch(loginUser(response.data))
-      toast.success("logged in successfully")
-      return redirect("/")
     } catch (error) {
       console.log(error)
-      const errorMessage = error?.response?.data?.error?.message || "please double check your credentials"
-
+      const errorMessage = error?.errors?.[0]?.message || "please double check your credentials"
       toast.error(errorMessage)
-      return null
+    } finally {
+      setIsSubmitting(false)
     }
   }
 
-const Login = () => {
   return (
     <section className="h-screen grid place-items-center bg-accent">
-      <Form method="post" className="card w-96 p-8 bg-base-100 shadow-lg flex flex-col gap-y-4">
+      <form onSubmit={handleSubmit} className="card w-96 p-8 bg-base-100 shadow-lg flex flex-col gap-y-4">
         <h4 className="text-center text-3xl font-bold">Login</h4>
-        <FormInput type="email" label="username" name="username" />
-        <FormInput type="password" label="password" name="password" />
+        <div className="form-control">
+          <label htmlFor="email" className="label">
+            <span className="label-text capitalize">email</span>
+          </label>
+          <input
+            type="email"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="input input-bordered"
+          />
+        </div>
+        <div className="form-control">
+          <label htmlFor="password" className="label">
+            <span className="label-text capitalize">password</span>
+          </label>
+          <input
+            type="password"
+            id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="input input-bordered"
+          />
+        </div>
         <div className="mt-4">
-          <SubmitBtn text="login" />
+          <button type="submit" className="btn btn-secondary btn-block capitalize" disabled={isSubmitting}>
+            {isSubmitting ? (
+              <>
+                <span className="loading loading-spinner"></span>
+                sending...
+              </>
+            ) : (
+              "login"
+            )}
+          </button>
         </div>
         <p className="text-center">
           Not a member yet?
@@ -53,7 +80,7 @@ const Login = () => {
             register
           </Link>
         </p>
-      </Form>
+      </form>
     </section>
   )
 }

@@ -1,16 +1,15 @@
 import { useSelector, useDispatch } from "react-redux"
 import { Link, useNavigate } from "react-router-dom"
-import axios from "axios"
-import { logoutUser } from "../features/user/userSlice"
+import { useAuth, useUser } from "@clerk/clerk-react"
 import { clearLeagueTeamInfo } from "../features/league/leagueSlice"
-import { BiHome } from "react-icons/bi"
 import { changeViewingWeek } from "../features/week/weekSlice"
 import { useState } from "react"
 import { FaBars, FaTimes } from "react-icons/fa"
-import { clearMatchupInfo, trueIsUserMatchup } from "../features/matchup/matchupSlice"
+import { clearMatchupInfo } from "../features/matchup/matchupSlice"
 
 const LeagueNavbar = () => {
-  const { userName, token } = useSelector((state) => state.user)
+  const { user } = useUser()
+  const { signOut } = useAuth()
   const { leagueId, leagueName, teamId, teamName } = useSelector((state) => state.league)
   const week = useSelector((state) => state.week)
   const { matchupIdUser } = useSelector((state) => state.matchup)
@@ -18,19 +17,10 @@ const LeagueNavbar = () => {
   const navigate = useNavigate()
 
   const handleLogout = async () => {
-    try {
-      const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/auth/logout`, null, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      dispatch(logoutUser())
-      dispatch(clearLeagueTeamInfo())
-      dispatch(clearMatchupInfo())
-      navigate("/")
-    } catch (error) {
-      console.log(error)
-    }
+    await signOut()
+    dispatch(clearLeagueTeamInfo())
+    dispatch(clearMatchupInfo())
+    navigate("/")
   }
 
   const handleWeek = () => {
@@ -42,10 +32,6 @@ const LeagueNavbar = () => {
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen)
-  }
-
-  const handleMatchup = (matchupId) => {
-    dispatch(trueIsUserMatchup())
   }
 
   return (
@@ -75,7 +61,7 @@ const LeagueNavbar = () => {
           >
             <span className="font-extrabold text-lg">Set Lineup</span>
           </Link>
-          <Link to={`/leagues/${leagueId}/matchups/${matchupIdUser}`} className="btn btn-ghost" onClick={handleMatchup}>
+          <Link to={`/leagues/${leagueId}/matchups/${matchupIdUser}`} className="btn btn-ghost">
             <span className="font-extrabold text-lg">My Matchup</span>
           </Link>
         </div>
@@ -83,7 +69,7 @@ const LeagueNavbar = () => {
 
       <div className="navbar-end hidden md:flex items-center space-x-4">
         <div className=" font-bold mr-5">
-          <h4>Hello {userName}!</h4>
+          <h4>Hello {user?.primaryEmailAddress?.emailAddress}!</h4>
         </div>
         <div>
           <button className="btn btn-accent text-xl" onClick={handleLogout}>
@@ -106,11 +92,7 @@ const LeagueNavbar = () => {
             >
               <span className="font-extrabold text-lg md:text-xl">Set Lineup</span>
             </Link>
-            <Link
-              to={`/leagues/${leagueId}/matchups/${matchupIdUser}`}
-              className="btn btn-ghost"
-              onClick={handleMatchup}
-            >
+            <Link to={`/leagues/${leagueId}/matchups/${matchupIdUser}`} className="btn btn-ghost">
               <span className="font-extrabold text-lg">My Matchup</span>
             </Link>
             <button className="btn btn-accent text-lg md:text-xl" onClick={handleLogout}>

@@ -1,34 +1,33 @@
-import { useSelector } from "react-redux"
+import { useUser } from "@clerk/clerk-react"
 import HomeLoggedOut from "../components/HomeLoggedOut"
 import HomeLoggedIn from "../components/HomeLoggedIn"
-import axios from "axios"
-import { loadLeagues, logoutUser } from "../features/user/userSlice"
-import { redirect } from "react-router-dom"
+import { api } from "../api/client"
+import { loadLeagues } from "../features/user/userSlice"
 
 export const loader = (store) => async () => {
-  const { user, userId, token } = store.getState().user
-  if (!user) {
+  if (!window.Clerk?.session) {
     return null
-  } else {
-    try {
-      const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/contestant/user/${userId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      store.dispatch(loadLeagues(res.data))
-      return res.data
-    } catch (error) {
-      console.log(error)
-      store.dispatch(logoutUser())
-      return redirect("/")
-    }
+  }
+  try {
+    const res = await api.get("/contestants/me")
+    store.dispatch(loadLeagues(res.data))
+    return res.data
+  } catch (error) {
+    console.error("[Home loader] failed to load user contestant data", {
+      url: error?.config?.url,
+      method: error?.config?.method,
+      status: error?.response?.status,
+      statusText: error?.response?.statusText,
+      responseData: error?.response?.data,
+      message: error?.message,
+    })
+    throw error
   }
 }
 
 const Home = () => {
-  const user = useSelector((state) => state.user.user)
-  if (!user) {
+  const { isSignedIn } = useUser()
+  if (!isSignedIn) {
     return <HomeLoggedOut />
   }
   return <HomeLoggedIn />

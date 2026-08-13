@@ -1,5 +1,5 @@
-import { Form, useLoaderData, useLocation, useNavigate, redirect } from "react-router-dom"
-import axios from "axios"
+import { Form, useLoaderData, useLocation, useNavigate } from "react-router-dom"
+import { api } from "../api/client"
 import UnavailableBlock from "../components/UnavailableBlock"
 import { useDispatch, useSelector } from "react-redux"
 import SearchFormSelect from "../components/SearchFormSelect"
@@ -11,7 +11,6 @@ import {
   changePage,
 } from "../features/lineup/lineupSlice"
 import PlayersTable from "../components/PlayersTable"
-import { logoutUser } from "../features/user/userSlice"
 import PageDropdown from "../components/PageDropdown"
 import Loading from "../components/Loading"
 
@@ -19,29 +18,16 @@ export const loader = (store) => async () => {
   store.dispatch(lineupLoadingTrue())
   const { teamId } = store.getState().league
   const { position, teamFilter, page } = store.getState().lineup
-  const { token } = store.getState().user
-  let url = `${import.meta.env.VITE_BACKEND_URL}/players/nfl/${teamId}?position=${position}&page=${page}`
+  let url = `/players/nfl/${teamId}?position=${position}&page=${page}`
   if (teamFilter !== "") {
     url = url + `&teamFilter=${teamFilter}`
   }
 
   try {
     const [playersRes, contestantRes, teamsRes] = await Promise.all([
-      await axios.get(url, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }),
-      axios.get(`${import.meta.env.VITE_BACKEND_URL}/contestant/${teamId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }),
-      axios.get(`${import.meta.env.VITE_BACKEND_URL}/teams/nfl/`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }),
+      api.get(url),
+      api.get(`/contestants/${teamId}`),
+      api.get("/teams/nfl"),
     ])
     const players = playersRes.data
     const contestant = contestantRes.data
@@ -49,9 +35,20 @@ export const loader = (store) => async () => {
 
     return { players, contestant, teams }
   } catch (error) {
-    console.log(error)
-    store.dispatch(logoutUser())
-    return redirect("/")
+    console.error("[PlayerSearch loader] failed to load player search data", {
+      url: error?.config?.url,
+      method: error?.config?.method,
+      status: error?.response?.status,
+      statusText: error?.response?.statusText,
+      responseData: error?.response?.data,
+      message: error?.message,
+      teamId,
+      position,
+      teamFilter,
+      page,
+    })
+    store.dispatch(lineupLoadingFalse())
+    throw error
   }
 }
 

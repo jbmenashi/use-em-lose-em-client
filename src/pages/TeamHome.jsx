@@ -1,61 +1,52 @@
-import { redirect, useLoaderData, useLocation, useNavigate } from "react-router-dom"
+import { useLoaderData, useLocation, useNavigate } from "react-router-dom"
 import { changeViewingWeek } from "../features/week/weekSlice"
-import axios from "axios"
+import { api } from "../api/client"
 import UnavailableBlock from "../components/UnavailableBlock"
 import { useDispatch, useSelector } from "react-redux"
 import LineupTable from "../components/LineupTable"
-import { logoutUser } from "../features/user/userSlice"
 import Loading from "../components/Loading"
 import { changePage } from "../features/lineup/lineupSlice"
 
 export const loader = (store) => async () => {
   const { leagueId, teamId } = store.getState().league
   const { viewingWeek } = store.getState().week
-  const { token } = store.getState().user
   try {
-    const [contestantRes, lineupRes, leagueRes] = await Promise.all([
-      axios.get(`${import.meta.env.VITE_BACKEND_URL}/contestant/${teamId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }),
-      axios.get(`${import.meta.env.VITE_BACKEND_URL}/lineup/contestant/${teamId}?week=${viewingWeek}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }),
-      axios.get(`${import.meta.env.VITE_BACKEND_URL}/league/${leagueId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }),
+    const [contestantRes, leagueRes] = await Promise.all([
+      api.get(`/contestants/${teamId}`),
+      api.get(`/leagues/${leagueId}`),
     ])
     const contestant = contestantRes.data
-    const lineup = lineupRes.data
     const league = leagueRes.data
+
+    let lineup = null
+    try {
+      const lineupRes = await api.get(`/lineups/contestant/${teamId}?week=${viewingWeek}`)
+      lineup = lineupRes.data
+    } catch (lineupError) {
+      if (lineupError?.response?.status !== 404) throw lineupError
+    }
+
     store.dispatch(changePage({ page: 1 }))
     return { contestant, lineup, league }
   } catch (error) {
-    console.log(error)
-    store.dispatch(logoutUser())
-    return redirect("/")
+    console.error("[TeamHome loader] failed to load team data", {
+      url: error?.config?.url,
+      method: error?.config?.method,
+      status: error?.response?.status,
+      statusText: error?.response?.statusText,
+      responseData: error?.response?.data,
+      message: error?.message,
+      leagueId,
+      teamId,
+      viewingWeek,
+    })
+    throw error
   }
 }
 
 const TeamHome = () => {
-  const data = useLoaderData()
-  const { lineupLoading } = useSelector((state) => state.lineup)
-
-  if (data === null) {
-    return (
-      <main className="grid min-h-[100vh] place-items-center px-8">
-        <div className="text-center">
-          <p className="text-xl font-semibold">Lineup Will Become Available Once League Is Full</p>
-        </div>
-      </main>
-    )
-  }
   const { contestant, lineup, league } = useLoaderData()
+  const { lineupLoading } = useSelector((state) => state.lineup)
   const { viewingWeek } = useSelector((state) => state.week)
   const { pathname } = useLocation()
   const dispatch = useDispatch()
@@ -78,16 +69,24 @@ const TeamHome = () => {
   //   }
   // }
 
-  const totalWeeks = league.regular_season_weeks + league.playoff_weeks
-
   if (lineupLoading) {
     return <Loading />
+  }
+
+  if (!lineup) {
+    return (
+      <main className="grid min-h-[100vh] place-items-center px-8">
+        <div className="text-center">
+          <p className="text-xl font-semibold">Lineup Will Become Available Once League Is Full</p>
+        </div>
+      </main>
+    )
   }
 
   return (
     <div className="min-h-screen flex flex-col items-center">
       <h1 className="text-center text-2xl sm:text-4xl font-bold my-8">
-        {contestant.team_name} - Week {viewingWeek}
+        {contestant.teamName} - Week {viewingWeek}
       </h1>
 
       <div className="w-full sm:w-3/4 bg-accent flex overflow-auto p-2 rounded">
@@ -106,7 +105,7 @@ const TeamHome = () => {
 
         <LineupTable selections={lineup.selections} statistics={league.scoring.statistics} />
 
-        {viewingWeek !== league.regular_season_weeks && (
+        {viewingWeek !== league.regularSeasonWeeks && (
           <button
             className="btn bg-primary text-white py-2 px-4 rounded ml-0 sm:ml-4 mt-4 sm:mt-0"
             onClick={handleWeekForward}
