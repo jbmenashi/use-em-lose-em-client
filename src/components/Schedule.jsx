@@ -15,7 +15,7 @@ const Schedule = () => {
     currentWeek = week.mlbWeek
   }
 
-  const weeksArray = [...Array(league.regular_season_weeks + league.playoff_weeks).keys()]
+  const weeksArray = [...Array(league.regularSeasonWeeks + league.playoffWeeks).keys()]
   const newWeeks = weeksArray.map((w) => w + 1)
 
   for (let i = 1; i <= newWeeks.length; i++) {

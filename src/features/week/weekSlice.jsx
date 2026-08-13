@@ -1,34 +1,22 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
-import axios from "axios"
+import { api } from "../../api/client"
+import { getStoredJSON, setStoredJSON } from "../../utils/localStorage"
 
-const getUserTokenFromLocalStorage = () => {
-  return JSON.parse(localStorage.getItem("token")) || ""
-}
-
-export const getWeeks = createAsyncThunk("week/getWeeks", async (thunkAPI) => {
+export const getWeeks = createAsyncThunk("week/getWeeks", async (_, thunkAPI) => {
   try {
-    const token = getUserTokenFromLocalStorage()
-    const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/currentweeks`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
+    const res = await api.get("/weeks/current")
     return { weeks: res.data }
   } catch (error) {
     return thunkAPI.rejectWithValue("something went wrong")
   }
 })
 
-const getViewingWeekFromLocalStorage = () => {
-  return JSON.parse(localStorage.getItem("viewingWeek")) || 1
-}
-
 const initialState = {
   nflSeason: 2024,
   nflWeek: 1,
   mlbSeason: 2024,
   mlbWeek: 1,
-  viewingWeek: getViewingWeekFromLocalStorage(),
+  viewingWeek: getStoredJSON("viewingWeek", 1),
 }
 
 const weekSlice = createSlice({
@@ -38,20 +26,23 @@ const weekSlice = createSlice({
     changeViewingWeek: (state, action) => {
       const { newWeek } = action.payload
       state.viewingWeek = newWeek
-      localStorage.setItem("viewingWeek", JSON.stringify(newWeek))
+      setStoredJSON("viewingWeek", newWeek)
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(getWeeks.pending, (state) => {})
       .addCase(getWeeks.fulfilled, (state, action) => {
-        const { weeks } = action.payload
-        state.nflSeason = weeks["nfl_season"]
-        state.nflWeek = weeks["nfl_week"]
-        state.mlbSeason = weeks["mlb_season"]
-        state.mlbWeek = weeks["mlb_week"]
-        localStorage.setItem("viewingWeek", JSON.stringify(weeks["nfl_week"]))
-        state.viewingWeek = getViewingWeekFromLocalStorage()
+        const weeks = action.payload?.weeks
+        if (!weeks) return
+        if (weeks.nflSeason != null) state.nflSeason = weeks.nflSeason
+        if (weeks.nflWeek != null) state.nflWeek = weeks.nflWeek
+        if (weeks.mlbSeason != null) state.mlbSeason = weeks.mlbSeason
+        if (weeks.mlbWeek != null) state.mlbWeek = weeks.mlbWeek
+        if (weeks.nflWeek != null) {
+          state.viewingWeek = weeks.nflWeek
+          setStoredJSON("viewingWeek", weeks.nflWeek)
+        }
       })
       .addCase(getWeeks.rejected, (state) => {})
   },

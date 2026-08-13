@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit"
+import { getStoredJSON, setStoredJSON, removeStoredJSON } from "../../utils/localStorage"
 
-const getMatchupInfoFromLocalStorage = () => {
-  const matchupId = JSON.parse(localStorage.getItem("matchupId")) || null
-  const matchupIdUser = JSON.parse(localStorage.getItem("matchupIdUser")) || null
-  const isUserMatchup = JSON.parse(localStorage.getItem("isUserMatchup")) || false
-  return { matchupId, matchupIdUser, isUserMatchup }
-}
+const getMatchupInfoFromLocalStorage = () => ({
+  matchupId: getStoredJSON("matchupId", null),
+  matchupIdUser: getStoredJSON("matchupIdUser", null),
+  isUserMatchup: false,
+})
 
 const initialState = getMatchupInfoFromLocalStorage()
 
@@ -16,18 +16,18 @@ const matchupSlice = createSlice({
     getMatchupId: (state, action) => {
       const { matchupId } = action.payload
       state.matchupId = matchupId
-      localStorage.setItem("matchupId", JSON.stringify(matchupId))
+      setStoredJSON("matchupId", matchupId)
     },
     getMatchupIdUser: (state, action) => {
       const { matchupIdUser } = action.payload
       state.matchupIdUser = matchupIdUser
-      localStorage.setItem("matchupIdUser", JSON.stringify(matchupIdUser))
+      setStoredJSON("matchupIdUser", matchupIdUser)
     },
     clearMatchupInfo: (state, action) => {
       state.matchupId = null
-      localStorage.setItem("matchupId", JSON.stringify(null))
+      removeStoredJSON("matchupId")
       state.matchupIdUser = null
-      localStorage.setItem("matchupIdUser", JSON.stringify(null))
+      removeStoredJSON("matchupIdUser")
     },
     trueIsUserMatchup: (state) => {
       state.isUserMatchup = true

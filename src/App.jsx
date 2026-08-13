@@ -14,8 +14,6 @@ import Matchup from "./pages/Matchup"
 import ErrorElement from "./components/ErrorElement"
 import Loading from "./components/Loading"
 
-import { action as registerAction } from "./pages/Register"
-import { action as loginAction } from "./pages/Login"
 import { action as createLeagueAction } from "./pages/CreateLeague"
 import { action as joinLeagueAction } from "./components/JoinLeagueCard"
 import { action as playerSearchAction } from "./pages/PlayerSearch"
@@ -29,8 +27,9 @@ import { loader as matchupLoader } from "./pages/Matchup"
 
 import { store } from "./store"
 import { useEffect } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { getUser } from "./features/user/userSlice"
+import { useDispatch } from "react-redux"
+import { useAuth } from "@clerk/clerk-react"
+import { getLeagues } from "./features/user/userSlice"
 import { getWeeks } from "./features/week/weekSlice"
 
 const router = createBrowserRouter([
@@ -96,25 +95,26 @@ const router = createBrowserRouter([
     path: "/register",
     element: <Register />,
     errorElement: <ErrorElement />,
-    action: registerAction,
   },
   {
     path: "/login",
     element: <Login />,
     errorElement: <ErrorElement />,
-    action: loginAction(store),
   },
 ])
 
 export default function App() {
-  const { isLoading } = useSelector((state) => state.user)
+  const { isLoaded, isSignedIn } = useAuth()
   const dispatch = useDispatch()
   useEffect(() => {
-    dispatch(getUser())
+    if (!isLoaded) return
     dispatch(getWeeks())
-  }, [])
+    if (isSignedIn) {
+      dispatch(getLeagues())
+    }
+  }, [isLoaded, isSignedIn])
 
-  if (isLoading) {
+  if (!isLoaded) {
     return <Loading />
   }
   return <RouterProvider router={router} />

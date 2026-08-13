@@ -1,29 +1,19 @@
-import { BiHome } from "react-icons/bi"
-import { useSelector, useDispatch } from "react-redux"
-import { Link, redirect, useNavigate } from "react-router-dom"
-import axios from "axios"
-import { logoutUser } from "../features/user/userSlice"
+import { useDispatch } from "react-redux"
+import { Link, useNavigate } from "react-router-dom"
+import { useAuth, useUser } from "@clerk/clerk-react"
 import { clearLeagueTeamInfo } from "../features/league/leagueSlice"
 import { useState } from "react"
 import { FaBars, FaTimes } from "react-icons/fa"
 
 const Navbar = () => {
-  const { user, userName, token } = useSelector((state) => state.user)
+  const { isSignedIn, user } = useUser()
+  const { signOut } = useAuth()
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const handleLogout = async () => {
-    try {
-      const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/auth/logout`, null, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      dispatch(logoutUser())
-      dispatch(clearLeagueTeamInfo())
-      navigate("/")
-    } catch (error) {
-      console.log(error)
-    }
+    await signOut()
+    dispatch(clearLeagueTeamInfo())
+    navigate("/")
   }
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -50,7 +40,7 @@ const Navbar = () => {
 
       {/* Navbar Center (Links for medium and larger screens) */}
       <div className="navbar-center hidden md:flex space-x-4">
-        {user && (
+        {isSignedIn && (
           <>
             <Link to="/createleague" className="btn btn-ghost">
               <span className="font-extrabold text-lg">Create League</span>
@@ -64,10 +54,10 @@ const Navbar = () => {
 
       {/* Navbar End (Login/Register/Logout links for medium and larger screens) */}
       <div className="navbar-end hidden md:flex items-center space-x-4">
-        {user ? (
+        {isSignedIn ? (
           <>
             <div className=" font-bold mr-5">
-              <h4>Hello {userName}!</h4>
+              <h4>Hello {user?.primaryEmailAddress?.emailAddress}!</h4>
             </div>
             <button className="btn btn-accent text-xl" onClick={handleLogout}>
               Logout
@@ -89,7 +79,7 @@ const Navbar = () => {
       {isMobileMenuOpen && (
         <div className="absolute top-16 right-0 bg-primary w-full h-auto shadow-lg text-center py-4 md:hidden z-50">
           <div className="flex flex-row space-x-4 justify-center items-center flex-wrap">
-            {user ? (
+            {isSignedIn ? (
               <>
                 <Link to="/createleague" className="btn btn-ghost" onClick={toggleMobileMenu}>
                   <span className="font-extrabold text-lg md:text-xl">Create League</span>

@@ -21,22 +21,22 @@ const LineupTable = ({ selections, statistics }) => {
   //   console.log(selections, statistics)
   const statColumns = []
   for (const [key, value] of Object.entries(statistics)) {
-    if (key === "pass_yds") {
+    if (key === "passYds") {
       statColumns.push("PassY")
     }
-    if (key === "pass_tds") {
+    if (key === "passTds") {
       statColumns.push("PassTD")
     }
     if (key === "ints") {
       statColumns.push("PassInt")
     }
-    if (key === "rush_yds") {
+    if (key === "rushYds") {
       statColumns.push("RushY")
     }
     if (key === "receptions") {
       statColumns.push("Rec")
     }
-    if (key === "rec_yds") {
+    if (key === "recYds") {
       statColumns.push("RecY")
     }
     if (key === "fumbles") {
@@ -45,28 +45,28 @@ const LineupTable = ({ selections, statistics }) => {
     if (key === "tds") {
       statColumns.push("TD")
     }
-    if (key === "two_pt_conv") {
+    if (key === "twoPtConv") {
       statColumns.push("2PT")
     }
-    if (key === "def_pts_allowed") {
+    if (key === "defPtsAllowed") {
       statColumns.push("PtsA")
     }
-    if (key === "def_sacks") {
+    if (key === "defSacks") {
       statColumns.push("Sack")
     }
-    if (key === "def_ints") {
+    if (key === "defInts") {
       statColumns.push("Int")
     }
-    if (key === "def_fumble_rec") {
+    if (key === "defFumbleRec") {
       statColumns.push("FumRec")
     }
-    if (key === "def_blk_kicks") {
+    if (key === "defBlkKicks") {
       statColumns.push("Blk")
     }
-    if (key === "def_safeties") {
+    if (key === "defSafeties") {
       statColumns.push("Saf")
     }
-    if (key === "def_tds_scored") {
+    if (key === "defTdsScored") {
       statColumns.push("DefTD")
     }
   }
@@ -113,7 +113,7 @@ const LineupTable = ({ selections, statistics }) => {
                   {sel.position.toUpperCase()}
                 </td>
                 <td className="border border-primary px-2 py-1 font-extrabold text-sm sm:text-lg w-[250%]">
-                  {sel.player_name || (
+                  {sel.playerName || (
                     <Link
                       to={`/leagues/${leagueId}/teams/${teamId}/playersearch?position=${sel.position.toUpperCase()}`}
                       onClick={() => handleStartSelection(lineup, sel.index, sel.position.toUpperCase())}
@@ -121,7 +121,7 @@ const LineupTable = ({ selections, statistics }) => {
                       <span className="text-primary underline">Select Player</span>
                     </Link>
                   )}
-                  {!sel.locked && sel.player_name && (
+                  {!sel.locked && sel.playerName && (
                     <button
                       className="btn btn-xs btn-accent ml-2"
                       onClick={() => handleStartSelection(lineup, sel.index, sel.position.toUpperCase())}
@@ -130,51 +130,51 @@ const LineupTable = ({ selections, statistics }) => {
                     </button>
                   )}
                 </td>
-                <td className="border border-primary px-2 py-1 text-sm sm:text-base">{sel.team_abbreviation}</td>
+                <td className="border border-primary px-2 py-1 text-sm sm:text-base">{sel.teamAbbreviation}</td>
                 <td className="border border-primary px-2 py-1 text-sm sm:text-base">
                   {sel.location ? (sel.location === "Away" ? `@ ${sel.opponent}` : `vs ${sel.opponent}`) : sel.opponent}
                 </td>
-                <td className="border border-primary px-2 py-1 text-sm sm:text-base">{sel.game_time}</td>
+                <td className="border border-primary px-2 py-1 text-sm sm:text-base">{sel.gameTime}</td>
                 <td className="border border-primary px-2 py-1 text-sm sm:text-base">
-                  {sel.total_points ? sel.total_points.toFixed(2) : 0}
+                  {sel.totalPoints ? sel.totalPoints.toFixed(2) : 0}
                 </td>
                 <td className="border border-primary px-4 py-2">
-                  {sel.fantasy_stats ? sel.fantasy_stats.pass_yds : 0}
+                  {sel.fantasyStats ? sel.fantasyStats.passYds : 0}
                 </td>
                 <td className="border border-primary px-4 py-2">
-                  {sel.fantasy_stats ? sel.fantasy_stats.pass_tds : 0}
+                  {sel.fantasyStats ? sel.fantasyStats.passTds : 0}
                 </td>
-                <td className="border border-primary px-4 py-2">{sel.fantasy_stats ? sel.fantasy_stats.ints : 0}</td>
+                <td className="border border-primary px-4 py-2">{sel.fantasyStats ? sel.fantasyStats.ints : 0}</td>
                 <td className="border border-primary px-4 py-2">
-                  {sel.fantasy_stats ? sel.fantasy_stats.rush_yds : 0}
-                </td>
-                <td className="border border-primary px-4 py-2">
-                  {sel.fantasy_stats ? sel.fantasy_stats.receptions : 0}
-                </td>
-                <td className="border border-primary px-4 py-2">{sel.fantasy_stats ? sel.fantasy_stats.rec_yds : 0}</td>
-                <td className="border border-primary px-4 py-2">{sel.fantasy_stats ? sel.fantasy_stats.tds : 0}</td>
-                <td className="border border-primary px-4 py-2">{sel.fantasy_stats ? sel.fantasy_stats.fumbles : 0}</td>
-                <td className="border border-primary px-4 py-2">
-                  {sel.fantasy_stats ? sel.fantasy_stats.two_pt_conv : 0}
+                  {sel.fantasyStats ? sel.fantasyStats.rushYds : 0}
                 </td>
                 <td className="border border-primary px-4 py-2">
-                  {sel.fantasy_stats ? sel.fantasy_stats.def_sacks : 0}
+                  {sel.fantasyStats ? sel.fantasyStats.receptions : 0}
+                </td>
+                <td className="border border-primary px-4 py-2">{sel.fantasyStats ? sel.fantasyStats.recYds : 0}</td>
+                <td className="border border-primary px-4 py-2">{sel.fantasyStats ? sel.fantasyStats.tds : 0}</td>
+                <td className="border border-primary px-4 py-2">{sel.fantasyStats ? sel.fantasyStats.fumbles : 0}</td>
+                <td className="border border-primary px-4 py-2">
+                  {sel.fantasyStats ? sel.fantasyStats.twoPtConv : 0}
                 </td>
                 <td className="border border-primary px-4 py-2">
-                  {sel.fantasy_stats ? sel.fantasy_stats.def_fum_rec : 0}
-                </td>
-                <td className="border border-primary px-4 py-2">{sel.fantasy_stats ? sel.fantasy_stats.def_int : 0}</td>
-                <td className="border border-primary px-4 py-2">
-                  {sel.fantasy_stats ? sel.fantasy_stats.def_blk_kicks : 0}
+                  {sel.fantasyStats ? sel.fantasyStats.defSacks : 0}
                 </td>
                 <td className="border border-primary px-4 py-2">
-                  {sel.fantasy_stats ? sel.fantasy_stats.def_safeties : 0}
+                  {sel.fantasyStats ? sel.fantasyStats.defFumbleRec : 0}
+                </td>
+                <td className="border border-primary px-4 py-2">{sel.fantasyStats ? sel.fantasyStats.defInts : 0}</td>
+                <td className="border border-primary px-4 py-2">
+                  {sel.fantasyStats ? sel.fantasyStats.defBlkKicks : 0}
                 </td>
                 <td className="border border-primary px-4 py-2">
-                  {sel.fantasy_stats ? sel.fantasy_stats.def_tds_scored : 0}
+                  {sel.fantasyStats ? sel.fantasyStats.defSafeties : 0}
                 </td>
                 <td className="border border-primary px-4 py-2">
-                  {sel.fantasy_stats ? sel.fantasy_stats.def_pts_allowed : 0}
+                  {sel.fantasyStats ? sel.fantasyStats.defTdsScored : 0}
+                </td>
+                <td className="border border-primary px-4 py-2">
+                  {sel.fantasyStats ? sel.fantasyStats.defPtsAllowed : 0}
                 </td>
               </tr>
             ))}

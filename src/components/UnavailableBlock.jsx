@@ -3,17 +3,17 @@ import { useLoaderData } from "react-router-dom"
 const UnavailableBlock = () => {
   const { contestant } = useLoaderData()
   let players = ""
-  for (let player of contestant.unavailable_players) {
-    players = players + player.player_name + ", "
+  for (let player of contestant.unavailablePlayers) {
+    players = players + player.playerName + ", "
   }
 
   let teams = ""
-  for (let team of contestant.unavailable_teams) {
-    teams = teams + team.team_abbreviation + ", "
+  for (let team of contestant.unavailableTeams) {
+    teams = teams + team.teamAbbreviation + ", "
   }
 
   // Convert object to an array of key-value pairs
-  let sortedTeamCountArray = Object.entries(contestant.team_count).sort((a, b) => b[1] - a[1])
+  let sortedTeamCountArray = Object.entries(contestant.teamCount).sort((a, b) => b[1] - a[1])
 
   // Convert sorted array back into an object
   let sortedTeamCount = Object.fromEntries(sortedTeamCountArray)

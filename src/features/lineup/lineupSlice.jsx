@@ -1,14 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit"
+import { getStoredJSON, setStoredJSON, removeStoredJSON } from "../../utils/localStorage"
 
-const getLineupInfoFromLocalStorage = () => {
-  const lineup = JSON.parse(localStorage.getItem("lineup")) || null
-  const selectionIndex = JSON.parse(localStorage.getItem("selectionIndex")) || 0
-  const position = JSON.parse(localStorage.getItem("position")) || ""
-  const teamFilter = ""
-  const page = JSON.parse(localStorage.getItem("page")) || 1
-  const lineupLoading = false
-  return { lineup, selectionIndex, position, teamFilter, page, lineupLoading }
-}
+const getLineupInfoFromLocalStorage = () => ({
+  lineup: getStoredJSON("lineup", null),
+  selectionIndex: getStoredJSON("selectionIndex", 0),
+  position: getStoredJSON("position", ""),
+  teamFilter: getStoredJSON("teamFilter", ""),
+  page: getStoredJSON("page", 1),
+  lineupLoading: false,
+})
 
 const initialState = getLineupInfoFromLocalStorage()
 
@@ -19,28 +19,28 @@ const lineupSlice = createSlice({
     getLineup: (state, action) => {
       const { lineup, selectionIndex, position } = action.payload
       state.lineup = lineup
-      localStorage.setItem("lineup", JSON.stringify(lineup))
+      setStoredJSON("lineup", lineup)
       state.selectionIndex = selectionIndex
-      localStorage.setItem("selectionIndex", JSON.stringify(selectionIndex))
+      setStoredJSON("selectionIndex", selectionIndex)
       state.position = position
-      localStorage.setItem("position", JSON.stringify(position))
+      setStoredJSON("position", position)
     },
     clearLineup: (state, action) => {
       state.lineup = null
-      localStorage.setItem("lineup", JSON.stringify(null))
+      removeStoredJSON("lineup")
       state.selectionIndex = null
-      localStorage.setItem("selectionIndex", JSON.stringify(null))
+      removeStoredJSON("selectionIndex")
       state.position = ""
-      localStorage.setItem("position", JSON.stringify(""))
+      removeStoredJSON("position")
     },
     filterByTeam: (state, action) => {
       const { teamFilter } = action.payload
       state.teamFilter = teamFilter
-      localStorage.setItem("teamFilter", JSON.stringify(teamFilter))
+      setStoredJSON("teamFilter", teamFilter)
     },
     clearTeamFilter: (state, action) => {
       state.teamFilter = ""
-      localStorage.setItem("teamFilter", JSON.stringify(""))
+      removeStoredJSON("teamFilter")
     },
     lineupLoadingTrue: (state, action) => {
       state.lineupLoading = true
@@ -51,7 +51,7 @@ const lineupSlice = createSlice({
     changePage: (state, action) => {
       const { page } = action.payload
       state.page = page
-      localStorage.setItem("page", JSON.stringify(page))
+      setStoredJSON("page", page)
     },
   },
 })

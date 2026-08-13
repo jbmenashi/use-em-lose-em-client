@@ -5,29 +5,27 @@ import FormSelectDisabled from "../components/FormSelectDisabled"
 import FormRange from "../components/FormRange"
 import { Form, Link, redirect } from "react-router-dom"
 import { toast } from "react-toastify"
-import axios from "axios"
-import { loginUser } from "../features/user/userSlice"
+import { api } from "../api/client"
 import { useState } from "react"
 
 export const action =
   (store) =>
   async ({ request }) => {
-    const { token } = store.getState().user
     const formData = await request.formData()
     const data = Object.fromEntries(formData)
     const transformedData = {
-      league_name: data.league_name,
-      team_name: data.team_name,
+      leagueName: data.league_name,
+      teamName: data.team_name,
       sport: data.sport,
       season: 2024,
       style: data.style,
       size: data.num_teams,
-      playoff_teams: data.num_playoff_teams,
-      regular_season_weeks: 14,
-      playoff_weeks: 3,
-      team_count: data.num_players_franchise,
+      playoffTeams: data.num_playoff_teams,
+      regularSeasonWeeks: 14,
+      playoffWeeks: 3,
+      teamCount: data.num_players_franchise,
       roster: {
-        roster_size: 8,
+        rosterSize: 8,
         positions: {
           QB: parseInt(data.qb),
           RB: parseInt(data.rb),
@@ -39,22 +37,22 @@ export const action =
       },
       scoring: {
         statistics: {
-          pass_yds: 0.04,
-          pass_tds: 4,
+          passYds: 0.04,
+          passTds: 4,
           ints: -1,
-          rush_yds: 0.1,
+          rushYds: 0.1,
           receptions: 0.5,
-          rec_yds: 0.1,
+          recYds: 0.1,
           tds: 6,
           fumbles: -2,
-          two_pt_conv: 2,
-          def_sacks: 1,
-          def_fumble_rec: 2,
-          def_ints: 2,
-          def_blk_kicks: 2,
-          def_safeties: 3,
-          def_tds_scored: 6,
-          def_pts_allowed: 0,
+          twoPtConv: 2,
+          defSacks: 1,
+          defFumbleRec: 2,
+          defInts: 2,
+          defBlkKicks: 2,
+          defSafeties: 3,
+          defTdsScored: 6,
+          defPtsAllowed: 0,
         },
       },
       scheduled: false,
@@ -62,14 +60,7 @@ export const action =
       full: false,
     }
     try {
-      const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/league`, transformedData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      const res = await api.post("/leagues", transformedData)
       if (res.status === 201) {
         toast.success("New League Created")
       }

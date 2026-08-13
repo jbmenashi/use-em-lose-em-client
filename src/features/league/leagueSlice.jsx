@@ -1,14 +1,12 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
-import axios from "axios"
+import { createSlice } from "@reduxjs/toolkit"
+import { getStoredJSON, setStoredJSON, removeStoredJSON } from "../../utils/localStorage"
 
-const getLeagueInfoFromLocalStorage = () => {
-  const league = {}
-  league["leagueId"] = JSON.parse(localStorage.getItem("leagueId")) || null
-  league["leagueName"] = JSON.parse(localStorage.getItem("leagueName")) || ""
-  league["teamId"] = JSON.parse(localStorage.getItem("teamId")) || null
-  league["teamName"] = JSON.parse(localStorage.getItem("teamName")) || ""
-  return league
-}
+const getLeagueInfoFromLocalStorage = () => ({
+  leagueId: getStoredJSON("leagueId", null),
+  leagueName: getStoredJSON("leagueName", ""),
+  teamId: getStoredJSON("teamId", null),
+  teamName: getStoredJSON("teamName", ""),
+})
 
 const initialState = getLeagueInfoFromLocalStorage()
 
@@ -17,21 +15,25 @@ const leagueSlice = createSlice({
   initialState,
   reducers: {
     getLeagueTeamInfo: (state, action) => {
-      const { league_id, league_name, contestant_id, team_name } = action.payload
-      state.leagueId = league_id
-      localStorage.setItem("leagueId", JSON.stringify(league_id))
-      state.leagueName = league_name
-      localStorage.setItem("leagueName", JSON.stringify(league_name))
-      state.teamId = contestant_id
-      localStorage.setItem("teamId", JSON.stringify(contestant_id))
-      state.teamName = team_name
-      localStorage.setItem("teamName", JSON.stringify(team_name))
+      const { leagueId, leagueName, contestantId, teamName } = action.payload
+      state.leagueId = leagueId
+      setStoredJSON("leagueId", leagueId)
+      state.leagueName = leagueName
+      setStoredJSON("leagueName", leagueName)
+      state.teamId = contestantId
+      setStoredJSON("teamId", contestantId)
+      state.teamName = teamName
+      setStoredJSON("teamName", teamName)
     },
     clearLeagueTeamInfo: (state, action) => {
       state.leagueId = null
+      removeStoredJSON("leagueId")
       state.leagueName = ""
+      removeStoredJSON("leagueName")
       state.teamId = null
+      removeStoredJSON("teamId")
       state.teamName = ""
+      removeStoredJSON("teamName")
     },
   },
 })

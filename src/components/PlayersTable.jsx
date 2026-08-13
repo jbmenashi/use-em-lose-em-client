@@ -1,14 +1,13 @@
-import axios from "axios"
 import { useSelector, useDispatch } from "react-redux"
 import { useLoaderData, useNavigate } from "react-router-dom"
 import { clearTeamFilter, changePage } from "../features/lineup/lineupSlice"
+import { api } from "../api/client"
 
 const PlayersTable = () => {
   const { players } = useLoaderData()
   const { lineup, selectionIndex, position } = useSelector((state) => state.lineup)
   const { leagueId, teamId } = useSelector((state) => state.league)
   const { viewingWeek } = useSelector((state) => state.week)
-  const { token } = useSelector((state) => state.user)
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
@@ -17,20 +16,16 @@ const PlayersTable = () => {
       position: position,
       locked: false,
       index: selectionIndex,
-      player_id: player.player_id,
-      player_name: player.player_name,
-      team_id: player.team_id,
-      team_abbreviation: player.team_abbreviation,
+      playerId: player.playerId,
+      playerName: player.playerName,
+      teamId: player.teamId,
+      teamAbbreviation: player.teamAbbreviation,
       opponent: player.projection?.opponent,
-      game_time: player.projection?.game_time,
+      gameTime: player.projection?.gameTime,
       location: player.projection?.location,
     }
     try {
-      const res = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/lineup/${lineup["_id"]["$oid"]}`, selection, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      const res = await api.put(`/lineups/${lineup._id}`, selection)
       if (res.status === 200) {
         dispatch(clearTeamFilter())
         dispatch(changePage({ page: 1 }))
@@ -61,13 +56,13 @@ const PlayersTable = () => {
         <tbody>
           {players.map((player) => {
             return (
-              <tr key={player["_id"]["$oid"]}>
+              <tr key={player._id}>
                 <td className="border border-primary px-2 sm:px-4 py-2 font-extrabold text-lg sm:text-2xl">
-                  {player.player_name}
+                  {player.playerName}
                 </td>
 
                 <td className="border border-primary px-2 sm:px-4 py-2 text-sm sm:text-xl">
-                  {player.team_abbreviation}
+                  {player.teamAbbreviation}
                 </td>
                 <td className="border border-primary px-2 sm:px-4 py-2 text-sm sm:text-xl">{player.position}</td>
                 <td className="border border-primary px-2 sm:px-4 py-2">
@@ -84,17 +79,17 @@ const PlayersTable = () => {
                     : "No Opponent"}
                 </td>
                 <td className="border border-primary px-2 sm:px-4 py-2 text-sm sm:text-xl">
-                  {player.projection?.game_time ? player.projection?.game_time : ""}
+                  {player.projection?.gameTime ? player.projection?.gameTime : ""}
                 </td>
                 <td className="border border-primary px-2 sm:px-4 py-2 text-sm sm:text-xl">
                   {player.projection?.stats?.score ? Math.round(player.projection?.stats?.score * 100) / 100 : 0.0}
                 </td>
                 <td className="border border-primary px-2 sm:px-4 py-2 text-sm sm:text-xl">
-                  {player.season_stats?.stats?.games ? player.season_stats?.stats?.games : 0}
+                  {player.seasonStats?.stats?.games ? player.seasonStats?.stats?.games : 0}
                 </td>
                 <td className="border border-primary px-2 sm:px-4 py-2 text-sm sm:text-xl">
-                  {player.season_stats?.stats?.games
-                    ? Math.round((player.season_stats?.stats?.yahoo_pts / player.season_stats?.stats?.games) * 100) /
+                  {player.seasonStats?.stats?.games
+                    ? Math.round((player.seasonStats?.stats?.yahooPts / player.seasonStats?.stats?.games) * 100) /
                       100
                     : 0}
                 </td>
